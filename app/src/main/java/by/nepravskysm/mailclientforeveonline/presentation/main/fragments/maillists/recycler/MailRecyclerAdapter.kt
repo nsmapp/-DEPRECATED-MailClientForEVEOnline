@@ -48,8 +48,10 @@ class MailRecyclerAdapter : RecyclerView.Adapter<MailRecyclerAdapter.MailInfoHol
         holder.itemView.mailSubject.text = entityList[position].subject
         holder.itemView.mailTime.text = entityList[position].timestamp
 
-        if(!entityList[position].isRead){
-            holder.itemView.setBackgroundColor(Color.YELLOW)
+        when(entityList[position].isRead){
+            true -> holder.itemView.setBackgroundColor(Color.GRAY)
+            false -> holder.itemView.setBackgroundColor(Color.CYAN)
+
         }
 
         Picasso.get()
@@ -58,7 +60,8 @@ class MailRecyclerAdapter : RecyclerView.Adapter<MailRecyclerAdapter.MailInfoHol
         holder.itemView.setOnClickListener{
 
             if (mItemClickListener != null) {
-                mItemClickListener?.onItemClick(entityList[position].mailId,
+                mItemClickListener?.onItemClick(
+                    entityList[position].mailId,
                     entityList[position].fromName,
                     entityList[position].subject,
                     entityList[position].isRead)
