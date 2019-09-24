@@ -8,15 +8,15 @@ import java.util.logging.Level
 
 class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase) : ViewModel() {
 
-    val allMailsHeaderList: MutableLiveData<List<MailHeader>> by lazy {
-        MutableLiveData<List<MailHeader>>(mutableListOf())
-    }
+
+
+    val allMailsHeaderList = mutableListOf<MailHeader>()
 
     val sendMailsHeaderList: MutableLiveData<List<MailHeader>> by lazy {
         MutableLiveData<List<MailHeader>>(mutableListOf())
     }
 
-    val characterMailsHeaderList: MutableLiveData<List<MailHeader>> by lazy {
+    val inboxHeaderList: MutableLiveData<List<MailHeader>> by lazy {
         MutableLiveData<List<MailHeader>>(mutableListOf())
     }
 
@@ -37,7 +37,7 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
     }
 
     init {
-        if(allMailsHeaderList.value!!.isEmpty()) {
+        if(allMailsHeaderList.isEmpty()) {
             isVisibilityProgressBar.value = true
             getMailHeaderList()
         }
@@ -48,9 +48,9 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
         getMailsHeaderUseCase.execute {
             onComplite {
 
-                allMailsHeaderList.value = it
-                sendMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(2)}
-                characterMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(1)}
+                allMailsHeaderList.addAll(it)
+                sendMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(1)}
+                inboxHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(2)}
                 corpMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(4)}
                 allianceMailHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(8)}
                 mailListHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf<MailHeader>()}

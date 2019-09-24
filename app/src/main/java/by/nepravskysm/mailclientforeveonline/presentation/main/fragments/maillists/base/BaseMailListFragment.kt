@@ -41,7 +41,7 @@ open class BaseMailListFragment : Fragment(), MailRecyclerAdapter.OnItemClickLis
         val fragmentView = inflater.inflate(R.layout.fragment_mails, container, false)
 
         mailRecyclerAdapter.setItemClickListener(this)
-        mailRecyclerAdapter.setEntiies(fragmentViewModel.allMailsHeaderList.value!!)
+        mailRecyclerAdapter.setEntiies(listOf())
 
         fragmentView.rootView.mailList.layoutManager = LinearLayoutManager(context)
         fragmentView.rootView.mailList.adapter = mailRecyclerAdapter

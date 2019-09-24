@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.newMailFragment,
-                R.id.allMailsFragment,
                 R.id.inboxFragment,
                 R.id.sendFragment,
                 R.id.corpFragment,

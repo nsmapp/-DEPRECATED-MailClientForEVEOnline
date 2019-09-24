@@ -25,7 +25,7 @@ class InboxFragment : BaseMailListFragment(){
     ): View? {
 
 
-        fragmentViewModel.characterMailsHeaderList.observe(this, characterHeaderListObserver)
+        fragmentViewModel.inboxHeaderList.observe(this, characterHeaderListObserver)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

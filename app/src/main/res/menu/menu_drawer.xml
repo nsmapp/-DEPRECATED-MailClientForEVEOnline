@@ -11,8 +11,6 @@
          android:title="@string/mails"
          android:checkableBehavior="single">
         <menu>
-            <item android:id="@+id/allMailsFragment"
-                  android:title="@string/all_mails"/>
             <item android:id="@+id/inboxFragment"
                     android:title="@string/inbox"/>
             <item android:id="@+id/sendFragment"
