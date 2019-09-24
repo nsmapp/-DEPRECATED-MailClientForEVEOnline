@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:showIn="navigation_view">
+
+
+    <item android:id="@+id/newMailFragment"
+            android:title="@string/new_mail"/>
+
+    <item
+         android:title="@string/mails"
+         android:checkableBehavior="single">
+        <menu>
+            <item android:id="@+id/allMailsFragment"
+                  android:title="@string/all_mails"/>
+            <item android:id="@+id/inboxFragment"
+                    android:title="@string/inbox"/>
+            <item android:id="@+id/sendFragment"
+                    android:title="@string/send"/>
+            <item android:id="@+id/corpFragment"
+                    android:title="@string/corporation"/>
+            <item android:id="@+id/allianceFragment"
+                    android:title="@string/alliance"/>
+            <item android:id="@+id/mailingListFragment"
+                    android:title="@string/mailing_list"/>
+            <item android:id="@+id/saveMailsListFragment"
+                    android:title="@string/save_mails"/>
+            </menu>
+    </item>
+
+    <item
+            android:title="@string/other">
+        <menu>
+            <item android:id="@+id/settingsActivity"
+                    android:title="@string/settings"/>
+            <item android:id="@+id/aboutFragment"
+                    android:title="@string/about"/>
+        </menu>
+    </item>
+
+</menu>

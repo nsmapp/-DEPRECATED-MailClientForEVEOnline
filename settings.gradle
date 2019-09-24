@@ -1,0 +1,2 @@
+include ':app', ':database', ':domain', ':rest'
+rootProject.name='Mail Client for EVE Online'

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Mail Client for EVE Online</string>
+    <string name="mailing_mails">Mailing list</string>
+    <string name="inbox">Inbox</string>
+    <string name="send">Send</string>
+    <string name="corporation">Corporation</string>
+    <string name="alliance">Alliance</string>
+    <string name="all_mails">All mails</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="mails">Mails</string>
+    <string name="mailing_list">Mailing list</string>
+    <string name="other">Other</string>
+    <string name="save_mails">Save mails</string>
+    <string name="new_mail">New mail</string>
+</resources>

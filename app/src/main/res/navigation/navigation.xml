@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/navigation"
+        app:startDestination="@id/allMailsFragment">
+    <fragment
+            android:id="@+id/allMailsFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.AllMailsFragment"
+            android:label="All mails" >
+        <action
+                android:id="@+id/action_allMailsFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/inboxFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.InboxFragment"
+            android:label="Inbox"
+            tools:layout="@layout/fragment_mails">
+        <action
+                android:id="@+id/action_inboxFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/sendFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.SendFragment"
+            android:label="Send"
+            tools:layout="@layout/fragment_mails">
+        <action
+                android:id="@+id/action_sendFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/corpFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.CorpFragment"
+            android:label="Corporation"
+            tools:layout="@layout/fragment_mails">
+        <action
+                android:id="@+id/action_corpFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/allianceFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.AllianceFragment"
+            android:label="Alliance"
+            tools:layout="@layout/fragment_mails">
+        <action
+                android:id="@+id/action_allianceFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/mailingListFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.MailingListFragment"
+            android:label="Mailing list"
+            tools:layout="@layout/fragment_mails">
+        <action
+                android:id="@+id/action_mailingListFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/readMailFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail.ReadMailFragment"
+            android:label="ReadMailFragment" >
+        <action
+                android:id="@+id/action_readMailFragment_to_newMailFragment"
+                app:destination="@id/newMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/aboutFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.about.AboutFragment"
+            android:label="About" />
+    <activity
+            android:id="@+id/settingsActivity"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.settings.SettingsActivity"
+            android:label="activity_settings"
+            tools:layout="@layout/activity_settings" />
+    <fragment
+            android:id="@+id/saveMailsListFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.SaveMailsFragment"
+            android:label="Save mails" >
+        <action
+                android:id="@+id/action_saveMailsFragment_to_readMailFragment"
+                app:destination="@id/readMailFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/newMailFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailFragment"
+            android:label="New mail" />
+</navigation>
