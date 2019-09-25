@@ -25,7 +25,7 @@ class CorpFragment : BaseMailListFragment() {
     ): View? {
 
 
-        fragmentViewModel.corpMailsHeaderList.observe(this, corpHeaderListObserver)
+        fViewModel.corpMailsHeaderList.observe(this, corpHeaderListObserver)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

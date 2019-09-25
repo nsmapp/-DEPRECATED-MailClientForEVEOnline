@@ -23,7 +23,7 @@ class MailingListFragment : BaseMailListFragment(){
     ): View? {
 
 
-        fragmentViewModel.mailListHeaderList.observe(this, maillingListHeaderListObserver)
+        fViewModel.mailListHeaderList.observe(this, maillingListHeaderListObserver)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

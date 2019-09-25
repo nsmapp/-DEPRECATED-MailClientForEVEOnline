@@ -39,15 +39,16 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
     init {
         if(allMailsHeaderList.isEmpty()) {
             isVisibilityProgressBar.value = true
-            getMailHeaderList()
+            refreshMailHeaderList()
         }
 
     }
 
-    private fun getMailHeaderList(){
+    fun refreshMailHeaderList(){
         getMailsHeaderUseCase.execute {
             onComplite {
 
+                allMailsHeaderList.clear()
                 allMailsHeaderList.addAll(it)
                 sendMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(2)|| mailHeader.labels == listOf(1,2)}
                 inboxHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(1) || mailHeader.labels == listOf(1,2) }

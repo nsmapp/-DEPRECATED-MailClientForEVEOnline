@@ -22,7 +22,7 @@ class SendFragment : BaseMailListFragment(){
     ): View? {
 
 
-        fragmentViewModel.sendMailsHeaderList.observe(this, sendHeaderListObserver)
+        fViewModel.sendMailsHeaderList.observe(this, sendHeaderListObserver)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }

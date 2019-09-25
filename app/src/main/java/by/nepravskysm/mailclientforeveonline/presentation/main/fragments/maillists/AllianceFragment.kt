@@ -24,7 +24,7 @@ class AllianceFragment : BaseMailListFragment(){
     ): View? {
 
 
-        fragmentViewModel.allianceMailHeaderList.observe(this, allianceHeaderListObserver)
+        fViewModel.allianceMailHeaderList.observe(this, allianceHeaderListObserver)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
