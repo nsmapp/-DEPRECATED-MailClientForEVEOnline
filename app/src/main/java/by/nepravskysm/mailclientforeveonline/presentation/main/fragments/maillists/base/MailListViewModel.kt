@@ -49,8 +49,8 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
             onComplite {
 
                 allMailsHeaderList.addAll(it)
-                sendMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(1)}
-                inboxHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(2)}
+                sendMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(2)|| mailHeader.labels == listOf(1,2)}
+                inboxHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(1) || mailHeader.labels == listOf(1,2) }
                 corpMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(4)}
                 allianceMailHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(8)}
                 mailListHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf<MailHeader>()}

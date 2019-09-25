@@ -1,9 +1,11 @@
 package by.nepravskysm.rest.repoimpl.esi
 
 import by.nepravskysm.domain.entity.InPutMail
+import by.nepravskysm.domain.entity.MailMetadata
 import by.nepravskysm.domain.entity.OutPutMail
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.rest.api.EsiManager
+import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.subentity.Recipient
 
@@ -19,6 +21,8 @@ class MailRepoImpl(private val esiManager: EsiManager) : MailRepository{
 
         return InPutMail(mail.body,
             mail.from,
+            mail.labels,
+            mail.read,
             mail.subject,
             mail.timestamp)
     }
@@ -41,8 +45,22 @@ class MailRepoImpl(private val esiManager: EsiManager) : MailRepository{
             recepientList,
             outPutMail.subject)
 
-        return esiManager.sendMail(accessToken,
+        return esiManager.postMail(accessToken,
             characterId,
             mail).await()
+    }
+
+    override suspend fun updateMailMetadata(
+        mailMetadata: MailMetadata,
+        accessToken: String,
+        characterId: Long,
+        mailId: Long
+    ) {
+        val metadata = MailMetadataRequest(mailMetadata.labels, mailMetadata.read)
+
+        return esiManager.putMailMetadata(metadata,
+            accessToken,
+            characterId,
+            mailId).await()
     }
 }

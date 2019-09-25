@@ -1,5 +1,6 @@
 package by.nepravskysm.rest.api
 
+import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.response.*
 import kotlinx.coroutines.Deferred
@@ -40,4 +41,18 @@ interface EsiApi{
 
     @POST("/latest/universe/ids/")
     fun getIdList(@Body nameArray: Array<String>): Deferred<idsResponse>
+
+    @PUT("/latest/characters/{character_id}/mail/{mail_id}/")
+    fun putMailMetadata(@Body mailMetadata: MailMetadataRequest,
+                           @Header("Authorization") bearerToken :String,
+                           @Path("character_id") characterId :Long,
+                           @Path("mail_id") mailId :Long
+    ): Deferred<Unit>
+
+    @DELETE("/latest/characters/{character_id}/mail/{mail_id}/")
+    fun deleteMail(@Header("Authorization") bearerToken :String,
+                   @Path("character_id") characterId :Long,
+                   @Path("mail_id") mailId :Long
+    ): Deferred<Unit>
+
 }

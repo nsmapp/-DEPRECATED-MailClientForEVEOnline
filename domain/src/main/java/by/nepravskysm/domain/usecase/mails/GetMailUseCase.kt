@@ -1,6 +1,7 @@
 package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.InPutMail
+import by.nepravskysm.domain.entity.MailMetadata
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
@@ -20,22 +21,38 @@ class GetMailUseCase(private val authRepository: AuthRepository,
 
         val authInfo = authInfoRepository.getAuthInfo()
 
-
         try {
-            return mailRepository.getMail(
+            val mail = mailRepository.getMail(
                 authInfo.accessToken,
                 authInfo.characterId,
-                mailId
-            )
+                mailId)
+
+//            mailRepository
+//                .updateMailMetadata(
+//                    MailMetadata(mail.labels, true),
+//                    authInfo.accessToken,
+//                    authInfo.characterId,
+//                    mail.from)
+
+            return mail
+
         }catch (e: Exception){
             val token = authRepository.refreshAuthToken(authInfo.refreshToken)
-            return mailRepository.getMail(
+            val mail = mailRepository.getMail(
                 token.accessToken,
                 authInfo.characterId,
                 mailId)
+
+//            mailRepository
+//                .updateMailMetadata(
+//                    MailMetadata(mail.labels, true),
+//                    token.accessToken,
+//                    authInfo.characterId,
+//                    mail.from)
+
+            return mail
         }
 
-
-
     }
+
 }

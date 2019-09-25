@@ -1,14 +1,18 @@
 package by.nepravskysm.rest.api
 
+import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.response.*
 import kotlinx.coroutines.Deferred
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.Path
 
 class EsiManager{
 
     private val esiApi: EsiApi = createRetrofit(
         "https://esi.evetech.net/",
-        50
+        30
     )
         .create(EsiApi::class.java)
 
@@ -36,9 +40,9 @@ class EsiManager{
     }
 
 
-    fun sendMail(accessToken: String,
-                characterId: Long,
-                mail: MailRequest) : Deferred<Long>{
+    fun postMail(accessToken: String,
+                 characterId: Long,
+                 mail: MailRequest) : Deferred<Long>{
 
         return esiApi.sendMail("Bearer $accessToken",
             characterId,
@@ -52,6 +56,28 @@ class EsiManager{
     fun postNameToIds(nameArray: Array<String>) :Deferred<idsResponse>{
         return  esiApi.getIdList(nameArray)
     }
+
+
+    fun putMailMetadata(mailMetadata: MailMetadataRequest,
+                        accessToken :String,
+                        characterId :Long,
+                        mailId :Long):Deferred<Unit>{
+
+        return esiApi.putMailMetadata(mailMetadata,
+            "Bearer $accessToken",
+            characterId,
+            mailId)
+
+    }
+
+    fun deleteMail(accessToken :String,
+                   characterId :Long,
+                   mailId :Long):Deferred<Unit>{
+        return esiApi.deleteMail("Bearer $accessToken",
+            characterId,
+            mailId)
+    }
+
 
 
 }
