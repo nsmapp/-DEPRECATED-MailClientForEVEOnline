@@ -10,7 +10,7 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
 
 
 
-    val allMailsHeaderList = mutableListOf<MailHeader>()
+    var allMailsHeaderList = mutableListOf<MailHeader>()
 
     val sendMailsHeaderList: MutableLiveData<List<MailHeader>> by lazy {
         MutableLiveData<List<MailHeader>>(mutableListOf())
@@ -48,7 +48,6 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
         getMailsHeaderUseCase.execute {
             onComplite {
 
-                allMailsHeaderList.clear()
                 allMailsHeaderList.addAll(it)
                 sendMailsHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(2)|| mailHeader.labels == listOf(1,2)}
                 inboxHeaderList.value = it.filter { mailHeader ->  mailHeader.labels == listOf(1) || mailHeader.labels == listOf(1,2) }

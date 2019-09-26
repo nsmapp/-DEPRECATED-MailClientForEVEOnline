@@ -4,6 +4,7 @@ import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.response.*
 import kotlinx.coroutines.Deferred
+import okhttp3.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -73,6 +74,7 @@ class EsiManager{
     fun deleteMail(accessToken :String,
                    characterId :Long,
                    mailId :Long):Deferred<Unit>{
+
         return esiApi.deleteMail("Bearer $accessToken",
             characterId,
             mailId)

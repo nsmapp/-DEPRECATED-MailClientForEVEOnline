@@ -9,12 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
+import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_read_mail.*
 import kotlinx.android.synthetic.main.fragment_read_mail.view.*
@@ -54,6 +56,7 @@ class ReadMailFragment : Fragment(){
             pastFromPhoto(fView.fromPhoto, fViewModel.fromId)
             fViewModel.subject = arguments?.getString(SUBJECT)!!
             fViewModel.from = arguments?.getString(FROM)!!
+            fViewModel.mailId = arguments!!.getLong(MAIL_ID)
             fViewModel.inPutMail.observe(this, mailObserver)
         }catch (E: Exception){
             //TODO obrabotat'
@@ -62,21 +65,37 @@ class ReadMailFragment : Fragment(){
             fView.from.text = fViewModel.from
         }
 
-
-        fViewModel.getMail(arguments!!.getLong(MAIL_ID))
-        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-
-
         val navController = NavHostFragment.findNavController(this)
 
-        fView.rootView.replayMail
+
+
+        fViewModel.getMail()
+        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
+        fViewModel.mailIsDeletedEvent.observer(this, Observer {
+            //TODO сделвть красиво
+
+            if(activity != null){
+                Toast.makeText(activity, "mail is deleted", Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).onBackPressed()
+            }
+
+        })
+
+
+
+        fView.replayMail
             .setOnClickListener {
                 navController.navigate(R.id.newMailFragment, createBundle(REPLAY))
             }
 
-        fView.rootView.forwardMail
+        fView.forwardMail
             .setOnClickListener {
                 navController.navigate(R.id.newMailFragment, createBundle(FORWARD))
+            }
+
+        fView.deleteMail
+            .setOnClickListener {
+                fViewModel.deleteMail()
             }
 
         return fView

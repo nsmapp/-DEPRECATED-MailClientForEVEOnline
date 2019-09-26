@@ -61,6 +61,22 @@ class MailRepoImpl(private val esiManager: EsiManager) : MailRepository{
         return esiManager.putMailMetadata(metadata,
             accessToken,
             characterId,
-            mailId).await()
+            mailId)
+            .await()
+    }
+
+    override suspend fun deleteMail(accessToken: String, characterId: Long, mailId: Long):Boolean {
+
+
+
+        return try {
+            esiManager.deleteMail(accessToken,
+                characterId,
+                mailId)
+                .await()
+            true
+        }catch (e: Exception){
+            false
+        }
     }
 }

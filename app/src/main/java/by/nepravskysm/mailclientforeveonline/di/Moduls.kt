@@ -11,10 +11,7 @@ import by.nepravskysm.domain.repository.utils.IdsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
-import by.nepravskysm.domain.usecase.mails.GetMailUseCase
-import by.nepravskysm.domain.usecase.mails.GetMailsHeaderUseCase
-import by.nepravskysm.domain.usecase.mails.SendMailUseCase
-import by.nepravskysm.domain.usecase.mails.UpdataMailMetadataUseCase
+import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.MailListViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailViewModel
@@ -79,13 +76,18 @@ val useCaseModule: Module = module {
     factory { UpdataMailMetadataUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailRepository = get()) }
+
+    factory { DeleteMailUseCase(authRepository = get(),
+        authInfoRepository = get(),
+        mailRepository = get()) }
 }
 
 val viewModelModule: Module = module {
     viewModel { MainViewModel(authUseCase = get(), getActivCharInfoUseCase = get()) }
-    viewModel { MailListViewModel(getMailsHeaderUseCase = get())
-    }
-    viewModel { ReadMailViewModel(getMailUseCase = get(), updataMailMetadataUseCase = get()) }
+    viewModel { MailListViewModel(getMailsHeaderUseCase = get())    }
+    viewModel { ReadMailViewModel(getMailUseCase = get(),
+        updataMailMetadataUseCase = get(),
+        deleteMailUseCase = get())}
     viewModel { NewMailViewModel(sendMailUseCase = get()) }
 
 }

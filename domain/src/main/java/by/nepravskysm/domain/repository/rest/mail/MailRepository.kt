@@ -22,4 +22,8 @@ interface MailRepository {
                                    characterId: Long,
                                    mailId: Long
     )
+
+    suspend fun deleteMail(accessToken: String,
+                           characterId: Long,
+                           mailId: Long):Boolean
 }
