@@ -11,9 +11,12 @@ class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
     MailsHeadersRepository {
 
 
-    override suspend fun getLastMailsHeaders(authToken: String, characterId: Long): List<MailHeader> {
+    override suspend fun getLast50MailsHeaders(authToken: String, characterId: Long): List<MailHeader> {
 
-        val mailsHeaders: List<MailHeaderResponse> = esiManager.getMailsHeaders(authToken, characterId).await()
+        val mailsHeaders: List<MailHeaderResponse> =
+            esiManager
+                .getMailsHeaders(authToken, characterId)
+                .await()
 
         val domainHeadersList = mutableListOf<MailHeader>()
 
@@ -30,13 +33,16 @@ class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
                 )
             }
 
-            val domainMailHeader = MailHeader(header.from,
+            val domainMailHeader = MailHeader(
+                header.mailId,
+                header.fromId,
+                "",           ///Api return only sender Id
                 header.isRead,
                 header.labels,
-                header.mailId,
                 recipientsList,
                 header.subject,
-                header.timestamp)
+                header.timestamp
+            )
 
             domainHeadersList.add(domainMailHeader)
         }

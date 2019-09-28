@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MailHeaderResponse(
     @SerializedName("from")
-    val from: Long,
+    val fromId: Long,
     @SerializedName("is_read")
     val isRead: Boolean,
     @SerializedName("labels")
@@ -19,5 +19,7 @@ data class MailHeaderResponse(
     val subject: String,
     @SerializedName("timestamp")
     val timestamp: String
-)
+){
+    val fromName: String = "Name don't found"
+}
 

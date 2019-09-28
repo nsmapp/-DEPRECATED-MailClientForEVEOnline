@@ -2,9 +2,11 @@ package by.nepravskysm.mailclientforeveonline.di
 
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.repoimpl.AuthInfoRepoImpl
+import by.nepravskysm.database.repoimpl.DBMailHeaderRepoImpl
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.auth.CharacterInfoRepository
+import by.nepravskysm.domain.repository.rest.mail.DBMailHeadersRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.IdsRepository
@@ -50,36 +52,44 @@ val databaseModule: Module = module {
     single<AppDatabase> { AppDatabase.getInstance(androidContext())}
 
     factory<AuthInfoRepository> {AuthInfoRepoImpl(appDatabase = get())}
+    factory<DBMailHeadersRepository>{DBMailHeaderRepoImpl(appDatabase = get())}
 }
 
 val useCaseModule: Module = module {
 
     factory{ AuthUseCase(authRepository = get(),
         authInfoRepository = get(),
-        characterInfoRepository = get())  }
+        characterInfoRepository = get()
+    )  }
 
     factory { GetMailsHeaderUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailsHeadersRepository = get(),
-        namesRepository = get()) }
+        namesRepository = get(),
+        dbMailHeadersRepository = get()
+    ) }
 
     factory { GetActivCharInfoUseCase(authInfoRepository = get()) }
     factory { GetMailUseCase(authRepository = get(),
         authInfoRepository = get(),
-        mailRepository = get()) }
+        mailRepository = get()
+    ) }
 
     factory { SendMailUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailRepository = get(),
-        idsRepository = get()) }
+        idsRepository = get()
+    ) }
 
     factory { UpdataMailMetadataUseCase(authRepository = get(),
         authInfoRepository = get(),
-        mailRepository = get()) }
+        mailRepository = get()
+    ) }
 
     factory { DeleteMailUseCase(authRepository = get(),
         authInfoRepository = get(),
-        mailRepository = get()) }
+        mailRepository = get()
+    ) }
 }
 
 val viewModelModule: Module = module {

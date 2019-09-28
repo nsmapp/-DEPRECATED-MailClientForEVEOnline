@@ -36,8 +36,8 @@ class MailRepoImpl(private val esiManager: EsiManager) : MailRepository{
 
         var recepientList = mutableListOf<Recipient>()
         for(recepient in outPutMail.recipients){
-            recepientList.add(Recipient(recepient.recipientId,
-                recepient.recipientType))
+            recepientList.add(Recipient(recepient.id,
+                recepient.type))
         }
 
         val mail = MailRequest(0,

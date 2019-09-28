@@ -55,7 +55,7 @@ class MailRecyclerAdapter : RecyclerView.Adapter<MailRecyclerAdapter.MailInfoHol
         }
 
         Picasso.get()
-            .load("https://imageserver.eveonline.com/Character/${entityList[position].from}_128.jpg")
+            .load("https://imageserver.eveonline.com/Character/${entityList[position].fromId}_128.jpg")
             .into(holder.itemView.senderPhoto)
         holder.itemView.setOnClickListener{
 

@@ -63,6 +63,8 @@ class MailListViewModel(private val getMailsHeaderUseCase: GetMailsHeaderUseCase
 
                 isVisibilityProgressBar.value = false
                 java.util.logging.Logger.getLogger("logdOnError").log(Level.INFO, it.localizedMessage)
+                java.util.logging.Logger.getLogger("logdOnError").log(Level.INFO, it.message)
+                java.util.logging.Logger.getLogger("logdOnError").log(Level.INFO, it.toString())
             }
         }
     }
