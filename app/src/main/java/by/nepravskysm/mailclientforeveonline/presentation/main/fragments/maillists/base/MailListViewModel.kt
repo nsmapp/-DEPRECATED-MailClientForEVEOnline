@@ -64,7 +64,7 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
     }
 
 
-    private fun loadHeadersFromDB() {
+    fun loadHeadersFromDB() {
 
         getMailHeadersFromDB.execute {
             onComplite {

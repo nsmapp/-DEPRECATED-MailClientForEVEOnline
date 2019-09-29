@@ -33,6 +33,11 @@ open class BaseMailListFragment : Fragment(),
         swipeRefresh.isRefreshing = it
     }
 
+    override fun onResume() {
+        super.onResume()
+        fViewModel.loadHeadersFromDB()
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -52,6 +57,7 @@ open class BaseMailListFragment : Fragment(),
 
 
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
+
 
 
         return fView
@@ -75,4 +81,6 @@ open class BaseMailListFragment : Fragment(),
 
         navController.navigate(R.id.readMailFragment, bundle)
     }
+
+
 }

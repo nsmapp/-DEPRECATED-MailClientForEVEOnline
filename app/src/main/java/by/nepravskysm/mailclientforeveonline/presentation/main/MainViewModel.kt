@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
+import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
 
 
 class MainViewModel(private val authUseCase: AuthUseCase,
@@ -17,6 +18,8 @@ class MainViewModel(private val authUseCase: AuthUseCase,
 
     val characterName: MutableLiveData<String> by lazy { MutableLiveData<String>("")}
     val characterId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
+
+    val synchroHeaderEvent = SingleLiveEvent<Any>()
 
     init {
         getActiveCharacterInfo()
@@ -50,6 +53,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
 
                 //TODO добавить оповещениие о проведенной синхронизации
 
+                synchroHeaderEvent.call()
                  Log.d("logde----->", "synchronizeMailHeader() Completed")
             }
             onError { Log.d("logde----->", it.toString()) }

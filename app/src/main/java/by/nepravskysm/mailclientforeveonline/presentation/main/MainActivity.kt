@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -16,6 +17,7 @@ import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.rest.api.createAuthUrl
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         navHeader = navigationView.getHeaderView(0)
+
 
         setSupportActionBar(toolBar)
         val navigationController = findNavController(R.id.hostFragment)
@@ -70,9 +73,15 @@ class MainActivity : AppCompatActivity() {
 
         navHeader.rootView.addCharacter.setOnClickListener {
             startBrowser()
+
         }
 
+        vModel.synchroHeaderEvent.observer(this, Observer {
+//            navigationController.navigate(R.id.sendFragment)
+            navigationController.navigate(R.id.inboxFragment)
 
+            Log.d("logde----->", "synchroHeaderEvent) Completed")
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
