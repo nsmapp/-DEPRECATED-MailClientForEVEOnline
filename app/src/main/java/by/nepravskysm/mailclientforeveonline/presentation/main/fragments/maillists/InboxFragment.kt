@@ -17,6 +17,15 @@ class InboxFragment : BaseMailListFragment(){
         mailRecyclerAdapter.setEntiies(mailHeaderList)
     }
 
+    override fun onResume() {
+        super.onResume()
+        try {
+            mailRecyclerAdapter.setEntiies(fViewModel.inboxHeaderList.value!!)
+        }catch (e:Exception){
+            
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

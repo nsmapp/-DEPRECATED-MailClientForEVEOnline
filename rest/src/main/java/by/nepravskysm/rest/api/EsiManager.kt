@@ -4,10 +4,6 @@ import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.response.*
 import kotlinx.coroutines.Deferred
-import okhttp3.Response
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.Path
 
 class EsiManager{
 
@@ -26,9 +22,18 @@ class EsiManager{
 
     fun getMailsHeaders(accessToken :String,
                         characterId :Long): Deferred<List<MailHeaderResponse>>{
-        return esiApi.getMailsHeader("Bearer $accessToken",
+        return esiApi.getFirst50MailsHeader("Bearer $accessToken",
             characterId,
             "tranquility")
+    }
+
+    fun getMailsHeaders(accessToken :String,
+                        characterId :Long,
+                        minHeaderId: Long): Deferred<List<MailHeaderResponse>>{
+        return esiApi.getMailsHeaderBeforeId("Bearer $accessToken",
+            characterId,
+            "tranquility",
+            minHeaderId)
     }
 
     fun getMail(accessToken: String,

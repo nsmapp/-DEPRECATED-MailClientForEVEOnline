@@ -16,11 +16,21 @@ interface EsiApi{
     ) : Deferred<CharacterInfoResponse>
 
     @GET("/latest/characters/{character_id}/mail/")
-    fun getMailsHeader(
+    fun getFirst50MailsHeader(
         @Header("Authorization") bearerToken :String,
         @Path("character_id") characterId :Long,
         @Query("datasource") serverName :String
         ): Deferred<List<MailHeaderResponse>>
+
+    @GET("/latest/characters/{character_id}/mail/")
+    fun getMailsHeaderBeforeId(
+        @Header("Authorization") bearerToken :String,
+        @Path("character_id") characterId :Long,
+        @Query("datasource") serverName :String,
+        @Query("last_mail_id") minHeaderId: Long
+    ): Deferred<List<MailHeaderResponse>>
+
+
 
     @GET("/latest/characters/{character_id}/mail/{mail_id}/")
     fun getMail(

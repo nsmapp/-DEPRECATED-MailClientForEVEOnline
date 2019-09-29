@@ -62,7 +62,14 @@ val useCaseModule: Module = module {
         characterInfoRepository = get()
     )  }
 
-    factory { GetMailsHeaderUseCase(authRepository = get(),
+    factory { SynchroMailsHeaderUseCase(authRepository = get(),
+        authInfoRepository = get(),
+        mailsHeadersRepository = get(),
+        namesRepository = get(),
+        dbMailHeadersRepository = get()
+    ) }
+
+    factory { GetNewMailHeadersUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailsHeadersRepository = get(),
         namesRepository = get(),
@@ -90,14 +97,28 @@ val useCaseModule: Module = module {
         authInfoRepository = get(),
         mailRepository = get()
     ) }
+
+    factory { GetMailHeadersFromDB(dbMailHeadersRepository = get()) }
+
+
 }
 
 val viewModelModule: Module = module {
-    viewModel { MainViewModel(authUseCase = get(), getActivCharInfoUseCase = get()) }
-    viewModel { MailListViewModel(getMailsHeaderUseCase = get())    }
+    viewModel { MainViewModel(authUseCase = get(),
+        getActivCharInfoUseCase = get(),
+        synchroMailsHeaderUseCase = get()
+    ) }
+
+    viewModel { MailListViewModel(synchroMailsHeaderUseCase = get(),
+        getMailHeadersFromDB = get(),
+        getNewMailHeadersUseCase = get()
+    )}
+
     viewModel { ReadMailViewModel(getMailUseCase = get(),
         updataMailMetadataUseCase = get(),
-        deleteMailUseCase = get())}
+        deleteMailUseCase = get()
+    )}
+
     viewModel { NewMailViewModel(sendMailUseCase = get()) }
 
 }

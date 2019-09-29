@@ -5,5 +5,9 @@ import by.nepravskysm.domain.entity.MailHeader
 interface MailsHeadersRepository {
 
 
-    suspend fun getLast50MailsHeaders(authToken :String, characterId: Long): List<MailHeader>
+    suspend fun getLast50(authToken :String, characterId: Long): List<MailHeader>
+
+    suspend fun get50BeforeId(authToken :String,
+                              characterId: Long,
+                              minHeaderId:Long): List<MailHeader>
 }

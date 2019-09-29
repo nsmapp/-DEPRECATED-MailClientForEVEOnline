@@ -6,4 +6,5 @@ interface DBMailHeadersRepository{
 
     suspend fun saveMailsHeaders(headersList: List<MailHeader>)
     suspend fun getMailsHeaders(): List<MailHeader>
+    suspend fun getLastMailId(): Long
 }

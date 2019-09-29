@@ -20,24 +20,28 @@ import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
+
 open class BaseMailListFragment : Fragment(),
     MailRecyclerAdapter.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener{
 
 
     val fViewModel: MailListViewModel by sharedViewModel()
-    val mailRecyclerAdapter = MailRecyclerAdapter()
+    lateinit var mailRecyclerAdapter: MailRecyclerAdapter
 
     private val progresBarObserver = Observer<Boolean>{
         swipeRefresh.isRefreshing = it
     }
 
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+
         val fView = inflater.inflate(R.layout.fragment_mails, container, false)
 
+        mailRecyclerAdapter = fViewModel.mailRecyclerAdapter
         mailRecyclerAdapter.setItemClickListener(this)
         mailRecyclerAdapter.setEntiies(listOf())
 
@@ -54,8 +58,9 @@ open class BaseMailListFragment : Fragment(),
     }
 
     override fun onRefresh() {
-        fViewModel.refreshMailHeaderList()
+        fViewModel.loadNewMailHeaders()
     }
+
 
 
     override fun onItemClick(mailId: Long, fromName: String, subject: String, isRead: Boolean) {
@@ -70,14 +75,4 @@ open class BaseMailListFragment : Fragment(),
 
         navController.navigate(R.id.readMailFragment, bundle)
     }
-
-    private fun showProgresBar(){
-        progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgresBar(){
-        progressBar.visibility = View.GONE
-    }
-
-
 }

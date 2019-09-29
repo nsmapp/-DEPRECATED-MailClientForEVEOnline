@@ -45,7 +45,6 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase): DBMailHeadersR
         val headers = mutableListOf<MailHeaderDBE>()
 
         for (header in headersList) {
-
             val domainRecipients = header.recipients
             val recipients = mutableListOf<RecipientDBE>()
             for (recipient in domainRecipients) {
@@ -64,12 +63,10 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase): DBMailHeadersR
                     header.timestamp
                 )
             )
-
-            appDatabase.mailHeadersDao()
-                .saveMailHeaders(headers)
-
-
         }
-
+        appDatabase.mailHeadersDao()
+            .saveMailHeaders(headers)
     }
+
+    override suspend fun getLastMailId(): Long = appDatabase.mailHeadersDao().getLastMailId()
 }

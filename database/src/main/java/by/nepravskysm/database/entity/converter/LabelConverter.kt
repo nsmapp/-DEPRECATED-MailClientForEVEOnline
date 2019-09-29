@@ -7,6 +7,10 @@ import com.google.gson.reflect.TypeToken
 
 class LabelConverter {
 
+    companion object{
+        val gson = Gson()
+    }
+
     @TypeConverter
     fun fromListInt(list :List<Int>):String{
         return Gson().toJson(list)

@@ -16,7 +16,6 @@ class AllianceFragment : BaseMailListFragment(){
         mailRecyclerAdapter.setEntiies(mailHeaderList)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +27,5 @@ class AllianceFragment : BaseMailListFragment(){
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
 
 }

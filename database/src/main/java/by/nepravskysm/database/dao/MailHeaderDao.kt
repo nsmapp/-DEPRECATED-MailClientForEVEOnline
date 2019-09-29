@@ -16,11 +16,11 @@ interface MailHeaderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveMailHeaders(headersList :List<MailHeaderDBE>)
 
-    @Query("SELECT * FROM $TABLE_NAME")
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY id DESC" )
     fun getMailsHeaders(): List<MailHeaderDBE>
 
-//    @Query("SELECT id FROM $TABLE_NAME WHERE MAX(id)")
-//    fun getLastMailId():Long
+    @Query("SELECT MAX(id) FROM $TABLE_NAME")
+    fun getLastMailId():Long
 
 
 }

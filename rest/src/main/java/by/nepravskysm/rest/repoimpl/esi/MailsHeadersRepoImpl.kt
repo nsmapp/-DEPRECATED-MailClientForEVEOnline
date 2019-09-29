@@ -11,16 +11,35 @@ class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
     MailsHeadersRepository {
 
 
-    override suspend fun getLast50MailsHeaders(authToken: String, characterId: Long): List<MailHeader> {
+    override suspend fun get50BeforeId(
+        authToken: String,
+        characterId: Long,
+        minHeaderId: Long
+    ): List<MailHeader> {
+        val mailsHeaders: List<MailHeaderResponse> =
+            esiManager
+                .getMailsHeaders(authToken, characterId, minHeaderId)
+                .await()
+
+        return convert(mailsHeaders)
+
+    }
+
+
+    override suspend fun getLast50(authToken: String, characterId: Long): List<MailHeader> {
 
         val mailsHeaders: List<MailHeaderResponse> =
             esiManager
                 .getMailsHeaders(authToken, characterId)
                 .await()
 
+        return convert(mailsHeaders)
+    }
+
+    private fun convert(restHeaders: List<MailHeaderResponse>):List<MailHeader>{
         val domainHeadersList = mutableListOf<MailHeader>()
 
-        for (header in mailsHeaders){
+        for (header in restHeaders){
 
             val recipientsList = mutableListOf<Recipient>()
 
@@ -50,6 +69,5 @@ class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
         java.util.logging.Logger.getLogger("logdHeader").log(Level.INFO, "${domainHeadersList.size}")
         return domainHeadersList
     }
-
 
 }
