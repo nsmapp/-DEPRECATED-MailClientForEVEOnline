@@ -7,6 +7,7 @@ import by.nepravskysm.domain.usecase.mails.GetMailHeadersFromDB
 import by.nepravskysm.domain.usecase.mails.GetNewMailHeadersUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.recycler.MailRecyclerAdapter
+import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
 import java.util.logging.Level
 
 class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeaderUseCase,
@@ -17,6 +18,20 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
 
     var allMailsHeaderList = mutableListOf<MailHeader>()
     val mailRecyclerAdapter = MailRecyclerAdapter()
+
+    val unreadInbox: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+    val unreadCorp: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+    val unreadAlliance: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+    val unreadMailingList: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+
 
     val sendMailsHeaderList: MutableLiveData<List<MailHeader>> by lazy {
         MutableLiveData<List<MailHeader>>(mutableListOf())
@@ -54,6 +69,7 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
             onComplite {
                 isVisibilityProgressBar.value = false
                 setAndFilterHeadersList(it)
+                calcUnreadMail(it)
             }
             onError {
                 isVisibilityProgressBar.value = false
@@ -70,8 +86,7 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
             onComplite {
 
                 setAndFilterHeadersList(it)
-                java.util.logging.Logger.getLogger("logdOnError")
-                    .log(Level.INFO, "loadHeadersFromDB() FINISH")
+                calcUnreadMail(it)
             }
 
             onError {
@@ -88,17 +103,29 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
 
         allMailsHeaderList.addAll(headersList)
         sendMailsHeaderList.value = headersList.filter { mailHeader ->
-            mailHeader.labels == listOf(2) || mailHeader.labels == listOf(1, 2)
+            mailHeader.labels.contains(2)
         }
         inboxHeaderList.value = headersList.filter { mailHeader ->
-            mailHeader.labels == listOf(1) || mailHeader.labels == listOf(1, 2)
+            mailHeader.labels.contains(1)
         }
         corpMailsHeaderList.value =
-            headersList.filter { mailHeader -> mailHeader.labels == listOf(4) }
+            headersList.filter { mailHeader -> mailHeader.labels.contains(4) }
         allianceMailHeaderList.value =
-            headersList.filter { mailHeader -> mailHeader.labels == listOf(8) }
+            headersList.filter { mailHeader -> mailHeader.labels.contains(8) }
         mailListHeaderList.value =
             headersList.filter { mailHeader -> mailHeader.labels == listOf<MailHeader>() }
+    }
+
+    private fun calcUnreadMail(headersList: List<MailHeader>){
+
+        unreadInbox.value = headersList.filter {header -> !header.isRead && header.labels.contains(1)
+        }.size
+        unreadCorp.value =  headersList.filter {header -> !header.isRead && header.labels.contains(4)
+        }.size
+        unreadAlliance.value = headersList.filter {header -> !header.isRead && header.labels.contains(8)
+        }.size
+        unreadMailingList.value = headersList.filter {header -> !header.isRead && header.labels == listOf<MailHeader>()
+        }.size
     }
 
 

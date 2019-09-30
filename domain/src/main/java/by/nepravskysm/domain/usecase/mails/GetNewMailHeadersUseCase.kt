@@ -12,6 +12,7 @@ import by.nepravskysm.domain.utils.listHeadersToUniqueAttay
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.logging.Level
 
 class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                                private val authInfoRepository: AuthInfoRepository,
@@ -68,6 +69,7 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
             }
         }
 
+        java.util.logging.Logger.getLogger("logd").log(Level.INFO, "new mail ${headerList.size}")
         if (headerList.isNotEmpty()){
             val characterIdArray = listHeadersToUniqueAttay(headerList)
             val nameMap = namesRepository.getNameMap(characterIdArray)

@@ -16,8 +16,11 @@ import by.nepravskysm.domain.utils.IS_READ_MAIL
 import by.nepravskysm.domain.utils.MAIL_ID
 import by.nepravskysm.domain.utils.FROM
 import by.nepravskysm.domain.utils.SUBJECT
+import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
+import kotlinx.android.synthetic.main.item_navigation_menu.view.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
@@ -25,13 +28,16 @@ open class BaseMailListFragment : Fragment(),
     MailRecyclerAdapter.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener{
 
-
     val fViewModel: MailListViewModel by sharedViewModel()
     lateinit var mailRecyclerAdapter: MailRecyclerAdapter
 
     private val progresBarObserver = Observer<Boolean>{
         swipeRefresh.isRefreshing = it
     }
+    private val unreadInboxObserver = Observer<Int>{ setUnreadMail(R.id.inboxFragment, it)}
+    private val unreadCorpObserver = Observer<Int>{ setUnreadMail(R.id.corpFragment, it)}
+    private val unreadAllianceObserver = Observer<Int>{ setUnreadMail(R.id.allianceFragment, it)}
+    private val unreadMailingListObserver = Observer<Int>{ setUnreadMail(R.id.mailingListFragment, it)}
 
     override fun onResume() {
         super.onResume()
@@ -52,19 +58,33 @@ open class BaseMailListFragment : Fragment(),
 
         fView.mailList.layoutManager = LinearLayoutManager(context)
         fView.mailList.adapter = mailRecyclerAdapter
-        fView.progressBar.visibility = View.GONE
         fView.swipeRefresh.setOnRefreshListener(this)
 
 
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-
-
+        fViewModel.unreadInbox.observe(this, unreadInboxObserver)
+        fViewModel.unreadCorp.observe(this, unreadCorpObserver)
+        fViewModel.unreadAlliance.observe(this, unreadAllianceObserver)
+        fViewModel.unreadMailingList.observe(this, unreadMailingListObserver)
 
         return fView
     }
 
     override fun onRefresh() {
         fViewModel.loadNewMailHeaders()
+    }
+
+    private fun setUnreadMail(itemMenuId: Int, count: Int){
+        if(activity != null){
+            if(count != 0){
+                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
+                    .actionView.unreadMails.text = "$count"
+            }else{
+                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
+                    .actionView.unreadMails.text = ""
+            }
+        }
+
     }
 
 

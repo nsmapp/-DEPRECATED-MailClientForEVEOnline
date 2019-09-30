@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:showIn="navigation_view">
 
 
@@ -12,14 +13,18 @@
          android:checkableBehavior="single">
         <menu>
             <item android:id="@+id/inboxFragment"
+                    app:actionLayout="@layout/item_navigation_menu"
                     android:title="@string/inbox"/>
             <item android:id="@+id/sendFragment"
                     android:title="@string/send"/>
             <item android:id="@+id/corpFragment"
+                    app:actionLayout="@layout/item_navigation_menu"
                     android:title="@string/corporation"/>
             <item android:id="@+id/allianceFragment"
+                    app:actionLayout="@layout/item_navigation_menu"
                     android:title="@string/alliance"/>
             <item android:id="@+id/mailingListFragment"
+                    app:actionLayout="@layout/item_navigation_menu"
                     android:title="@string/mailing_list"/>
             <item android:id="@+id/saveMailsListFragment"
                     android:title="@string/save_mails"/>
