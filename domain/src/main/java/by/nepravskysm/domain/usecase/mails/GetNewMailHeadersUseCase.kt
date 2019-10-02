@@ -1,24 +1,25 @@
 package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.MailHeader
+import by.nepravskysm.domain.entity.MailingList
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
-import by.nepravskysm.domain.repository.rest.mail.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 import by.nepravskysm.domain.utils.formaMailHeaderList
-import by.nepravskysm.domain.utils.listHeadersToUniqueAttay
+import by.nepravskysm.domain.utils.listHeadersToUniqueList
+import by.nepravskysm.domain.utils.removeUnsubscrubeMailingList
 import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.logging.Level
 
 class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                                private val authInfoRepository: AuthInfoRepository,
                                private val mailsHeadersRepository: MailsHeadersRepository,
                                private val namesRepository: NamesRepository,
-                               private val dbMailHeadersRepository: DBMailHeadersRepository
+                               private val dbMailHeadersRepository: DBMailHeadersRepository,
+                               private val mailingListRepository: MailingListRepository
 ): AsyncUseCase<List<MailHeader>>(){
 
 
@@ -41,12 +42,12 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
     private suspend fun getMailHeadersContainer(accessToken: String, characterId: Long)
             :List<MailHeader>{
 
-        val lastMailId: Long = dbMailHeadersRepository.getLastMailId()
-        val headerList = mutableListOf<MailHeader>()
+        val lastHeaderId: Long = dbMailHeadersRepository.getLastMailId()
+        var headerList = mutableListOf<MailHeader>()
 
         val headers = mailsHeadersRepository
             .getLast50(accessToken, characterId)
-            .filter {header -> header.mailId > lastMailId }
+            .filter {header -> header.mailId > lastHeaderId }
 
         if (headers.isNotEmpty()){
             headerList.addAll(headers)
@@ -56,7 +57,7 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                 do {
                     val beforeHeaders = mailsHeadersRepository
                         .get50BeforeId(accessToken, characterId, minHeaderId)
-                        .filter {header -> header.mailId > lastMailId }
+                        .filter {header -> header.mailId > lastHeaderId }
 
                     if (beforeHeaders.isEmpty()){break}
                     else{
@@ -65,16 +66,23 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                     }
 
 
-                }while(lastMailId < minHeaderId)
+                }while(lastHeaderId < minHeaderId || beforeHeaders.size == 50)
             }
-        }
 
-        java.util.logging.Logger.getLogger("logd").log(Level.INFO, "new mail ${headerList.size}")
-        if (headerList.isNotEmpty()){
-            val characterIdArray = listHeadersToUniqueAttay(headerList)
-            val nameMap = namesRepository.getNameMap(characterIdArray)
-            dbMailHeadersRepository
-                .saveMailsHeaders(formaMailHeaderList(nameMap, headerList))
+            if (headerList.isNotEmpty()){
+                val nameMap = HashMap<Long, String>()
+                val mailingList: List<MailingList> = mailingListRepository
+                    .getMailingList(accessToken, characterId)
+                headerList = removeUnsubscrubeMailingList(headerList, mailingList)
+                val characterIdList: MutableList<Long> = listHeadersToUniqueList(headerList)
+
+                for(list in mailingList){
+                    characterIdList.remove(list.id)
+                    nameMap[list.id] = list.name
+                }
+                nameMap.putAll(namesRepository.getNameMap(characterIdList))
+                dbMailHeadersRepository.saveMailsHeaders(formaMailHeaderList(nameMap, headerList))
+            }
         }
 
         return dbMailHeadersRepository.getMailsHeaders()

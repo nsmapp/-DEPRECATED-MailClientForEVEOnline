@@ -85,6 +85,10 @@ class EsiManager{
             mailId)
     }
 
-
+    fun getMailList(accessToken :String,
+                    characterId :Long):Deferred<List<MailingListResponse>>{
+        return esiApi.getMailingList("Bearer $accessToken",
+            characterId)
+    }
 
 }

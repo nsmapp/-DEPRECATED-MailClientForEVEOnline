@@ -9,7 +9,7 @@ import by.nepravskysm.domain.usecase.base.AsyncUseCase
 class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
                                 private val authInfoRepository: AuthInfoRepository,
                                 private val mailRepository: MailRepository
-): AsyncUseCase<Unit>() {
+): AsyncUseCase<Boolean>() {
 
 
 
@@ -17,14 +17,15 @@ class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
 
     private var labelsList = mutableListOf<Int>()
 
-    fun setData(mailId: Long, labelsList: List<Int>){
+    fun setData(mailId: Long, labelsList: List<Int>): UpdataMailMetadataUseCase{
         this.labelsList.clear()
         this.labelsList.addAll(labelsList)
         this.mailId = mailId
 
+        return this
     }
 
-    override suspend fun onBackground() {
+    override suspend fun onBackground():Boolean {
 
         val authInfo = authInfoRepository.getAuthInfo()
 
@@ -53,5 +54,8 @@ class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
 
         }
 
+        return true
     }
+
+
 }

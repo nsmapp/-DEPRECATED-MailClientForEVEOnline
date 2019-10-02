@@ -5,9 +5,10 @@ import by.nepravskysm.database.entity.MailHeaderDBE
 import by.nepravskysm.database.entity.subentity.RecipientDBE
 import by.nepravskysm.domain.entity.MailHeader
 import by.nepravskysm.domain.entity.subentity.Recipient
-import by.nepravskysm.domain.repository.rest.mail.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 
-class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase): DBMailHeadersRepository {
+class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
+    DBMailHeadersRepository {
 
 
     override suspend fun getMailsHeaders(): List<MailHeader> {
@@ -69,4 +70,8 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase): DBMailHeadersR
     }
 
     override suspend fun getLastMailId(): Long = appDatabase.mailHeadersDao().getLastMailId()
+
+    override suspend fun setMailIsRead(mailId: Long) {
+        appDatabase.mailHeadersDao().setMailIsRead(mailId)
+    }
 }

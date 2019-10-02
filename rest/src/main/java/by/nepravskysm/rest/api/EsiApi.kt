@@ -65,4 +65,10 @@ interface EsiApi{
                    @Path("mail_id") mailId :Long
     ): Deferred<Unit>
 
+    @GET("/latest/characters/{character_id}/mail/lists/")
+    fun getMailingList(@Header("Authorization") bearerToken :String,
+                   @Path("character_id") characterId :Long
+    ): Deferred<List<MailingListResponse>>
+
 }
+

@@ -1,23 +1,25 @@
 package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.MailHeader
+import by.nepravskysm.domain.entity.MailingList
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
-import by.nepravskysm.domain.repository.rest.mail.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 import by.nepravskysm.domain.utils.formaMailHeaderList
-import by.nepravskysm.domain.utils.listHeadersToUniqueAttay
+import by.nepravskysm.domain.utils.listHeadersToUniqueList
+import by.nepravskysm.domain.utils.removeUnsubscrubeMailingList
 import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
 
 class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                                 private val authInfoRepository: AuthInfoRepository,
                                 private val mailsHeadersRepository: MailsHeadersRepository,
                                 private val namesRepository: NamesRepository,
-                                private val dbMailHeadersRepository: DBMailHeadersRepository
+                                private val dbMailHeadersRepository: DBMailHeadersRepository,
+                                private val mailingListRepository: MailingListRepository
 ) : AsyncUseCase<Boolean>() {
 
 
@@ -38,7 +40,7 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
             :Boolean{
 
         val lastMailId: Long = dbMailHeadersRepository.getLastMailId()
-        val headerList = mutableListOf<MailHeader>()
+        var headerList = mutableListOf<MailHeader>()
 
         val headers = mailsHeadersRepository
             .getLast50(accessToken, characterId)
@@ -50,6 +52,7 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
 
                 var minHeaderId: Long = headers.minBy { it.mailId }!!.mailId
                 do {
+
                     val beforeHeaders = mailsHeadersRepository
                         .get50BeforeId(accessToken, characterId, minHeaderId)
                         .filter {header -> header.mailId > lastMailId }
@@ -59,17 +62,24 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                         headerList.addAll(beforeHeaders)
                         minHeaderId = beforeHeaders.minBy { it.mailId }!!.mailId
                     }
-
                 }while(beforeHeaders.size == 50)
             }
         }
 
         if (headerList.isNotEmpty()){
 
-            val characterIdArray = listHeadersToUniqueAttay(headerList)
-            val nameMap = namesRepository.getNameMap(characterIdArray)
-            dbMailHeadersRepository
-                .saveMailsHeaders(formaMailHeaderList(nameMap, headerList))
+            val nameMap = HashMap<Long, String>()
+            val mailingList: List<MailingList> = mailingListRepository
+                .getMailingList(accessToken, characterId)
+            headerList = removeUnsubscrubeMailingList(headerList, mailingList)
+            val characterIdList: MutableList<Long> = listHeadersToUniqueList(headerList)
+
+            for(list in mailingList){
+                characterIdList.remove(list.id)
+                nameMap[list.id] = list.name
+            }
+            nameMap.putAll(namesRepository.getNameMap(characterIdList))
+            dbMailHeadersRepository.saveMailsHeaders(formaMailHeaderList(nameMap, headerList))
         }
 
         return true

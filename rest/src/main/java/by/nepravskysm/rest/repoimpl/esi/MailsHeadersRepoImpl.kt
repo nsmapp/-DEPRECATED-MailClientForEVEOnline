@@ -66,7 +66,7 @@ class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
             domainHeadersList.add(domainMailHeader)
         }
 
-        java.util.logging.Logger.getLogger("logdHeader").log(Level.INFO, "${domainHeadersList.size}")
+        java.util.logging.Logger.getLogger("logdHeader").log(Level.INFO, " o/ ${domainHeadersList.size}")
         return domainHeadersList
     }
 

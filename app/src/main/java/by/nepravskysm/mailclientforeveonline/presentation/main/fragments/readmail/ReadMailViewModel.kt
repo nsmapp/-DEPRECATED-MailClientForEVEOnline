@@ -7,10 +7,12 @@ import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.domain.usecase.mails.DeleteMailUseCase
 import by.nepravskysm.domain.usecase.mails.GetMailUseCase
 import by.nepravskysm.domain.usecase.mails.UpdataMailMetadataUseCase
+import by.nepravskysm.domain.usecase.mails.UpdateDBMailMetadataUseCase
 import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
 
 class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
                         private val updataMailMetadataUseCase: UpdataMailMetadataUseCase,
+                        private val updateDBMailMetadataUseCase: UpdateDBMailMetadataUseCase,
                         private val deleteMailUseCase: DeleteMailUseCase) : ViewModel() {
 
     val inPutMail: MutableLiveData<InPutMail> by lazy { MutableLiveData<InPutMail>() }
@@ -39,8 +41,12 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
                     fromId = it.from
 
                     if(!it.isRead){
-                        updataMailMetadataUseCase.setData(mailId, it.labels)
-                        updataMailMetadataUseCase.execute {  }
+                        updataMailMetadataUseCase.setData(mailId, it.labels).execute {
+                            onComplite { Log.d("logd",  "UpdateLabel net") }
+                        }
+                        updateDBMailMetadataUseCase.setData(mailId).execute {
+                            onComplite { Log.d("logd",  "UpdateLabel db") }
+                        }
                     }
 
 

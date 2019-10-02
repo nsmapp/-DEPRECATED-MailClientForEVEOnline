@@ -1,9 +1,6 @@
 package by.nepravskysm.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import by.nepravskysm.database.entity.MailHeaderDBE
 
 @Dao
@@ -21,6 +18,9 @@ interface MailHeaderDao {
 
     @Query("SELECT MAX(id) FROM $TABLE_NAME")
     fun getLastMailId():Long
+
+    @Query("UPDATE $TABLE_NAME SET isRead = 1 WHERE id = :mailId ")
+    fun setMailIsRead(mailId: Long)
 
 
 }

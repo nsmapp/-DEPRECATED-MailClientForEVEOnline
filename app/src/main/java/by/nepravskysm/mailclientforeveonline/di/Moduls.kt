@@ -6,7 +6,8 @@ import by.nepravskysm.database.repoimpl.DBMailHeaderRepoImpl
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.auth.CharacterInfoRepository
-import by.nepravskysm.domain.repository.rest.mail.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.IdsRepository
@@ -20,6 +21,7 @@ import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail.ReadMailViewModel
 import by.nepravskysm.rest.api.AuthManager
 import by.nepravskysm.rest.api.EsiManager
+import by.nepravskysm.rest.entity.response.MailingListRepoImpl
 import by.nepravskysm.rest.repoimpl.auth.AuthRepoImpl
 import by.nepravskysm.rest.repoimpl.esi.*
 import org.koin.android.ext.koin.androidContext
@@ -44,6 +46,7 @@ val restModule: Module = module {
     factory<MailRepository> { MailRepoImpl(esiManager = get())  }
     factory<NamesRepository> { NamesRepoImpl(esiManager = get()) }
     factory<IdsRepository> {IdsRepoImpl(esiManager = get())}
+    factory<MailingListRepository> {MailingListRepoImpl(esiManager = get())  }
 
 }
 
@@ -66,14 +69,16 @@ val useCaseModule: Module = module {
         authInfoRepository = get(),
         mailsHeadersRepository = get(),
         namesRepository = get(),
-        dbMailHeadersRepository = get()
+        dbMailHeadersRepository = get(),
+        mailingListRepository = get()
     ) }
 
     factory { GetNewMailHeadersUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailsHeadersRepository = get(),
         namesRepository = get(),
-        dbMailHeadersRepository = get()
+        dbMailHeadersRepository = get(),
+        mailingListRepository = get()
     ) }
 
     factory { GetActivCharInfoUseCase(authInfoRepository = get()) }
@@ -100,6 +105,8 @@ val useCaseModule: Module = module {
 
     factory { GetMailHeadersFromDB(dbMailHeadersRepository = get()) }
 
+    factory { UpdateDBMailMetadataUseCase( dbMailHeadersRepository = get())}
+
 
 }
 
@@ -116,6 +123,7 @@ val viewModelModule: Module = module {
 
     viewModel { ReadMailViewModel(getMailUseCase = get(),
         updataMailMetadataUseCase = get(),
+        updateDBMailMetadataUseCase = get(),
         deleteMailUseCase = get()
     )}
 
