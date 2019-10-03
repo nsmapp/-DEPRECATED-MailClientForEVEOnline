@@ -45,21 +45,20 @@
     <EditText
             android:id="@+id/mailBody"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="Mail body"
-            android:lines="100"
             android:gravity="start"
+            android:hint="Mail body"
+            style="@style/normalTextView"
+            android:lines="100"
             android:maxLength="3500"
             android:maxLines="100"
             android:minLines="20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subject"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
             android:id="@+id/clear"
@@ -70,4 +69,14 @@
             app:layout_constraintBottom_toBottomOf="@+id/toName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/toName" />
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subject" />
 </androidx.constraintlayout.widget.ConstraintLayout>

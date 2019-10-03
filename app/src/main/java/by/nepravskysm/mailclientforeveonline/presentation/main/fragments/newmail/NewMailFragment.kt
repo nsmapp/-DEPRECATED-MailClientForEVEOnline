@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.dialog.AddNameDialog
+import by.nepravskysm.mailclientforeveonline.utils.pastHtmlTextToMailBody
 import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,23 +38,16 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
 
                     REPLAY -> {
                         fViewModel.nameList.add(arguments?.getString(FROM)!!)
-                        fViewModel.subject = "RE: ${arguments?.getString(SUBJECT)!!}"
-                        fViewModel.mailBody = "\n \n" +
-                                "REPLAY MAIL \n" +
-                                "from: ${fViewModel.nameList} \n" +
-                                "subject: ${arguments?.getString(SUBJECT)!!} \n \n" +
-                                arguments?.getString(MAIL_BODY)!!
+                        fViewModel.initReplayMail(arguments?.getString(SUBJECT)!!,
+                            arguments?.getString(FROM)!!,
+                            arguments?.getString(MAIL_BODY)!!)
 
 
                     }
                     FORWARD -> {
-
-                        fViewModel.subject = "FORWARD: ${arguments?.getString(SUBJECT)!!}"
-                        fViewModel.mailBody = "\n \n" +
-                                "FORWARD MAIL\n" +
-                                "from: ${arguments?.getString(FROM)!!} \n" +
-                                "subject: ${fViewModel.subject} \n \n"+
-                                arguments?.getString(MAIL_BODY)!!
+                        fViewModel.initForwardMail(arguments?.getString(SUBJECT)!!,
+                            arguments?.getString(FROM)!!,
+                            arguments?.getString(MAIL_BODY)!!)
                     }
                 }
 
@@ -66,7 +60,8 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
 
                 view.toName.setText(fViewModel.nameList.toString())
                 view.subject.setText(fViewModel.subject)
-                view.mailBody.setText(fViewModel.mailBody)
+//                view.mailBody.setText(fViewModel.mailBody)
+                pastHtmlTextToMailBody(view.mailBody, fViewModel.mailBody)
 
             }
         }
@@ -88,6 +83,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
         }
 
         view.sendMailBtn.setOnClickListener {
+            fViewModel.mailBody = mailBody.text.toString()
             fViewModel.sendMail()
         }
 

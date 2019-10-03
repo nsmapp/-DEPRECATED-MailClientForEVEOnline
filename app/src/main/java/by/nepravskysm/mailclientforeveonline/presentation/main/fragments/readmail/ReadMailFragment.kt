@@ -1,14 +1,11 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail
 
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,6 +14,7 @@ import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
+import by.nepravskysm.mailclientforeveonline.utils.pastHtmlTextToMailBody
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_read_mail.*
 import kotlinx.android.synthetic.main.fragment_read_mail.view.*
@@ -108,13 +106,13 @@ class ReadMailFragment : Fragment(){
             .into(imageView.fromPhoto)
     }
 
-    private fun pastHtmlTextToMailBody(view: TextView, htmlText: String){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            view.text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_COMPACT)
-        }else{
-            view.text = Html.fromHtml(htmlText)
-        }
-    }
+//    private fun pastHtmlTextToMailBody(view: TextView, htmlText: String){
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            view.text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_COMPACT)
+//        }else{
+//            view.text = Html.fromHtml(htmlText)
+//        }
+//    }
 
     private fun createBundle(bundleType: String) : Bundle{
 
