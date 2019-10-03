@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
@@ -85,6 +86,10 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
         view.sendMailBtn.setOnClickListener {
             fViewModel.mailBody = mailBody.text.toString()
             fViewModel.sendMail()
+        }
+
+        view.mailBody.doOnTextChanged{text, _, _, _ ->
+            view.mailLendth.text = "${text!!.length}/8000"
         }
 
 
