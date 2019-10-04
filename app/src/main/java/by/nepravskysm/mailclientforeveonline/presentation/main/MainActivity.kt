@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -17,9 +18,7 @@ import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.rest.api.createAuthUrl
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
-import kotlinx.android.synthetic.main.item_navigation_menu.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -28,8 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     private val vModel: MainViewModel by viewModel()
 
-    lateinit var navHeader: View
+    private lateinit var navHeader: View
+    private lateinit var navigationController: NavController
 
+    private val progresBarObserver = Observer<Boolean>{
+        if(it){showProgresBar()
+        }else{hideProgresBar()
+            navigationController.navigate(R.id.inboxFragment)}
+    }
     val nameObserver = Observer<String>{name -> navHeader.rootView.charName.text = name}
     val characterIdObserver = Observer<Long>{id ->
         Picasso.get()
@@ -45,10 +50,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         navHeader = navigationView.getHeaderView(0)
-
+        navigationController = findNavController(R.id.hostFragment)
 
         setSupportActionBar(toolBar)
-        val navigationController = findNavController(R.id.hostFragment)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.newMailFragment,
@@ -77,12 +82,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        vModel.synchroHeaderEvent.observer(this, Observer {
-//            navigationController.navigate(R.id.sendFragment)
-            navigationController.navigate(R.id.inboxFragment)
+        vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
 
-            Log.d("logde----->", "synchroHeaderEvent) Completed")
-        })
+//        vModel.synchroHeaderEvent.observer(this, Observer {
+//
+//            Log.d("logde----->", "synchroHeaderEvent) Completed")
+//        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -106,6 +111,16 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun showProgresBar(){
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgresBar(){
+        progressBar.visibility = View.GONE
+    }
+
+
 
 }
 

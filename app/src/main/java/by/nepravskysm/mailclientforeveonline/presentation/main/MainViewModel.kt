@@ -18,8 +18,8 @@ class MainViewModel(private val authUseCase: AuthUseCase,
 
     val characterName: MutableLiveData<String> by lazy { MutableLiveData<String>("")}
     val characterId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
+    val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
 
-    val synchroHeaderEvent = SingleLiveEvent<Any>()
 
     init {
         getActiveCharacterInfo()
@@ -48,15 +48,18 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     }
 
     fun synchronizeMailHeader(){
+        isVisibilityProgressBar.value = true
         synchroMailsHeaderUseCase.execute {
             onComplite {
 
+                isVisibilityProgressBar.value = false
                 //TODO добавить оповещениие о проведенной синхронизации
 
-                synchroHeaderEvent.call()
                  Log.d("logde----->", "synchronizeMailHeader() Completed")
             }
-            onError { Log.d("logde----->", it.toString()) }
+            onError {
+                isVisibilityProgressBar.value = false
+                Log.d("logde----->", it.toString()) }
         }
     }
 }
