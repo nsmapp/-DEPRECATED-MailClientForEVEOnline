@@ -4,7 +4,7 @@ import by.nepravskysm.domain.entity.MailHeader
 
 interface DBMailHeadersRepository{
 
-    suspend fun saveMailsHeaders(headersList: List<MailHeader>)
+    suspend fun saveMailsHeaders(headersList: List<MailHeader>, owner: Long)
     suspend fun getMailsHeaders(): List<MailHeader>
     suspend fun getLastMailId(): Long
     suspend fun setMailIsRead(mailId: Long)

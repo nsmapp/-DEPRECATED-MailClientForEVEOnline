@@ -28,7 +28,8 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
 
         return try {
 
-            getMailHeadersContainer(characterInfo.accessToken, characterInfo.characterId)
+            getMailHeadersContainer(characterInfo.accessToken,
+                characterInfo.characterId)
 
         }catch (e: Exception){
             val token = authRepository.refreshAuthToken(characterInfo.refreshToken)
@@ -81,7 +82,9 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                     nameMap[list.id] = list.name
                 }
                 nameMap.putAll(namesRepository.getNameMap(characterIdList))
-                dbMailHeadersRepository.saveMailsHeaders(formaMailHeaderList(nameMap, headerList))
+                dbMailHeadersRepository
+                    .saveMailsHeaders(formaMailHeaderList(nameMap, headerList),
+                        characterId)
             }
         }
 

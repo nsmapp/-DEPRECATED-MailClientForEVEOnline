@@ -41,7 +41,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         return headers
     }
 
-    override suspend fun saveMailsHeaders(headersList: List<MailHeader>) {
+    override suspend fun saveMailsHeaders(headersList: List<MailHeader>, ownerId: Long) {
 
         val headers = mutableListOf<MailHeaderDBE>()
 
@@ -61,7 +61,8 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
                     header.labels,
                     recipients,
                     header.subject,
-                    header.timestamp
+                    header.timestamp,
+                    ownerId
                 )
             )
         }

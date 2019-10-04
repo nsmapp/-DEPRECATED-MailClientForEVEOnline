@@ -12,7 +12,7 @@ import by.nepravskysm.database.entity.MailHeaderDBE
 import by.nepravskysm.database.entity.converter.LabelConverter
 import by.nepravskysm.database.entity.converter.RecipientConverter
 
-@Database(entities = [ AuthInfoDBE::class, MailHeaderDBE::class], version = 4)
+@Database(entities = [ AuthInfoDBE::class, MailHeaderDBE::class], version = 5)
 @TypeConverters(LabelConverter::class, RecipientConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -31,7 +31,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "reinforce_database")
+                    "mail_database")
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

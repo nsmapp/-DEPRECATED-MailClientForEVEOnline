@@ -79,7 +79,9 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                 nameMap[list.id] = list.name
             }
             nameMap.putAll(namesRepository.getNameMap(characterIdList))
-            dbMailHeadersRepository.saveMailsHeaders(formaMailHeaderList(nameMap, headerList))
+            dbMailHeadersRepository
+                .saveMailsHeaders(formaMailHeaderList(nameMap, headerList),
+                characterId)
         }
 
         return true
