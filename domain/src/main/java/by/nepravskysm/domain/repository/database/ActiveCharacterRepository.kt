@@ -4,7 +4,7 @@ interface ActiveCharacterRepository {
 
     suspend fun insertCharacterName(activeCharacter: String)
 
-    suspend fun updateActiveCharacterName(characterName: String)
+    suspend fun updateActiveCharacterName(characterName: String):Boolean
 
     suspend fun getActiveCharacterName() : String
 }

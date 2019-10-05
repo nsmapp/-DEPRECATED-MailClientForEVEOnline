@@ -10,8 +10,10 @@ class ActiveCharacterRepoImpl(private val appDatabase: AppDatabase) : ActiveChar
         appDatabase.activeCharacterDao().insertCharacterName(ActivaCharacterDBE(activeCharacter))
     }
 
-    override suspend fun updateActiveCharacterName(characterName: String) {
+    override suspend fun updateActiveCharacterName(characterName: String): Boolean {
         appDatabase.activeCharacterDao().updateActiveCharacterName(characterName)
+
+        return true
     }
 
     override suspend fun getActiveCharacterName(): String =

@@ -106,13 +106,6 @@ class ReadMailFragment : Fragment(){
             .into(imageView.fromPhoto)
     }
 
-//    private fun pastHtmlTextToMailBody(view: TextView, htmlText: String){
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            view.text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_COMPACT)
-//        }else{
-//            view.text = Html.fromHtml(htmlText)
-//        }
-//    }
 
     private fun createBundle(bundleType: String) : Bundle{
 

@@ -11,9 +11,7 @@ import kotlinx.android.synthetic.main.dialog_add_name.view.*
 
 class AddNameDialog  : DialogFragment(){
 
-    interface ConfirmNameListener{
-        fun confirm(name: String)
-    }
+
 
     private var confirmNameListener: ConfirmNameListener? = null
 
@@ -47,6 +45,10 @@ class AddNameDialog  : DialogFragment(){
         return dialog
     }
 
+
+    interface ConfirmNameListener{
+        fun confirm(name: String)
+    }
 
 
 

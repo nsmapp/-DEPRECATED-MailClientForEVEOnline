@@ -19,23 +19,24 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import by.nepravskysm.mailclientforeveonline.R
-import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterListDialog
+import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterChangeDialog
 import kotlinx.android.synthetic.main.activity_main.view.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterListener {
+
 
     private val vModel: MainViewModel by viewModel()
 
     private lateinit var navHeader: View
     private lateinit var navigationController: NavController
-    private var loginListnerInrerface: LoginListnerInrerface? = null
-    private val characterListDialog = CharacterListDialog()
+    private var loginListener: LoginListener? = null
+    private val characterListDialog = CharacterChangeDialog()
 
     private val progresBarObserver = Observer<Boolean>{
         if(it){showProgresBar()
         }else{hideProgresBar()
-            loginListnerInrerface?.refreshDataAfterLogin()
+            loginListener?.refreshDataAfterLogin()
         }
     }
     val nameObserver = Observer<String>{name -> navHeader.rootView.charName.text = name
@@ -76,6 +77,9 @@ class MainActivity : AppCompatActivity() {
 
         initOnClickListner()
         checkAuthCode()
+
+        characterListDialog.setChangeCharacterListener(this)
+
         vModel.getActiveCharacterInfo()
 
         vModel.characterName.observe(this, nameObserver)
@@ -87,6 +91,13 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.hostFragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun characterChanged() {
+        if(loginListener != null){
+            loginListener?.refreshDataAfterLogin()
+        }
+        vModel.getActiveCharacterInfo()
     }
 
     private fun startBrowser(){
@@ -101,7 +112,9 @@ class MainActivity : AppCompatActivity() {
                 val code: String = intent.data!!.getQueryParameter("code")!!
                 vModel.startAuth(code)
             }else{
-                if(loginListnerInrerface != null){loginListnerInrerface?.refreshDataAfterLogin()}
+                if(loginListener != null){
+                    loginListener?.refreshDataAfterLogin()
+                }
             }
         }
 
@@ -130,12 +143,12 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
     }
 
-    fun setLoginListnerInterface(loginListnerInrerface: LoginListnerInrerface) {
-        this.loginListnerInrerface = loginListnerInrerface
+    fun setLoginListnerInterface(loginListener: LoginListener) {
+        this.loginListener = loginListener
 
     }
 
-    interface LoginListnerInrerface{
+    interface LoginListener{
         fun refreshDataAfterLogin()
     }
 

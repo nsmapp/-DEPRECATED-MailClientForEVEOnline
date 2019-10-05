@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +17,17 @@ import kotlinx.android.synthetic.main.fragment_empty.view.*
 import android.os.Build
 import android.view.Gravity
 import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
-import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
+import by.nepravskysm.domain.usecase.character.ChangeActiveCharacter
 import by.nepravskysm.rest.api.createAuthUrl
 import org.koin.android.ext.android.inject
 
 
-class CharacterListDialog : DialogFragment(){
+class CharacterChangeDialog : DialogFragment(){
 
     private val getAllCharactersAuthInfo: GetAllCharactersAuthInfoUseCase by inject()
+    private val changeActiveCharacter: ChangeActiveCharacter by inject()
+    private var changeCharacterListener: ChangeCharacterListener? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,22 +53,12 @@ class CharacterListDialog : DialogFragment(){
         return dialog
     }
 
+    fun setChangeCharacterListener(changeCharacterListener: ChangeCharacterListener){
+        this.changeCharacterListener = changeCharacterListener
+    }
+
     private fun createItem(context : Context, characterId: Long, characterName: String): LinearLayout{
         val linearLayout = LinearLayout(context)
-
-        linearLayout.orientation = LinearLayout.HORIZONTAL
-        linearLayout.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT)
-        linearLayout.setOnClickListener {
-
-            if(characterName.equals("Add new character")){
-                val url: String = createAuthUrl()
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(intent)
-            }
-
-        }
 
         val imageView = ImageView(context)
         val imageSize = resources.getDimension(R.dimen.image_rectangle_48).toInt()
@@ -94,10 +86,40 @@ class CharacterListDialog : DialogFragment(){
             textView.setTextAppearance(context, R.style.largeTextView)
         }
 
+        linearLayout.orientation = LinearLayout.HORIZONTAL
+        linearLayout.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT)
+        linearLayout.setOnClickListener {
+
+            if(characterName.equals("Add new character")){
+                val url: String = createAuthUrl()
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }else{
+                changeActiveCharacter
+                    .setData(textView.text.toString())
+                    .execute {
+                        onComplite {
+                            if(changeCharacterListener != null){
+                                changeCharacterListener?.characterChanged()
+                            }
+                        }
+                    }
+                this.dismiss()
+            }
+        }
+
+
+
 
         linearLayout.addView(imageView)
         linearLayout.addView(textView)
 
         return  linearLayout
+    }
+
+    interface ChangeCharacterListener{
+        fun characterChanged()
     }
 }

@@ -27,7 +27,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 open class BaseMailListFragment : Fragment(),
     MailRecyclerAdapter.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener,
-    MainActivity.LoginListnerInrerface{
+    MainActivity.LoginListener{
 
 
 
