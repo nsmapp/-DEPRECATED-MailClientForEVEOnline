@@ -1,6 +1,7 @@
 package by.nepravskysm.domain.usecase.auth
 
 import by.nepravskysm.domain.entity.CharacterInfo
+import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.rest.auth.CharacterInfoRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
@@ -9,12 +10,13 @@ import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
 class AuthUseCase(private val authRepository: AuthRepository,
                   private val authInfoRepository: AuthInfoRepository,
-                  private val characterInfoRepository: CharacterInfoRepository
+                  private val characterInfoRepository: CharacterInfoRepository,
+                  private val activeCharacterRepository: ActiveCharacterRepository
 ) : AsyncUseCase<CharacterInfo>() {
 
-    var firstAuthToken: String = ""
+    private var firstAuthToken: String = ""
 
-    fun setFitstAuthToken(token :String){
+    fun setData(token :String){
         firstAuthToken = token
     }
 
@@ -28,7 +30,7 @@ class AuthUseCase(private val authRepository: AuthRepository,
             authToken.refreshToken,
             characterInfo.characterID,
             characterInfo.characterName)
-
+        activeCharacterRepository.insertCharacterName(characterInfo.characterName)
         return characterInfo
     }
 

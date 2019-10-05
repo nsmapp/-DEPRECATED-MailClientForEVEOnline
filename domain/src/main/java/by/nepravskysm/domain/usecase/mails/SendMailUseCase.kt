@@ -2,6 +2,7 @@ package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.OutPutMail
 import by.nepravskysm.domain.entity.subentity.Recipient
+import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
@@ -11,7 +12,8 @@ import by.nepravskysm.domain.usecase.base.AsyncUseCase
 class SendMailUseCase(private val authRepository: AuthRepository,
                       private val authInfoRepository: AuthInfoRepository,
                       private val mailRepository: MailRepository,
-                      private val idsRepository: IdsRepository) : AsyncUseCase<Long>() {
+                      private val idsRepository: IdsRepository,
+                      private val activeCharacterRepository: ActiveCharacterRepository) : AsyncUseCase<Long>() {
 
 
     private lateinit var mail: OutPutMail
@@ -28,7 +30,8 @@ class SendMailUseCase(private val authRepository: AuthRepository,
         val recipients = idsRepository.getRecepientList(names.toTypedArray())
         mail.recipients.addAll(recipients)
 
-        val authInfo = authInfoRepository.getAuthInfo()
+        val characterName = activeCharacterRepository.getActiveCharacterName()
+        val authInfo = authInfoRepository.getAuthInfo(characterName)
 
 
         try {

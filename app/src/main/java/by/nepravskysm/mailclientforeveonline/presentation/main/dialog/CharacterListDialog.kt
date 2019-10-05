@@ -44,13 +44,9 @@ class CharacterListDialog : DialogFragment(){
                             character.characterId,
                             character.characterName))
                 }
-                dialog.root.addView(createItem(dialog.context, 0, "Add new character"))
-
             }
         }
-
-
-
+        dialog.root.addView(createItem(dialog.context, 0, "Add new character"))
 
         return dialog
     }

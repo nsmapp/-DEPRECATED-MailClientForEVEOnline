@@ -9,10 +9,11 @@ interface AuthInfoRepository {
                              characterId :Long,
                              characterName :String)
 
-    suspend fun getAuthInfo() : AuthInfo
+    suspend fun getAuthInfo(characterName: String) : AuthInfo
 
     suspend fun getAllCharacters() : List<AuthInfo>
 
     suspend fun saveNewToken(accessToken :String,
-                             refreshToken :String)
+                             refreshToken :String,
+                             characterName: String)
 }

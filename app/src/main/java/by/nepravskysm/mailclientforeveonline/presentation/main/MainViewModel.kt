@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
-import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
 
 
 class MainViewModel(private val authUseCase: AuthUseCase,
@@ -20,17 +19,13 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     val characterId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
 
-
-    init {
-        getActiveCharacterInfo()
-    }
-
     fun startAuth(code: String){
-        authUseCase.setFitstAuthToken(code)
+        authUseCase.setData(code)
         authUseCase.execute {
             onComplite {
                 characterName.value = it.characterName
                 synchronizeMailHeader()
+                getActiveCharacterInfo()
             }
             onError { Log.d("logde----->", it.toString()) }
         }

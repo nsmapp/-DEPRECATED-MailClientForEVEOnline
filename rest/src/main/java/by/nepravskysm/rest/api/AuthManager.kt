@@ -1,7 +1,5 @@
 package by.nepravskysm.rest.api
-
 import by.nepravskysm.rest.entity.response.AuthTokenResponse
-
 import by.nepravskysm.rest.entity.response.RefreshTokenResponse
 import kotlinx.coroutines.Deferred
 

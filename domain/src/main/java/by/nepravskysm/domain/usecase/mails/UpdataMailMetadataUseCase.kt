@@ -1,6 +1,7 @@
 package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.MailMetadata
+import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
@@ -8,7 +9,8 @@ import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
 class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
                                 private val authInfoRepository: AuthInfoRepository,
-                                private val mailRepository: MailRepository
+                                private val mailRepository: MailRepository,
+                                private val activeCharacterRepository: ActiveCharacterRepository
 ): AsyncUseCase<Boolean>() {
 
 
@@ -27,7 +29,8 @@ class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
 
     override suspend fun onBackground():Boolean {
 
-        val authInfo = authInfoRepository.getAuthInfo()
+        val characterName = activeCharacterRepository.getActiveCharacterName()
+        val authInfo = authInfoRepository.getAuthInfo(characterName)
 
         try {
 

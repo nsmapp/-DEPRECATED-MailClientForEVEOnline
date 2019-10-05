@@ -1,5 +1,6 @@
 package by.nepravskysm.database.repoimpl
 
+import android.util.Log
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.entity.MailHeaderDBE
 import by.nepravskysm.database.entity.subentity.RecipientDBE
@@ -11,10 +12,12 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     DBMailHeadersRepository {
 
 
-    override suspend fun getMailsHeaders(): List<MailHeader> {
+    override suspend fun getMailsHeaders(characterName: String): List<MailHeader> {
         val headers = mutableListOf<MailHeader>()
         val headersList = appDatabase.mailHeadersDao()
-            .getMailsHeaders()
+            .getMailsHeaders(characterName)
+
+        Log.d("logd", "getMails ${headersList.size}");
 
         for (header in headersList) {
 
@@ -41,9 +44,11 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         return headers
     }
 
-    override suspend fun saveMailsHeaders(headersList: List<MailHeader>, ownerId: Long) {
+    override suspend fun saveMailsHeaders(headersList: List<MailHeader>, characterName: String) {
 
         val headers = mutableListOf<MailHeaderDBE>()
+
+        Log.d("logd", "saveMails ${headersList.size}");
 
         for (header in headersList) {
             val domainRecipients = header.recipients
@@ -62,7 +67,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
                     recipients,
                     header.subject,
                     header.timestamp,
-                    ownerId
+                    characterName
                 )
             )
         }
@@ -70,7 +75,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
             .saveMailHeaders(headers)
     }
 
-    override suspend fun getLastMailId(): Long = appDatabase.mailHeadersDao().getLastMailId()
+    override suspend fun getLastMailId(activeCharacter: String): Long = appDatabase.mailHeadersDao().getLastMailId(activeCharacter)
 
     override suspend fun setMailIsRead(mailId: Long) {
         appDatabase.mailHeadersDao().setMailIsRead(mailId)

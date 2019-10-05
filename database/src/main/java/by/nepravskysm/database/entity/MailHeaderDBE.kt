@@ -37,6 +37,6 @@ data class MailHeaderDBE (
     val timestamp: String,
 
     @SerializedName("owner")
-    val ownerId: Long
+    val ownerName: String
 
 )

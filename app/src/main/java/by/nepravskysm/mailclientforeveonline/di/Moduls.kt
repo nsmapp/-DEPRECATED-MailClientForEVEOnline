@@ -1,8 +1,10 @@
 package by.nepravskysm.mailclientforeveonline.di
 
 import by.nepravskysm.database.AppDatabase
+import by.nepravskysm.database.repoimpl.ActiveCharacterRepoImpl
 import by.nepravskysm.database.repoimpl.AuthInfoRepoImpl
 import by.nepravskysm.database.repoimpl.DBMailHeaderRepoImpl
+import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.auth.CharacterInfoRepository
@@ -57,6 +59,7 @@ val databaseModule: Module = module {
 
     factory<AuthInfoRepository> {AuthInfoRepoImpl(appDatabase = get())}
     factory<DBMailHeadersRepository>{DBMailHeaderRepoImpl(appDatabase = get())}
+    factory<ActiveCharacterRepository>{ActiveCharacterRepoImpl(appDatabase = get())}
 
 }
 
@@ -64,7 +67,8 @@ val useCaseModule: Module = module {
 
     factory{ AuthUseCase(authRepository = get(),
         authInfoRepository = get(),
-        characterInfoRepository = get()
+        characterInfoRepository = get(),
+        activeCharacterRepository = get()
     )  }
 
     factory { SynchroMailsHeaderUseCase(authRepository = get(),
@@ -72,7 +76,8 @@ val useCaseModule: Module = module {
         mailsHeadersRepository = get(),
         namesRepository = get(),
         dbMailHeadersRepository = get(),
-        mailingListRepository = get()
+        mailingListRepository = get(),
+        activeCharacterRepository = get()
     ) }
 
     factory { GetNewMailHeadersUseCase(authRepository = get(),
@@ -80,32 +85,39 @@ val useCaseModule: Module = module {
         mailsHeadersRepository = get(),
         namesRepository = get(),
         dbMailHeadersRepository = get(),
-        mailingListRepository = get()
+        mailingListRepository = get(),
+        activeCharacterRepository = get()
     ) }
 
-    factory { GetActivCharInfoUseCase(authInfoRepository = get()) }
+    factory { GetActivCharInfoUseCase(authInfoRepository = get(),
+        activeCharacterRepository = get()) }
     factory { GetMailUseCase(authRepository = get(),
         authInfoRepository = get(),
-        mailRepository = get()
+        mailRepository = get(),
+        activeCharacterRepository = get()
     ) }
 
     factory { SendMailUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailRepository = get(),
-        idsRepository = get()
+        idsRepository = get(),
+        activeCharacterRepository = get()
     ) }
 
     factory { UpdataMailMetadataUseCase(authRepository = get(),
         authInfoRepository = get(),
-        mailRepository = get()
+        mailRepository = get(),
+        activeCharacterRepository = get()
     ) }
 
     factory { DeleteMailUseCase(authRepository = get(),
         authInfoRepository = get(),
-        mailRepository = get()
+        mailRepository = get(),
+        activeCharacterRepository = get()
     ) }
 
-    factory { GetMailHeadersFromDB(dbMailHeadersRepository = get()) }
+    factory { GetMailHeadersFromDB(dbMailHeadersRepository = get(),
+        activeCharacterRepository = get()) }
 
     factory { UpdateDBMailMetadataUseCase( dbMailHeadersRepository = get())}
 

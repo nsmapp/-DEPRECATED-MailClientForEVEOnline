@@ -1,5 +1,6 @@
 package by.nepravskysm.database.repoimpl
 
+import android.util.Log
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.entity.AuthInfoDBE
 import by.nepravskysm.domain.entity.AuthInfo
@@ -14,6 +15,7 @@ class AuthInfoRepoImpl(private val appDatabase: AppDatabase) :
         val authInfoList = appDatabase.authInfoDao().getAllCharactersAuthInfo()
         val domainAuthList = mutableListOf<AuthInfo>()
         for (info in authInfoList){
+            Log.d("logd", "${info.id } ${info.characterId} ${info.characterName}")
             val authInfo = AuthInfo(info.accessToken,
                 info.refreshToken,
                 info.characterId,
@@ -31,7 +33,7 @@ class AuthInfoRepoImpl(private val appDatabase: AppDatabase) :
                                       characterName :String) {
         appDatabase.authInfoDao()
             .insertAuthInfo(
-                AuthInfoDBE(0,
+                AuthInfoDBE(
                 accessToken,
                 refreshToken,
                 characterId,
@@ -40,13 +42,13 @@ class AuthInfoRepoImpl(private val appDatabase: AppDatabase) :
 
     }
 
-    override suspend fun saveNewToken(accessToken: String, refreshToken: String) {
-        appDatabase.authInfoDao().updateToken(accessToken, refreshToken)
+    override suspend fun saveNewToken(accessToken: String, refreshToken: String, characterName: String) {
+        appDatabase.authInfoDao().updateToken(accessToken, refreshToken, characterName)
     }
 
-    override suspend fun getAuthInfo() : AuthInfo {
+    override suspend fun getAuthInfo(characterName: String) : AuthInfo {
         val authInfoDBE = appDatabase.authInfoDao()
-            .getAuthInfo()
+            .getAuthInfo(characterName)
         return AuthInfo(authInfoDBE.accessToken,
             authInfoDBE.refreshToken,
             authInfoDBE.characterId,

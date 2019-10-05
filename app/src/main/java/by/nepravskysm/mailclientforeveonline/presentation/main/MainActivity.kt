@@ -29,14 +29,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navHeader: View
     private lateinit var navigationController: NavController
+    private var loginListnerInrerface: LoginListnerInrerface? = null
     private val characterListDialog = CharacterListDialog()
 
     private val progresBarObserver = Observer<Boolean>{
         if(it){showProgresBar()
         }else{hideProgresBar()
-            navigationController.navigate(R.id.inboxFragment)}
+            loginListnerInrerface?.refreshDataAfterLogin()
+        }
     }
-    val nameObserver = Observer<String>{name -> navHeader.rootView.charName.text = name}
+    val nameObserver = Observer<String>{name -> navHeader.rootView.charName.text = name
+    characterName.text = name}
     val characterIdObserver = Observer<Long>{id ->
         Picasso.get()
             .load("https://imageserver.eveonline.com/Character/${id}_128.jpg")
@@ -56,11 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         navHeader = navigationView.getHeaderView(0)
         navigationController = findNavController(R.id.hostFragment)
-
-        initOnClickListner()
-
-//        setSupportActionBar(toolBar)
-
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.newMailFragment,
@@ -74,18 +72,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.aboutFragment),
             drawerLayout)
 
-//        setupActionBarWithNavController(navigationController, appBarConfiguration)
         navigationView.setupWithNavController(navigationController)
 
+        initOnClickListner()
         checkAuthCode()
-
-
+        vModel.getActiveCharacterInfo()
 
         vModel.characterName.observe(this, nameObserver)
         vModel.characterId.observe(this, characterIdObserver)
-
-
-//        if(supportActionBar != null){supportActionBar?.hide()}
         vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
 
     }
@@ -104,9 +98,10 @@ class MainActivity : AppCompatActivity() {
     private fun checkAuthCode(){
         if(intent.data != null){
             if(intent.data?.getQueryParameter("code") != null){
-
                 val code: String = intent.data!!.getQueryParameter("code")!!
                 vModel.startAuth(code)
+            }else{
+                if(loginListnerInrerface != null){loginListnerInrerface?.refreshDataAfterLogin()}
             }
         }
 
@@ -135,7 +130,14 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
     }
 
+    fun setLoginListnerInterface(loginListnerInrerface: LoginListnerInrerface) {
+        this.loginListnerInrerface = loginListnerInrerface
 
+    }
+
+    interface LoginListnerInrerface{
+        fun refreshDataAfterLogin()
+    }
 
 }
 

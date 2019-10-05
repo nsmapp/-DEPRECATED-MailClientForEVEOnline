@@ -26,24 +26,20 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 open class BaseMailListFragment : Fragment(),
     MailRecyclerAdapter.OnItemClickListener,
-    SwipeRefreshLayout.OnRefreshListener{
+    SwipeRefreshLayout.OnRefreshListener,
+    MainActivity.LoginListnerInrerface{
+
+
+
 
     val fViewModel: MailListViewModel by sharedViewModel()
     lateinit var mailRecyclerAdapter: MailRecyclerAdapter
 
-    private val progresBarObserver = Observer<Boolean>{
-        swipeRefresh.isRefreshing = it
-    }
+    private val progresBarObserver = Observer<Boolean>{swipeRefresh.isRefreshing = it}
     private val unreadInboxObserver = Observer<Int>{ setUnreadMail(R.id.inboxFragment, it)}
     private val unreadCorpObserver = Observer<Int>{ setUnreadMail(R.id.corpFragment, it)}
     private val unreadAllianceObserver = Observer<Int>{ setUnreadMail(R.id.allianceFragment, it)}
     private val unreadMailingListObserver = Observer<Int>{ setUnreadMail(R.id.mailingListFragment, it)}
-
-    override fun onResume() {
-        super.onResume()
-        fViewModel.loadHeadersFromDB()
-    }
-
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -60,6 +56,9 @@ open class BaseMailListFragment : Fragment(),
         fView.mailList.adapter = mailRecyclerAdapter
         fView.swipeRefresh.setOnRefreshListener(this)
 
+        if (activity != null){
+            (activity as MainActivity).setLoginListnerInterface(this)
+        }
 
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         fViewModel.unreadInbox.observe(this, unreadInboxObserver)
@@ -70,9 +69,20 @@ open class BaseMailListFragment : Fragment(),
         return fView
     }
 
+    override fun refreshDataAfterLogin() {
+        refreshData()
+    }
+
     override fun onRefresh() {
         fViewModel.loadNewMailHeaders()
     }
+
+    fun refreshData(){
+        fViewModel.loadHeadersFromDB()
+        fViewModel.loadNewMailHeaders()
+    }
+
+
 
     private fun setUnreadMail(itemMenuId: Int, count: Int){
         if(activity != null){
@@ -101,6 +111,7 @@ open class BaseMailListFragment : Fragment(),
 
         navController.navigate(R.id.readMailFragment, bundle)
     }
+
 
 
 }

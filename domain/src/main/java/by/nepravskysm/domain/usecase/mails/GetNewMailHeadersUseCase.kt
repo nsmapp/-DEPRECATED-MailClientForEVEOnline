@@ -2,6 +2,7 @@ package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.MailHeader
 import by.nepravskysm.domain.entity.MailingList
+import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
@@ -19,31 +20,35 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                                private val mailsHeadersRepository: MailsHeadersRepository,
                                private val namesRepository: NamesRepository,
                                private val dbMailHeadersRepository: DBMailHeadersRepository,
-                               private val mailingListRepository: MailingListRepository
+                               private val mailingListRepository: MailingListRepository,
+                               private val activeCharacterRepository: ActiveCharacterRepository
 ): AsyncUseCase<List<MailHeader>>(){
 
 
     override suspend fun onBackground(): List<MailHeader> {
-        val characterInfo = authInfoRepository.getAuthInfo()
+
+        val characterName = activeCharacterRepository.getActiveCharacterName()
+        val characterInfo = authInfoRepository.getAuthInfo(characterName)
 
         return try {
 
             getMailHeadersContainer(characterInfo.accessToken,
-                characterInfo.characterId)
+                characterInfo.characterId,
+                characterName)
 
         }catch (e: Exception){
             val token = authRepository.refreshAuthToken(characterInfo.refreshToken)
 
-            getMailHeadersContainer(token.accessToken, characterInfo.characterId)
+            getMailHeadersContainer(token.accessToken, characterInfo.characterId, characterInfo.characterName)
 
         }
 
     }
 
-    private suspend fun getMailHeadersContainer(accessToken: String, characterId: Long)
+    private suspend fun getMailHeadersContainer(accessToken: String, characterId: Long, characterName: String)
             :List<MailHeader>{
 
-        val lastHeaderId: Long = dbMailHeadersRepository.getLastMailId()
+        val lastHeaderId: Long = dbMailHeadersRepository.getLastMailId(characterName)
         var headerList = mutableListOf<MailHeader>()
 
         val headers = mailsHeadersRepository
@@ -84,11 +89,11 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                 nameMap.putAll(namesRepository.getNameMap(characterIdList))
                 dbMailHeadersRepository
                     .saveMailsHeaders(formaMailHeaderList(nameMap, headerList),
-                        characterId)
+                        characterName)
             }
         }
 
-        return dbMailHeadersRepository.getMailsHeaders()
+        return dbMailHeadersRepository.getMailsHeaders(characterName)
     }
 
 

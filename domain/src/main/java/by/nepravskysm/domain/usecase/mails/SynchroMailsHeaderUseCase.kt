@@ -2,6 +2,7 @@ package by.nepravskysm.domain.usecase.mails
 
 import by.nepravskysm.domain.entity.MailHeader
 import by.nepravskysm.domain.entity.MailingList
+import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
@@ -13,33 +14,36 @@ import by.nepravskysm.domain.utils.formaMailHeaderList
 import by.nepravskysm.domain.utils.listHeadersToUniqueList
 import by.nepravskysm.domain.utils.removeUnsubscrubeMailingList
 import java.lang.Exception
+import java.util.logging.Level
 
 class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                                 private val authInfoRepository: AuthInfoRepository,
                                 private val mailsHeadersRepository: MailsHeadersRepository,
                                 private val namesRepository: NamesRepository,
                                 private val dbMailHeadersRepository: DBMailHeadersRepository,
-                                private val mailingListRepository: MailingListRepository
+                                private val mailingListRepository: MailingListRepository,
+                                private val activeCharacterRepository: ActiveCharacterRepository
 ) : AsyncUseCase<Boolean>() {
 
 
     override suspend fun onBackground(): Boolean{
 
-        val characterInfo = authInfoRepository.getAuthInfo()
+        val characterName = activeCharacterRepository.getActiveCharacterName()
+        val characterInfo = authInfoRepository.getAuthInfo(characterName)
 
         return try {
-            getMailHeadersContainer(characterInfo.accessToken, characterInfo.characterId)
+            getMailHeadersContainer(characterInfo.accessToken, characterInfo.characterId, characterInfo.characterName)
 
         }catch (e: Exception){
             val token = authRepository.refreshAuthToken(characterInfo.refreshToken)
-            getMailHeadersContainer(token.accessToken, characterInfo.characterId)
+            getMailHeadersContainer(token.accessToken, characterInfo.characterId, characterInfo.characterName)
         }
     }
 
-    private suspend fun getMailHeadersContainer(accessToken: String, characterId: Long)
+    private suspend fun getMailHeadersContainer(accessToken: String, characterId: Long, characterName: String)
             :Boolean{
 
-        val lastMailId: Long = dbMailHeadersRepository.getLastMailId()
+        val lastMailId: Long = dbMailHeadersRepository.getLastMailId(characterName)
         var headerList = mutableListOf<MailHeader>()
 
         val headers = mailsHeadersRepository
@@ -79,9 +83,11 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                 nameMap[list.id] = list.name
             }
             nameMap.putAll(namesRepository.getNameMap(characterIdList))
+            java.util.logging.Logger.getLogger("logdi").log(Level.INFO, "${formaMailHeaderList(nameMap, headerList).size} finish")
+            java.util.logging.Logger.getLogger("logdi").log(Level.INFO, "$characterName finish")
             dbMailHeadersRepository
                 .saveMailsHeaders(formaMailHeaderList(nameMap, headerList),
-                characterId)
+                    characterName)
         }
 
         return true

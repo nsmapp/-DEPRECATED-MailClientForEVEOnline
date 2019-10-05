@@ -17,11 +17,11 @@ interface AuthInfoDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAuthInfo(authInfoDBE: AuthInfoDBE)
 
-    @Query("UPDATE $TABLE_NAME SET refreshToken = :refreshToken, accessToken = :accessToken WHERE id = 0")
-    fun updateToken(accessToken :String, refreshToken :String)
+    @Query("UPDATE $TABLE_NAME SET refreshToken = :refreshToken, accessToken = :accessToken WHERE characterName = :characterName")
+    fun updateToken(accessToken :String, refreshToken :String, characterName: String)
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE id = 0")
-    fun getAuthInfo() : AuthInfoDBE
+    @Query("SELECT * FROM $TABLE_NAME WHERE characterName = :characterName")
+    fun getAuthInfo(characterName: String) : AuthInfoDBE
 
     @Query("SELECT * FROM $TABLE_NAME")
     fun getAllCharactersAuthInfo() : List<AuthInfoDBE>
