@@ -18,9 +18,11 @@ interface AuthInfoDAO {
     fun insertAuthInfo(authInfoDBE: AuthInfoDBE)
 
     @Query("UPDATE $TABLE_NAME SET refreshToken = :refreshToken, accessToken = :accessToken WHERE id = 0")
-
     fun updateToken(accessToken :String, refreshToken :String)
 
     @Query("SELECT * FROM $TABLE_NAME WHERE id = 0")
     fun getAuthInfo() : AuthInfoDBE
+
+    @Query("SELECT * FROM $TABLE_NAME")
+    fun getAllCharactersAuthInfo() : List<AuthInfoDBE>
 }

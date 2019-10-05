@@ -11,6 +11,8 @@ interface AuthInfoRepository {
 
     suspend fun getAuthInfo() : AuthInfo
 
+    suspend fun getAllCharacters() : List<AuthInfo>
+
     suspend fun saveNewToken(accessToken :String,
                              refreshToken :String)
 }

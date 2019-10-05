@@ -1,6 +1,8 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.dialog
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,18 +14,18 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import by.nepravskysm.mailclientforeveonline.R
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.fragment_empty.*
 import kotlinx.android.synthetic.main.fragment_empty.view.*
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
 import android.os.Build
 import android.view.Gravity
-import androidx.core.view.marginLeft
-import kotlin.math.roundToInt
+import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
+import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
+import by.nepravskysm.rest.api.createAuthUrl
+import org.koin.android.ext.android.inject
 
 
 class CharacterListDialog : DialogFragment(){
+
+    private val getAllCharactersAuthInfo: GetAllCharactersAuthInfoUseCase by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +36,20 @@ class CharacterListDialog : DialogFragment(){
         getDialog()!!.setTitle("Choice character")
 
 
-        for( i in 1..10){
-            dialog.root.addView(createItem(dialog.context, 0, "NO_NAME"))
+        getAllCharactersAuthInfo.execute {
+            onComplite {
+                for( character in it){
+                    dialog.root.addView(
+                        createItem(dialog.context,
+                            character.characterId,
+                            character.characterName))
+                }
+                dialog.root.addView(createItem(dialog.context, 0, "Add new character"))
+
+            }
         }
-        dialog.root.addView(createItem(dialog.context, 0, "Add new character"))
+
+
 
 
         return dialog
@@ -50,7 +62,15 @@ class CharacterListDialog : DialogFragment(){
         linearLayout.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT)
-        linearLayout.setOnClickListener { Log.d("logd", "layoutClic $characterName") }
+        linearLayout.setOnClickListener {
+
+            if(characterName.equals("Add new character")){
+                val url: String = createAuthUrl()
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }
+
+        }
 
         val imageView = ImageView(context)
         val imageSize = resources.getDimension(R.dimen.image_rectangle_48).toInt()

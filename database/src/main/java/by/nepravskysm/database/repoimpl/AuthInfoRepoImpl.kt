@@ -9,6 +9,22 @@ class AuthInfoRepoImpl(private val appDatabase: AppDatabase) :
     AuthInfoRepository {
 
 
+    override suspend fun getAllCharacters(): List<AuthInfo> {
+
+        val authInfoList = appDatabase.authInfoDao().getAllCharactersAuthInfo()
+        val domainAuthList = mutableListOf<AuthInfo>()
+        for (info in authInfoList){
+            val authInfo = AuthInfo(info.accessToken,
+                info.refreshToken,
+                info.characterId,
+                info.characterName)
+
+            domainAuthList.add(authInfo)
+        }
+        return domainAuthList
+    }
+
+
     override suspend fun saveAuthInfo(accessToken :String,
                                       refreshToken :String,
                                       characterId :Long,

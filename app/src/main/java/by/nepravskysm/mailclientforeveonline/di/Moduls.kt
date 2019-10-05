@@ -13,6 +13,7 @@ import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.IdsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
+import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
@@ -56,6 +57,7 @@ val databaseModule: Module = module {
 
     factory<AuthInfoRepository> {AuthInfoRepoImpl(appDatabase = get())}
     factory<DBMailHeadersRepository>{DBMailHeaderRepoImpl(appDatabase = get())}
+
 }
 
 val useCaseModule: Module = module {
@@ -106,6 +108,8 @@ val useCaseModule: Module = module {
     factory { GetMailHeadersFromDB(dbMailHeadersRepository = get()) }
 
     factory { UpdateDBMailMetadataUseCase( dbMailHeadersRepository = get())}
+
+    factory { GetAllCharactersAuthInfoUseCase(authInfoRepository = get()) }
 
 
 }
