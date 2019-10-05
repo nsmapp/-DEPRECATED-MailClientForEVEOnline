@@ -8,7 +8,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
-import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.dialog.AddNameDialog
+import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddNameDialog
 import by.nepravskysm.mailclientforeveonline.utils.pastHtmlTextToMailBody
 import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
@@ -19,7 +19,8 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
     val fViewModel: NewMailViewModel by viewModel()
 
 
-    var addNameDialog = AddNameDialog()
+    var addNameDialog =
+        AddNameDialog()
 
 
     override fun onCreateView(

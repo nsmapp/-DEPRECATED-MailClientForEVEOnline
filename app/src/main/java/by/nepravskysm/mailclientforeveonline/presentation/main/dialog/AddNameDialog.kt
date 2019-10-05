@@ -1,4 +1,4 @@
-package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.dialog
+package by.nepravskysm.mailclientforeveonline.presentation.main.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
