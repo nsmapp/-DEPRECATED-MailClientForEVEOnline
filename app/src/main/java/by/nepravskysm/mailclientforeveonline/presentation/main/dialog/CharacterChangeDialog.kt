@@ -18,6 +18,7 @@ import android.os.Build
 import android.view.Gravity
 import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
 import by.nepravskysm.domain.usecase.character.ChangeActiveCharacter
+import by.nepravskysm.mailclientforeveonline.utils.RoundCornerTransform
 import by.nepravskysm.rest.api.createAuthUrl
 import org.koin.android.ext.android.inject
 
@@ -70,6 +71,7 @@ class CharacterChangeDialog : DialogFragment(){
             .load("https://imageserver.eveonline.com/Character/${characterId}_128.jpg")
             .placeholder(R.drawable.no_login_avatar)
             .error(R.drawable.no_login_avatar)
+            .transform(RoundCornerTransform(20f))
             .into(imageView)
 
         val textView = TextView(context)

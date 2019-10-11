@@ -68,14 +68,6 @@
             android:label="activity_settings"
             tools:layout="@layout/activity_settings" />
     <fragment
-            android:id="@+id/saveMailsListFragment"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.SaveMailsFragment"
-            android:label="Save mails" >
-        <action
-                android:id="@+id/action_saveMailsFragment_to_readMailFragment"
-                app:destination="@id/readMailFragment" />
-    </fragment>
-    <fragment
             android:id="@+id/newMailFragment"
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailFragment"
             android:label="New mail" />

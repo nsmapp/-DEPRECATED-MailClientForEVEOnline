@@ -13,21 +13,22 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import by.nepravskysm.rest.api.createAuthUrl
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterChangeDialog
-import kotlinx.android.synthetic.main.activity_main.view.*
+import by.nepravskysm.mailclientforeveonline.utils.pastImage
+import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterListener {
 
 
     private val vModel: MainViewModel by viewModel()
-
     private lateinit var navHeader: View
     private lateinit var navigationController: NavController
     private var loginListener: LoginListener? = null
@@ -39,15 +40,9 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
             loginListener?.refreshDataAfterLogin()
         }
     }
-    val nameObserver = Observer<String>{name -> navHeader.rootView.charName.text = name
-    characterName.text = name}
+    val nameObserver = Observer<String>{name ->  characterName.text = name}
     val characterIdObserver = Observer<Long>{id ->
-        Picasso.get()
-            .load("https://imageserver.eveonline.com/Character/${id}_128.jpg")
-            .into(navHeader.rootView.characterPhoto)
-        Picasso.get()
-            .load("https://imageserver.eveonline.com/Character/${id}_128.jpg")
-            .into(navHeader.rootView.activeCharacter)
+            pastImage(activeCharacter, id)
         }
 
 
@@ -68,7 +63,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
                 R.id.corpFragment,
                 R.id.allianceFragment,
                 R.id.mailingListFragment,
-                R.id.saveMailsListFragment,
                 R.id.settingsActivity,
                 R.id.aboutFragment),
             drawerLayout)
@@ -85,6 +79,22 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         vModel.characterName.observe(this, nameObserver)
         vModel.characterId.observe(this, characterIdObserver)
         vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+
+        val syncPeriodically = PeriodicWorkRequestBuilder<CheckNewMailWorker>(15, TimeUnit.MINUTES,
+            10, TimeUnit.MINUTES)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniquePeriodicWork("myw4",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                syncPeriodically)
 
     }
 

@@ -6,10 +6,10 @@ import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class DeleteMailUseCase (private val authRepository: AuthRepository,
-                         private val authInfoRepository: AuthInfoRepository,
-                         private val mailRepository: MailRepository,
-                         private val activeCharacterRepository: ActiveCharacterRepository
+class DeleteMailUseCaseFromServerUseCase (private val authRepository: AuthRepository,
+                                          private val authInfoRepository: AuthInfoRepository,
+                                          private val mailRepository: MailRepository,
+                                          private val activeCharacterRepository: ActiveCharacterRepository
 ): AsyncUseCase<Boolean>() {
 
 

@@ -13,7 +13,7 @@ interface MailHeaderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveMailHeaders(headersList :List<MailHeaderDBE>)
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName ORDER BY id DESC"  )
+    @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName ORDER BY id DESC LIMIT 1000"  )
     fun getMailsHeaders(ownerName: String): List<MailHeaderDBE>
 
     @Query("SELECT MAX(id) FROM $TABLE_NAME WHERE ownerName = :characterName")
@@ -21,6 +21,9 @@ interface MailHeaderDao {
 
     @Query("UPDATE $TABLE_NAME SET isRead = 1 WHERE id = :mailId ")
     fun setMailIsRead(mailId: Long)
+
+    @Query("DELETE FROM $TABLE_NAME WHERE id = :mailId ")
+    fun delelteMail(mailId: Long)
 
 
 }

@@ -31,6 +31,8 @@ class MainViewModel(private val authUseCase: AuthUseCase,
         }
     }
 
+
+
     fun getActiveCharacterInfo(){
         getActivCharInfoUseCase.execute {
             onComplite {

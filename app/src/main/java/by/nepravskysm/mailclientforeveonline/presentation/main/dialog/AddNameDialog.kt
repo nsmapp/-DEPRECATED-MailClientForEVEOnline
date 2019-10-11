@@ -35,7 +35,7 @@ class AddNameDialog  : DialogFragment(){
 
         dialog.add.setOnClickListener {
             if (confirmNameListener != null){
-                confirmNameListener!!.confirm(dialog.name.text.toString())
+                confirmNameListener!!.confirmName(dialog.name.text.toString())
             }
             dismiss()
         }
@@ -47,7 +47,7 @@ class AddNameDialog  : DialogFragment(){
 
 
     interface ConfirmNameListener{
-        fun confirm(name: String)
+        fun confirmName(name: String)
     }
 
 

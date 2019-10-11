@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.recycler.MailRecyclerAdapter
-import by.nepravskysm.domain.utils.IS_READ_MAIL
-import by.nepravskysm.domain.utils.MAIL_ID
-import by.nepravskysm.domain.utils.FROM
-import by.nepravskysm.domain.utils.SUBJECT
+import by.nepravskysm.mailclientforeveonline.utils.IS_READ_MAIL
+import by.nepravskysm.mailclientforeveonline.utils.MAIL_ID
+import by.nepravskysm.mailclientforeveonline.utils.FROM
+import by.nepravskysm.mailclientforeveonline.utils.SUBJECT
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mails.*
@@ -67,6 +67,11 @@ open class BaseMailListFragment : Fragment(),
         fViewModel.unreadMailingList.observe(this, unreadMailingListObserver)
 
         return fView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fViewModel.loadHeadersFromDB()
     }
 
     override fun refreshDataAfterLogin() {

@@ -6,21 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddNameDialog
-import by.nepravskysm.mailclientforeveonline.utils.pastHtmlTextToMailBody
+import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.ReinforceTimerDialog
+import by.nepravskysm.mailclientforeveonline.utils.*
 import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
+class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceTimerDialog.ReinforceTimerListenear{
+
 
     val fViewModel: NewMailViewModel by viewModel()
 
 
-    var addNameDialog =
-        AddNameDialog()
+    private val addNameDialog = AddNameDialog()
+    private val reinforceDialog = ReinforceTimerDialog()
 
 
     override fun onCreateView(
@@ -70,9 +71,13 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
 
 
         addNameDialog.setConfirmNameListener(this)
+        reinforceDialog.setReinforceTimerListenear(this)
 
 
+        view.reinforceTimer.setOnClickListener {
 
+            reinforceDialog.show(activity!!.supportFragmentManager, "reinforce")
+        }
 
         view.toName.setOnClickListener {
 
@@ -85,20 +90,29 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener{
         }
 
         view.sendMailBtn.setOnClickListener {
-            fViewModel.mailBody = mailBody.text.toString()
+//            fViewModel.mailBody = mailBody.text.toString()
             fViewModel.sendMail()
         }
 
+
         view.mailBody.doOnTextChanged{text, _, _, _ ->
             view.mailLendth.text = "${text!!.length}/8000"
+            fViewModel.mailBody = text.toString()
         }
 
 
         return view
     }
 
-    override fun confirm(name: String) {
+    override fun addReinforceTimer(timerInfo: String){
+        val text = mailBody.text.toString() + timerInfo
+        mailBody.setText(text)
+    }
+
+    override fun confirmName(name: String) {
         fViewModel.nameList.add(name)
         toName.setText(fViewModel.nameList.toString())
     }
+
+
 }

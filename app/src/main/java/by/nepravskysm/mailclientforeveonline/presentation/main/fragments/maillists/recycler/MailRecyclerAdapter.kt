@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.nepravskysm.domain.entity.MailHeader
 import by.nepravskysm.mailclientforeveonline.R
+import by.nepravskysm.mailclientforeveonline.utils.RoundCornerTransform
+import by.nepravskysm.mailclientforeveonline.utils.pastImage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_mail_info.view.*
 
@@ -54,8 +56,10 @@ class MailRecyclerAdapter : RecyclerView.Adapter<MailRecyclerAdapter.MailInfoHol
 
         }
 
+
         Picasso.get()
             .load("https://imageserver.eveonline.com/Character/${entityList[position].fromId}_128.jpg")
+            .transform(RoundCornerTransform())
             .into(holder.itemView.senderPhoto)
         holder.itemView.setOnClickListener{
 

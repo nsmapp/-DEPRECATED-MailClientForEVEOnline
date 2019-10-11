@@ -57,11 +57,11 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
         MutableLiveData<Boolean>(false)
     }
 
-//    init {
-//
-//        loadHeadersFromDB()
+    init {
+
+        loadHeadersFromDB()
 //        loadNewMailHeaders()
-//    }
+    }
 
     fun loadNewMailHeaders(){
         isVisibilityProgressBar.value = true

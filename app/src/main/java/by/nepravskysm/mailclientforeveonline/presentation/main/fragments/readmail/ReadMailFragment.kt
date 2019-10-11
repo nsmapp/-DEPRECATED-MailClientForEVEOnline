@@ -11,10 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import by.nepravskysm.domain.entity.InPutMail
-import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
-import by.nepravskysm.mailclientforeveonline.utils.pastHtmlTextToMailBody
+import by.nepravskysm.mailclientforeveonline.utils.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_read_mail.*
 import kotlinx.android.synthetic.main.fragment_read_mail.view.*
@@ -28,7 +27,7 @@ class ReadMailFragment : Fragment(){
     private val mailObserver = Observer<InPutMail>{ mail ->
 
         pastHtmlTextToMailBody(body, mail.body)
-        pastFromPhoto(fromPhoto, mail.from)
+        pastImage(fromPhoto, mail.from)
 
     }
 
@@ -51,7 +50,7 @@ class ReadMailFragment : Fragment(){
 
         try {
             pastHtmlTextToMailBody(fView.body, fViewModel.mailBody)
-            pastFromPhoto(fView.fromPhoto, fViewModel.fromId)
+            pastImage(fView.fromPhoto, fViewModel.fromId)
             fViewModel.subject = arguments?.getString(SUBJECT)!!
             fViewModel.from = arguments?.getString(FROM)!!
             fViewModel.mailId = arguments!!.getLong(MAIL_ID)
@@ -97,13 +96,6 @@ class ReadMailFragment : Fragment(){
             }
 
         return fView
-    }
-
-
-    private fun pastFromPhoto(imageView: ImageView, fromId: Long){
-        Picasso.get()
-            .load("https://imageserver.eveonline.com/Character/${fromId}_128.jpg")
-            .into(imageView.fromPhoto)
     }
 
 

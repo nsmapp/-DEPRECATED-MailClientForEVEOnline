@@ -8,4 +8,5 @@ interface DBMailHeadersRepository{
     suspend fun getMailsHeaders(characterName: String): List<MailHeader>
     suspend fun getLastMailId(activeCharacter: String): Long
     suspend fun setMailIsRead(mailId: Long)
+    suspend fun deleteMail(mailId: Long)
 }

@@ -111,7 +111,7 @@ val useCaseModule: Module = module {
         activeCharacterRepository = get()
     ) }
 
-    factory { DeleteMailUseCase(authRepository = get(),
+    factory { DeleteMailUseCaseFromServerUseCase(authRepository = get(),
         authInfoRepository = get(),
         mailRepository = get(),
         activeCharacterRepository = get()
@@ -126,6 +126,14 @@ val useCaseModule: Module = module {
 
     factory { ChangeActiveCharacter( activeCharacterRepository = get()) }
 
+    factory { GetNewMailCountUseCase(authInfoRepository = get(),
+        activeCharacterRepository = get(),
+        dbMailHeadersRepository = get(),
+        authRepository = get(),
+        mailsHeadersRepository = get()
+    ) }
+
+    factory { DeleteMailFromDBUseCase(dbMailHeadersRepository = get()) }
 
 }
 
@@ -143,7 +151,8 @@ val viewModelModule: Module = module {
     viewModel { ReadMailViewModel(getMailUseCase = get(),
         updataMailMetadataUseCase = get(),
         updateDBMailMetadataUseCase = get(),
-        deleteMailUseCase = get()
+        deleteMailUseCaseFromServerUseCase = get(),
+        deleteMailFromDBUseCase = get()
     )}
 
     viewModel { NewMailViewModel(sendMailUseCase = get()) }

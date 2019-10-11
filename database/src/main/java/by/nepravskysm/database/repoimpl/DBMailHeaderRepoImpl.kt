@@ -11,13 +11,16 @@ import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     DBMailHeadersRepository {
 
+    override suspend fun deleteMail(mailId: Long) {
+        appDatabase.mailHeadersDao().delelteMail(mailId)
+    }
 
     override suspend fun getMailsHeaders(characterName: String): List<MailHeader> {
         val headers = mutableListOf<MailHeader>()
         val headersList = appDatabase.mailHeadersDao()
             .getMailsHeaders(characterName)
 
-        Log.d("logd", "getMails ${headersList.size}");
+        Log.d("logd", "getMails ${headersList.size}")
 
         for (header in headersList) {
 
