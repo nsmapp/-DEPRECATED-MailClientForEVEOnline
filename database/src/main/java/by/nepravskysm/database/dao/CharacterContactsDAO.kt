@@ -19,6 +19,6 @@ interface CharacterContactsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertContact(contact: ContactDBE)
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE standing > :minStanding AND owner = :characterName ")
+    @Query("SELECT * FROM $TABLE_NAME WHERE standing > :minStanding AND owner = :characterName ORDER BY contactName")
     fun getContactList(characterName: String , minStanding: Double): List<ContactDBE>
 }

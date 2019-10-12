@@ -1,6 +1,5 @@
 package by.nepravskysm.database.repoimpl
 
-import android.util.Log
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.entity.ContactDBE
 import by.nepravskysm.domain.entity.Contact
@@ -38,13 +37,12 @@ class DBCharacterContactsRepoImpl(private val appDatabase: AppDatabase) : DBChar
     }
 
     private fun createContactDBE(contact: Contact, characterName: String):ContactDBE{
-        val contactDBE = ContactDBE(contact.contactId,
-        contact.contactType,
-        contact.standing,
-        contact.contactName,
-        characterName)
 
-        return contactDBE
+        return ContactDBE(contact.contactId,
+            contact.contactType,
+            contact.standing,
+            contact.contactName,
+            characterName)
     }
 
     private fun createDomainContact(contactDBE: ContactDBE):Contact{
@@ -53,4 +51,6 @@ class DBCharacterContactsRepoImpl(private val appDatabase: AppDatabase) : DBChar
             contactDBE.standing,
             contactDBE.contactName)
     }
+
+
 }

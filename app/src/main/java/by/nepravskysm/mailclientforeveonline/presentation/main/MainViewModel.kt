@@ -37,7 +37,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     fun synchoniseContacts(characterId: Long){
         synchroniseCharactersContactsUseCase.setData(characterId).execute {
             onComplite { Log.d("logde----->", "contact sinchro COMPLITE") }
-            onError {  Log.d("logde----->", " contract sinchro ERROR ${it.localizedMessage}") }
+            onError {  Log.d("logde----->", " contract sinchro ERROR ${it.message}") }
         }
     }
 

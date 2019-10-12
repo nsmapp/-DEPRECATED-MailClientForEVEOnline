@@ -21,6 +21,7 @@ import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
 import by.nepravskysm.domain.usecase.character.ChangeActiveCharacter
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
+import by.nepravskysm.domain.usecase.character.GetContactUseCase
 import by.nepravskysm.domain.usecase.character.SynchroniseCharactersContactsUseCase
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
@@ -146,6 +147,11 @@ val useCaseModule: Module = module {
         activeCharacterRepository = get(),
         authRepository = get(),
         characterContactsRepository = get(),
+        dbCharacterContactsRepository = get(),
+        namesRepository = get()
+    ) }
+
+    factory { GetContactUseCase(activeCharacterRepository = get(),
         dbCharacterContactsRepository = get()
     ) }
 
