@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         navHeader = navigationView.getHeaderView(0)
         navigationController = findNavController(R.id.hostFragment)
         appBarConfiguration = AppBarConfiguration(

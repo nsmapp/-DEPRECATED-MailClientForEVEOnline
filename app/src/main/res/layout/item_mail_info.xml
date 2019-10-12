@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
         android:orientation="vertical">
 
     <ImageView
@@ -19,24 +20,24 @@
 
     <TextView
             android:id="@+id/mailAuthor"
+            style="@style/normalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Author"
             android:textStyle="bold"
-            style="@style/normalTextView"
             app:layout_constraintStart_toEndOf="@+id/senderPhoto"
             app:layout_constraintTop_toTopOf="@+id/senderPhoto" />
 
     <TextView
             android:id="@+id/mailSubject"
+            style="@style/normalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            style="@style/normalTextView"
             android:text="mailsubject"
             app:layout_constraintBottom_toBottomOf="@+id/senderPhoto"
             app:layout_constraintStart_toEndOf="@+id/senderPhoto"

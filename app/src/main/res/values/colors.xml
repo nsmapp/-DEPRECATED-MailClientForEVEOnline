@@ -6,4 +6,7 @@
 
 
     <color name="baseTextColor">#000316</color>
+    <color name="mailIsReadBackground">#DDDCDC</color>
+    <color name="mailIsNOTReadBackground">#8D8D8D</color>
+    <color name="mailIsReadBorder">#FAF8B8</color>
 </resources>

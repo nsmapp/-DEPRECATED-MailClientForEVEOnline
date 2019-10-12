@@ -51,8 +51,8 @@ class MailRecyclerAdapter : RecyclerView.Adapter<MailRecyclerAdapter.MailInfoHol
         holder.itemView.mailTime.text = entityList[position].timestamp
 
         when(entityList[position].isRead){
-            true -> holder.itemView.setBackgroundColor(Color.GRAY)
-            false -> holder.itemView.setBackgroundColor(Color.CYAN)
+            true -> holder.itemView.setBackgroundResource(R.drawable.item_is_read_background)
+            false -> holder.itemView.setBackgroundResource(R.drawable.item_is_not_read_background)
 
         }
 
