@@ -26,8 +26,7 @@
             <item android:id="@+id/mailingListFragment"
                     app:actionLayout="@layout/item_navigation_menu"
                     android:title="@string/mailing_list"/>
-            <item android:id="@+id/saveMailsListFragment"
-                    android:title="@string/save_mails"/>
+
             </menu>
     </item>
 
