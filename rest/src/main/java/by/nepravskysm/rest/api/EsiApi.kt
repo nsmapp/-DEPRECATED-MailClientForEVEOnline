@@ -70,5 +70,9 @@ interface EsiApi{
                    @Path("character_id") characterId :Long
     ): Deferred<List<MailingListResponse>>
 
+    @GET("/latest/characters/{character_id}/contacts/")
+    fun getContactList(@Header("Authorization") bearerToken :String,
+                       @Path("character_id") characterId :Long
+    ): Deferred<List<ContactsResponse>>
 }
 

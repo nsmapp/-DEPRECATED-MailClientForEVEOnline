@@ -30,12 +30,6 @@ class GetMailUseCase(private val authRepository: AuthRepository,
                 authInfo.characterId,
                 mailId)
 
-//            mailRepository
-//                .updateMailMetadata(
-//                    MailMetadata(mail.labels, true),
-//                    authInfo.accessToken,
-//                    authInfo.characterId,
-//                    mail.from)
 
             return mail
 
@@ -46,12 +40,7 @@ class GetMailUseCase(private val authRepository: AuthRepository,
                 authInfo.characterId,
                 mailId)
 
-//            mailRepository
-//                .updateMailMetadata(
-//                    MailMetadata(mail.labels, true),
-//                    token.accessToken,
-//                    authInfo.characterId,
-//                    mail.from)
+
 
             return mail
         }

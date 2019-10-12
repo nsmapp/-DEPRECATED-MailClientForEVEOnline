@@ -3,12 +3,15 @@ package by.nepravskysm.mailclientforeveonline.di
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.repoimpl.ActiveCharacterRepoImpl
 import by.nepravskysm.database.repoimpl.AuthInfoRepoImpl
+import by.nepravskysm.database.repoimpl.DBCharacterContactsRepoImpl
 import by.nepravskysm.database.repoimpl.DBMailHeaderRepoImpl
 import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
+import by.nepravskysm.domain.repository.database.DBCharacterContactsRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.auth.CharacterInfoRepository
 import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
+import by.nepravskysm.domain.repository.rest.character.CharacterContactsRepository
 import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
@@ -18,6 +21,7 @@ import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
 import by.nepravskysm.domain.usecase.character.ChangeActiveCharacter
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
+import by.nepravskysm.domain.usecase.character.SynchroniseCharactersContactsUseCase
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.MailListViewModel
@@ -52,6 +56,8 @@ val restModule: Module = module {
     factory<IdsRepository> {IdsRepoImpl(esiManager = get())}
     factory<MailingListRepository> {MailingListRepoImpl(esiManager = get())  }
 
+    factory<CharacterContactsRepository>{CharacterContactsRepoImpl(esiManager = get())}
+
 }
 
 val databaseModule: Module = module {
@@ -61,6 +67,7 @@ val databaseModule: Module = module {
     factory<AuthInfoRepository> {AuthInfoRepoImpl(appDatabase = get())}
     factory<DBMailHeadersRepository>{DBMailHeaderRepoImpl(appDatabase = get())}
     factory<ActiveCharacterRepository>{ActiveCharacterRepoImpl(appDatabase = get())}
+    factory<DBCharacterContactsRepository> {DBCharacterContactsRepoImpl(appDatabase = get())}
 
 }
 
@@ -135,12 +142,20 @@ val useCaseModule: Module = module {
 
     factory { DeleteMailFromDBUseCase(dbMailHeadersRepository = get()) }
 
+    factory { SynchroniseCharactersContactsUseCase(authInfoRepository = get(),
+        activeCharacterRepository = get(),
+        authRepository = get(),
+        characterContactsRepository = get(),
+        dbCharacterContactsRepository = get()
+    ) }
+
 }
 
 val viewModelModule: Module = module {
     viewModel { MainViewModel(authUseCase = get(),
         getActivCharInfoUseCase = get(),
-        synchroMailsHeaderUseCase = get()
+        synchroMailsHeaderUseCase = get(),
+        synchroniseCharactersContactsUseCase = get()
     ) }
 
     viewModel { MailListViewModel(synchroMailsHeaderUseCase = get(),

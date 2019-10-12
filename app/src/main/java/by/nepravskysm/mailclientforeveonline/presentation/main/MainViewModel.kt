@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
+import by.nepravskysm.domain.usecase.character.SynchroniseCharactersContactsUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
 
 
 class MainViewModel(private val authUseCase: AuthUseCase,
                     private val getActivCharInfoUseCase: GetActivCharInfoUseCase,
-                    private val synchroMailsHeaderUseCase: SynchroMailsHeaderUseCase
+                    private val synchroMailsHeaderUseCase: SynchroMailsHeaderUseCase,
+                    private val synchroniseCharactersContactsUseCase: SynchroniseCharactersContactsUseCase
 ): ViewModel(){
 
 
@@ -26,8 +28,16 @@ class MainViewModel(private val authUseCase: AuthUseCase,
                 characterName.value = it.characterName
                 synchronizeMailHeader()
                 getActiveCharacterInfo()
+                synchoniseContacts(it.characterID)
             }
             onError { Log.d("logde----->", it.toString()) }
+        }
+    }
+
+    fun synchoniseContacts(characterId: Long){
+        synchroniseCharactersContactsUseCase.setData(characterId).execute {
+            onComplite { Log.d("logde----->", "contact sinchro COMPLITE") }
+            onError {  Log.d("logde----->", " contract sinchro ERROR ${it.localizedMessage}") }
         }
     }
 

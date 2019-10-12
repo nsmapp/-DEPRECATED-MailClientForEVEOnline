@@ -59,7 +59,7 @@ fun createAuthUrl(): String{
         .addQueryParameter("response_type", "code")
         .addQueryParameter("redirect_uri", "eveauthnsmmailclient://gesgrailclient/")
         .addQueryParameter("client_id", "743ea7773e4940aeba49b2ada5cbd911")
-        .addQueryParameter("scope", "esi-mail.organize_mail.v1 esi-mail.read_mail.v1 esi-mail.send_mail.v1 esi-characters.read_notifications.v1")
+        .addQueryParameter("scope", "esi-mail.organize_mail.v1 esi-mail.read_mail.v1 esi-mail.send_mail.v1 esi-characters.read_notifications.v1 esi-characters.read_contacts.v1")
         .addQueryParameter("state", "statestringooo")
         .build()
         .toString()

@@ -91,4 +91,11 @@ class EsiManager{
             characterId)
     }
 
+    fun getContactList(accessToken :String,
+                    characterId :Long):Deferred<List<ContactsResponse>>{
+        return esiApi.getContactList("Bearer $accessToken",
+            characterId)
+    }
+
+
 }

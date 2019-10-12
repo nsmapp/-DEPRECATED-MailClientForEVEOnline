@@ -7,14 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import by.nepravskysm.database.dao.ActiveCharacterDao
 import by.nepravskysm.database.dao.AuthInfoDAO
+import by.nepravskysm.database.dao.CharacterContactsDAO
 import by.nepravskysm.database.dao.MailHeaderDao
 import by.nepravskysm.database.entity.ActivaCharacterDBE
 import by.nepravskysm.database.entity.AuthInfoDBE
+import by.nepravskysm.database.entity.ContactDBE
 import by.nepravskysm.database.entity.MailHeaderDBE
 import by.nepravskysm.database.entity.converter.LabelConverter
 import by.nepravskysm.database.entity.converter.RecipientConverter
 
-@Database(entities = [ AuthInfoDBE::class, MailHeaderDBE::class, ActivaCharacterDBE::class], version = 8)
+@Database(entities = [ AuthInfoDBE::class,
+    MailHeaderDBE::class,
+    ActivaCharacterDBE::class,
+    ContactDBE::class], version = 9)
 @TypeConverters(LabelConverter::class, RecipientConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -47,4 +52,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun authInfoDao() : AuthInfoDAO
     abstract fun mailHeadersDao() : MailHeaderDao
     abstract fun activeCharacterDao(): ActiveCharacterDao
+    abstract fun characterContactsDao(): CharacterContactsDAO
 }
