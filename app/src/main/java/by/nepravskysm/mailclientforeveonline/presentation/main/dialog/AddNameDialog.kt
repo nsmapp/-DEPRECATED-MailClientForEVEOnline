@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,6 @@ import by.nepravskysm.domain.entity.Contact
 import by.nepravskysm.domain.usecase.character.GetContactUseCase
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.utils.pastImage
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_main.view.characterName
 import kotlinx.android.synthetic.main.dialog_add_name.*
 import kotlinx.android.synthetic.main.dialog_add_name.view.*
@@ -22,11 +20,8 @@ import org.koin.android.ext.android.inject
 
 class AddNameDialog  : DialogFragment(){
 
-
-
     private var confirmNameListener: ConfirmNameListener? = null
     private val getContactUseCase: GetContactUseCase by inject()
-
     private val recyclerAdapter: CharacterNameAdapter = CharacterNameAdapter()
 
     fun setConfirmNameListener(confirmNameListener: ConfirmNameListener){
@@ -55,9 +50,6 @@ class AddNameDialog  : DialogFragment(){
             Log.d("logd", "contact count ${it.size}")}
 
         }
-
-
-
         dialog.add.setOnClickListener {
             if (confirmNameListener != null){
                 confirmNameListener!!.confirmName(dialog.name.text.toString())

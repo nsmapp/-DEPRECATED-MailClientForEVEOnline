@@ -19,6 +19,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="extraLargeTextViewCente" parent="largeTextView">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="microTextView" parent="normalTextView">
         <item name="android:textSize">8sp</item>
         <item name="android:textStyle">bold</item>

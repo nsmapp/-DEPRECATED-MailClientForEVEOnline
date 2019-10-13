@@ -130,9 +130,9 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     }
 
     private fun initOnClickListner(){
-        navHeader.addCharacter.setOnClickListener {
-            startBrowser()
-        }
+//        navHeader.addCharacter.setOnClickListener {
+//            startBrowser()
+//        }
 
         navMenu.setOnClickListener {
             drawerLayout.openDrawer(Gravity.LEFT)

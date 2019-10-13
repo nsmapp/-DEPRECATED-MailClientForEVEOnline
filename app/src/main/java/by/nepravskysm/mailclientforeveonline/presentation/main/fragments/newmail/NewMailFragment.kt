@@ -8,21 +8,21 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddNameDialog
-import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.ReinforceTimerDialog
+import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddSolarSystemDialog
+import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddReinforceTimerDialog
 import by.nepravskysm.mailclientforeveonline.utils.*
 import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceTimerDialog.ReinforceTimerListenear{
-
+class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
+    AddReinforceTimerDialog.ReinforceTimerListenear,
+    AddSolarSystemDialog.AddSolarSystemListener{
 
     val fViewModel: NewMailViewModel by viewModel()
-
-
     private val addNameDialog = AddNameDialog()
-    private val reinforceDialog = ReinforceTimerDialog()
-
+    private val addSolarSystemDialog = AddSolarSystemDialog()
+    private val reinforceDialog = AddReinforceTimerDialog()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +32,9 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceT
 
         val view = inflater.inflate(R.layout.fragment_new_mail, container, false)
         view.toName.keyListener = null
-
         if(arguments?.get(BUNDLE_TYPE) != null){
 
             try {
-
                 when(arguments?.getString((BUNDLE_TYPE))){
 
                     REPLAY -> {
@@ -44,8 +42,6 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceT
                         fViewModel.initReplayMail(arguments?.getString(SUBJECT)!!,
                             arguments?.getString(FROM)!!,
                             arguments?.getString(MAIL_BODY)!!)
-
-
                     }
                     FORWARD -> {
                         fViewModel.initForwardMail(arguments?.getString(SUBJECT)!!,
@@ -58,12 +54,10 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceT
                 fViewModel.nameList.clear()
                 fViewModel.subject = ""
                 fViewModel.mailBody = ""
-                //TODO
             }finally {
 
                 view.toName.setText(fViewModel.nameList.toString())
                 view.subject.setText(fViewModel.subject)
-//                view.mailBody.setText(fViewModel.mailBody)
                 pastHtmlTextToMailBody(view.mailBody, fViewModel.mailBody)
 
             }
@@ -71,35 +65,29 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceT
 
 
         addNameDialog.setConfirmNameListener(this)
+        addSolarSystemDialog.setAddSolarSystemListener(this)
         reinforceDialog.setReinforceTimerListenear(this)
 
-
         view.reinforceTimer.setOnClickListener {
-
             reinforceDialog.show(activity!!.supportFragmentManager, "reinforce")
         }
-
         view.toName.setOnClickListener {
-
             addNameDialog.show(activity!!.supportFragmentManager, "addName")
         }
-
         view.clear.setOnClickListener {
             view.toName.setText("")
             fViewModel.nameList.clear()
         }
-
         view.sendMailBtn.setOnClickListener {
-//            fViewModel.mailBody = mailBody.text.toString()
             fViewModel.sendMail()
         }
-
-
         view.mailBody.doOnTextChanged{text, _, _, _ ->
             view.mailLendth.text = "${text!!.length}/8000"
             fViewModel.mailBody = text.toString()
         }
-
+        view.solarSystemDialog.setOnClickListener {
+            addSolarSystemDialog.show(activity!!.supportFragmentManager, "addsolarsystem")
+        }
 
         return view
     }
@@ -114,5 +102,9 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener, ReinforceT
         toName.setText(fViewModel.nameList.toString())
     }
 
+    override fun addSolarSystem(solarSystem: String) {
+        val text = mailBody.text.toString() +" $solarSystem"
+        mailBody.setText(text)
+    }
 
 }

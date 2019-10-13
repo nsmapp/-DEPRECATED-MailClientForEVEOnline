@@ -1,7 +1,6 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,8 @@ import by.nepravskysm.domain.utils.stringToLong
 import by.nepravskysm.mailclientforeveonline.R
 import kotlinx.android.synthetic.main.dialog_reinforce_timer.*
 import kotlinx.android.synthetic.main.dialog_reinforce_timer.view.*
-import kotlin.contracts.Returns
 
-class ReinforceTimerDialog : DialogFragment(){
+class AddReinforceTimerDialog : DialogFragment(){
 
     private var daysCount: Long = 0
     private var hourCount: Long = 0
@@ -58,10 +56,15 @@ class ReinforceTimerDialog : DialogFragment(){
                 reinforceTimerListenear?.addReinforceTimer(createTimer())
             }
             dismiss()
-             }
-
-
+        }
         return dialog
+    }
+
+    override fun onResume() {
+        super.onResume()
+        solarSystem.setText("")
+        moreInfo.setText("")
+        reinforceTime.text = ""
     }
 
     fun setReinforceTimerListenear(reinforceTimerListenear: ReinforceTimerListenear){
