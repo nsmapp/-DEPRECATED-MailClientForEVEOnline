@@ -27,16 +27,18 @@ fun removeUnsubscrubeMailingList(headerList: MutableList<MailHeader>,
                               mailingList: List<MailingList>):MutableList<MailHeader>{
 
     val mailHeadersList = mutableListOf<MailHeader>()
+    val mailingListHeaders = mutableListOf<MailHeader>()
     for(header in headerList){
-
-        if(header.labels != listOf<Int>()){
+        if(header.labels.isNotEmpty()){
             mailHeadersList.add(header)
         }else{
-            for (list in mailingList){
-                if (header.fromId == list.id){
-                    mailHeadersList.add(header)
-                }
-            }
+            mailingListHeaders.add(header)
+        }
+    }
+
+    for(header in mailingListHeaders){
+        for(recipients in header.recipients){
+
         }
     }
     return  mailHeadersList

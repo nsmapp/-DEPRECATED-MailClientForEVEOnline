@@ -70,5 +70,16 @@
     <fragment
             android:id="@+id/newMailFragment"
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailFragment"
-            android:label="New mail" />
+            android:label="New mail" >
+        <action
+            android:id="@+id/action_newMailFragment_to_addSystemDialog"
+            app:destination="@id/addSystemDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/addSystemDialog"
+        android:label="Add solar system"
+        android:name="by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddSolarSystemDialog"
+        tools:layout="@layout/dialog_add_solar_system"
+        >
+    </dialog>
 </navigation>

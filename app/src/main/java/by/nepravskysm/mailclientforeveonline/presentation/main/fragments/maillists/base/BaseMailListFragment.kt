@@ -5,18 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.nepravskysm.mailclientforeveonline.R
-import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.recycler.MailRecyclerAdapter
-import by.nepravskysm.mailclientforeveonline.utils.IS_READ_MAIL
-import by.nepravskysm.mailclientforeveonline.utils.MAIL_ID
-import by.nepravskysm.mailclientforeveonline.utils.FROM
-import by.nepravskysm.mailclientforeveonline.utils.SUBJECT
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.recycler.MailRecyclerAdapter
+import by.nepravskysm.mailclientforeveonline.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
@@ -29,9 +27,6 @@ open class BaseMailListFragment : Fragment(),
     SwipeRefreshLayout.OnRefreshListener,
     MainActivity.LoginListener{
 
-
-
-
     val fViewModel: MailListViewModel by sharedViewModel()
     lateinit var mailRecyclerAdapter: MailRecyclerAdapter
 
@@ -40,6 +35,7 @@ open class BaseMailListFragment : Fragment(),
     private val unreadCorpObserver = Observer<Int>{ setUnreadMail(R.id.corpFragment, it)}
     private val unreadAllianceObserver = Observer<Int>{ setUnreadMail(R.id.allianceFragment, it)}
     private val unreadMailingListObserver = Observer<Int>{ setUnreadMail(R.id.mailingListFragment, it)}
+    private val errorObserver = Observer<Long>{errorId -> showErrorToast((activity as MainActivity), errorId) }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -65,6 +61,8 @@ open class BaseMailListFragment : Fragment(),
         fViewModel.unreadCorp.observe(this, unreadCorpObserver)
         fViewModel.unreadAlliance.observe(this, unreadAllianceObserver)
         fViewModel.unreadMailingList.observe(this, unreadMailingListObserver)
+
+        fViewModel.errorId.observe(this, errorObserver)
 
         return fView
     }

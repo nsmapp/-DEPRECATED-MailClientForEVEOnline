@@ -21,3 +21,5 @@ val CHANNEL_DESCRIPTION ="show new mail on active character"
 val NOTIFICATION_TITLE: CharSequence = "Mail Client for EVE Online"
 val CHANNEL_ID = "check new mail notification"
 val NOTIFICATION_ID = 1
+
+

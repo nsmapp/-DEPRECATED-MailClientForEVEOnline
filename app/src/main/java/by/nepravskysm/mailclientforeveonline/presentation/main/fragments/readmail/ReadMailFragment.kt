@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
@@ -25,11 +26,11 @@ class ReadMailFragment : Fragment(){
 
 
     private val mailObserver = Observer<InPutMail>{ mail ->
-
         pastHtmlTextToMailBody(body, mail.body)
         pastImage(fromPhoto, mail.from)
 
     }
+    private val errorIdObserver = Observer<Long>{errorId -> showErrorToast((activity as MainActivity), errorId)}
 
     private val progresBarObserver = Observer<Boolean>{
         if(it){showProgresBar()}
@@ -94,6 +95,8 @@ class ReadMailFragment : Fragment(){
             .setOnClickListener {
                 fViewModel.deleteMail()
             }
+
+        fViewModel.errorId.observe(this, errorIdObserver)
 
         return fView
     }

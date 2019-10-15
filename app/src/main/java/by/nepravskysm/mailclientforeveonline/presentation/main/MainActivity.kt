@@ -5,8 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -16,11 +18,11 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import by.nepravskysm.rest.api.createAuthUrl
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.drawer_header.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterChangeDialog
 import by.nepravskysm.mailclientforeveonline.utils.pastImage
+import by.nepravskysm.mailclientforeveonline.utils.showErrorToast
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
 import java.util.concurrent.TimeUnit
 
@@ -45,6 +47,11 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
             pastImage(activeCharacter, id)
         }
 
+    val errorObserver = Observer<Long>{errorId ->
+
+        Log.d("logd", "ERROR ERROR ERROER $errorId")
+        showErrorToast(this ,errorId)}
+
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -63,7 +70,8 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
                 R.id.allianceFragment,
                 R.id.mailingListFragment,
                 R.id.settingsActivity,
-                R.id.aboutFragment),
+                R.id.aboutFragment,
+                R.id.addSystemDialog),
             drawerLayout)
 
         navigationView.setupWithNavController(navigationController)
@@ -78,6 +86,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         vModel.characterName.observe(this, nameObserver)
         vModel.characterId.observe(this, characterIdObserver)
         vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
+        vModel.errorId.observe(this, errorObserver)
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)

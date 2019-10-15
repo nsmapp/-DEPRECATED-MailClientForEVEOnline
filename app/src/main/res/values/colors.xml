@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#1B1B71</color>
+    <color name="colorPrimaryDark">#272727</color>
+    <color name="colorAccent">#000055</color>
 
 
     <color name="baseTextColor">#000316</color>
-    <color name="mailIsReadBackground">#DDDCDC</color>
+    <color name="mailIsReadBackground">#CCCCCC</color>
     <color name="mailIsNOTReadBackground">#8D8D8D</color>
-    <color name="mailIsReadBorder">#FAF8B8</color>
+    <color name="mailIsReadBorder">#B1A965</color>
+
+    <color name="textViewReadable">#DDDDDD</color>
 </resources>

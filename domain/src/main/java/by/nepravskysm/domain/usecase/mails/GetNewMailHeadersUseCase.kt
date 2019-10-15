@@ -76,20 +76,46 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
             }
 
             if (headerList.isNotEmpty()){
+
                 val nameMap = HashMap<Long, String>()
                 val mailingList: List<MailingList> = mailingListRepository
                     .getMailingList(accessToken, characterId)
-                headerList = removeUnsubscrubeMailingList(headerList, mailingList)
-                val characterIdList: MutableList<Long> = listHeadersToUniqueList(headerList)
-
-                for(list in mailingList){
-                    characterIdList.remove(list.id)
+                val mailingListIds = mailingList.map { it.id }
+                for (list in mailingList){
                     nameMap[list.id] = list.name
                 }
-                nameMap.putAll(namesRepository.getNameMap(characterIdList))
+
+                val mailingListHeaders = mutableListOf<MailHeader>()
+                val noMailingListHeaders = mutableListOf<MailHeader>()
+
+                for(header in headerList){
+                    if(header.labels.isNotEmpty()){
+                        noMailingListHeaders.add(header)
+                    }else{
+                        for (recipient in header.recipients.map { it.id }){
+                            if (mailingListIds.contains(recipient)){
+                                mailingListHeaders.add(header)
+                            }
+                        }
+                    }
+                }
+
+                headerList.clear()
+                headerList.addAll(noMailingListHeaders)
+                headerList.addAll(mailingListHeaders)
+
+                val nameIdList = noMailingListHeaders.map { it.fromId }.distinct()
+                nameMap.putAll(namesRepository.getNameMap(nameIdList))
+
+                for (header in headerList){
+                    try {
+                        header.fromName = nameMap[header.fromId]!!
+                    }catch (e: Exception){
+
+                    }
+                }
                 dbMailHeadersRepository
-                    .saveMailsHeaders(formaMailHeaderList(nameMap, headerList),
-                        characterName)
+                    .saveMailsHeaders(headerList, characterName)
             }
         }
 

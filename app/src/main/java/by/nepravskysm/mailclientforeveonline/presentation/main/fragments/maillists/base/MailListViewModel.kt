@@ -6,8 +6,9 @@ import by.nepravskysm.domain.entity.MailHeader
 import by.nepravskysm.domain.usecase.mails.GetMailHeadersFromDB
 import by.nepravskysm.domain.usecase.mails.GetNewMailHeadersUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
+import by.nepravskysm.domain.utils.DB_LOAD_MAIL_HEADER_FROM_DATABASE
+import by.nepravskysm.domain.utils.LOAD_NEW_MAIL_HEADER_ERROR
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.recycler.MailRecyclerAdapter
-import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
 import java.util.logging.Level
 
 class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeaderUseCase,
@@ -31,6 +32,7 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
     val unreadMailingList: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(0)
     }
+    val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
 
 
     val sendMailsHeaderList: MutableLiveData<List<MailHeader>> by lazy {
@@ -73,6 +75,7 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
             }
             onError {
                 isVisibilityProgressBar.value = false
+                errorId.value = LOAD_NEW_MAIL_HEADER_ERROR
                 java.util.logging.Logger.getLogger("logdOnError")
                     .log(Level.INFO,"oadNewMailHeaders()  " + it.localizedMessage)
             }
@@ -90,7 +93,7 @@ class MailListViewModel(private val synchroMailsHeaderUseCase: SynchroMailsHeade
             }
 
             onError {
-
+                errorId.value = DB_LOAD_MAIL_HEADER_FROM_DATABASE
                 java.util.logging.Logger.getLogger("logdOnError")
                     .log(Level.INFO, it.localizedMessage)
 

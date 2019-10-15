@@ -19,9 +19,24 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="extraLargeTextViewCente" parent="largeTextView">
-        <item name="android:textAlignment">center</item>
+    <style name="extraLargeTextView" parent="largeTextView">
         <item name="android:textSize">20sp</item>
+    </style>
+    <style name="extraLargeTextButton" parent="largeTextView">
+        <item name="android:height">32dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:elevation">3dp</item>
+        <item name="android:background">@drawable/global_background</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="radioButton">
+        <item name="android:buttonTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="materialEditText">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
     </style>
 
     <style name="microTextView" parent="normalTextView">

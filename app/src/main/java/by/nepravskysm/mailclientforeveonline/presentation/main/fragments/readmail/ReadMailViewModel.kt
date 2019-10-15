@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.domain.usecase.mails.*
+import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
 
 class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
@@ -15,6 +16,7 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
 
     val inPutMail: MutableLiveData<InPutMail> by lazy { MutableLiveData<InPutMail>() }
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
+    val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
     val mailIsDeletedEvent = SingleLiveEvent<Any>()
 
     var subject = ""
@@ -41,15 +43,18 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
                     if(!it.isRead){
                         updataMailMetadataUseCase.setData(mailId, it.labels).execute {
                             onComplite { Log.d("logd",  "UpdateLabel net") }
+                            onError { errorId.value = UPDATE_MAIL_METADATA_ERROR }
                         }
                         updateDBMailMetadataUseCase.setData(mailId).execute {
                             onComplite { Log.d("logd",  "UpdateLabel db") }
+                            onError { errorId.value = DB_UPDATE_MAIL_METADATA_ERROR }
                         }
                     }
 
 
                 }
                 onError {
+                    errorId.value = GET_MAIL_ERROR
                     isVisibilityProgressBar.value = false
                     Log.d("logd", "readMailError ${it.localizedMessage}") }
             }
@@ -58,14 +63,19 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
     }
 
     fun deleteMail(){
-        deleteMailFromDBUseCase.setData(mailId).execute {}
+        deleteMailFromDBUseCase.setData(mailId).execute {
+            onError { errorId.value = DB_DELETE_MAIL_ERROR }
+        }
         deleteMailUseCaseFromServerUseCase.setData(mailId)
         deleteMailUseCaseFromServerUseCase.execute {
 
             onComplite { Log.d("logd",  "deletemailcomplite")
             mailIsDeletedEvent.call()}
 
-            onError { Log.d("logd",  "deletemailerror") }
+            onError {
+                errorId.value = DELETE_MAIL_FROM_SERVER_ERROR
+                Log.d("logd",  "deletemailerror") }
+
         }
     }
 

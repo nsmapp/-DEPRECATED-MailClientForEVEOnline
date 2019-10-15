@@ -1,9 +1,11 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.entity.OutPutMail
 import by.nepravskysm.domain.usecase.mails.SendMailUseCase
+import by.nepravskysm.domain.utils.SEND_MAIL_ERROR
 
 
 class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel()  {
@@ -14,6 +16,7 @@ class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel
     var mailEnd = ""
     var subject = ""
     val nameList = mutableSetOf<String>()
+    val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
 
 
     fun sendMail(){
@@ -23,7 +26,9 @@ class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel
         sendMailUseCase.setData(mail, nameList)
         sendMailUseCase.execute {
             onComplite {  }
-            onError { Log.d("logd", "${this.javaClass.name}  ${it.localizedMessage}") }
+            onError {
+                errorId.value = SEND_MAIL_ERROR
+                Log.d("logd", "${this.javaClass.name}  ${it.localizedMessage}") }
         }
     }
 
