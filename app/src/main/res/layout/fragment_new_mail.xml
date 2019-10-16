@@ -1,57 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="@drawable/global_background"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/global_background"
+    android:orientation="vertical">
 
     <EditText
-            android:id="@+id/toName"
-            style="@style/materialEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:hint="To"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/clear"
-            app:layout_constraintStart_toEndOf="@+id/sendMailBtn"
-            app:layout_constraintTop_toTopOf="@+id/sendMailBtn" />
+        android:id="@+id/toName"
+        style="@style/materialEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="To"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/clear"
+        app:layout_constraintStart_toEndOf="@+id/sendMailBtn"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-            android:id="@+id/subject"
-            style="@style/materialEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:hint="Subject"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sendMailBtn"
-            app:layout_constraintTop_toBottomOf="@+id/toName" />
+        android:id="@+id/subject"
+        style="@style/materialEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Subject"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sendMailBtn"
+        app:layout_constraintTop_toBottomOf="@+id/toName" />
 
     <ImageView
         android:id="@+id/sendMailBtn"
         android:layout_width="64dp"
-        android:layout_height="0dp"
+        android:layout_height="64dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:background="@drawable/global_background"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/subject"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toTopOf="@+id/toName"
+        app:srcCompat="@drawable/ic_mail" />
 
     <EditText
         android:id="@+id/mailBody"
         style="@style/normalTextView"
-        android:background="@color/textViewReadable"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:background="@color/textViewReadable"
         android:gravity="start"
         android:hint="Mail body"
         android:lines="100"
@@ -60,43 +62,61 @@
         android:minLines="20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reinforceTimer" />
-
-    <TextView
-            android:id="@+id/clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Clear"
-            app:layout_constraintBottom_toBottomOf="@+id/toName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/toName" />
-
-    <TextView
-            android:id="@+id/mailLendth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/mailBody"
-            app:layout_constraintEnd_toEndOf="@+id/mailBody" />
+        app:layout_constraintTop_toBottomOf="@+id/mailLendth" />
 
     <ImageView
-            android:id="@+id/reinforceTimer"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="@+id/subject"
-            app:layout_constraintTop_toBottomOf="@+id/subject"
-            app:srcCompat="@drawable/no_login_avatar" />
+        android:id="@+id/clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/global_background"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toName"
+        app:srcCompat="@drawable/ic_delete_recipients" />
 
-    <ImageView
-        android:id="@+id/solarSystemDialog"
-        android:layout_width="32dp"
+    <TextView
+        android:id="@+id/mailLendth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="0/7000"
+        app:layout_constraintEnd_toEndOf="@+id/mailBody"
+        app:layout_constraintTop_toBottomOf="@+id/solarSystemDialog" />
+
+    <TextView
+        android:id="@+id/reinforceTimer"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/global_background"
+        android:elevation="3dp"
+        android:text="Reinforce timer"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/solarSystemDialog"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subject" />
+
+    <TextView
+        android:id="@+id/solarSystemDialog"
+        style="@style/normalTextView"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/global_background"
+        android:elevation="3dp"
+        android:text="Solar system"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/reinforceTimer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/reinforceTimer"
         app:layout_constraintTop_toTopOf="@+id/reinforceTimer"
-        app:srcCompat="@drawable/no_login_avatar" />
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
