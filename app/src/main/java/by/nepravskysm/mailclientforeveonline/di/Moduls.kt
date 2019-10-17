@@ -19,10 +19,7 @@ import by.nepravskysm.domain.repository.utils.IdsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
-import by.nepravskysm.domain.usecase.character.ChangeActiveCharacter
-import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
-import by.nepravskysm.domain.usecase.character.GetContactUseCase
-import by.nepravskysm.domain.usecase.character.SynchroniseCharactersContactsUseCase
+import by.nepravskysm.domain.usecase.character.*
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.MailListViewModel
@@ -143,7 +140,7 @@ val useCaseModule: Module = module {
 
     factory { DeleteMailFromDBUseCase(dbMailHeadersRepository = get()) }
 
-    factory { SynchroniseCharactersContactsUseCase(authInfoRepository = get(),
+    factory { UpdateContactsRestUseCase(authInfoRepository = get(),
         activeCharacterRepository = get(),
         authRepository = get(),
         characterContactsRepository = get(),
@@ -151,9 +148,13 @@ val useCaseModule: Module = module {
         namesRepository = get()
     ) }
 
-    factory { GetContactUseCase(activeCharacterRepository = get(),
+    factory { GetContactFromDBUseCase(activeCharacterRepository = get(),
         dbCharacterContactsRepository = get()
     ) }
+
+    factory { UpdateContactsDBUseCase(dbMailHeadersRepo = get(),
+        activeCharacterRepo = get(),
+        dbCharacterContactsRepo = get()) }
 
 }
 
@@ -161,7 +162,8 @@ val viewModelModule: Module = module {
     viewModel { MainViewModel(authUseCase = get(),
         getActivCharInfoUseCase = get(),
         synchroMailsHeaderUseCase = get(),
-        synchroniseCharactersContactsUseCase = get()
+        updateContactsRestUseCase = get(),
+        updateContactsDBUseCase = get()
     ) }
 
     viewModel { MailListViewModel(synchroMailsHeaderUseCase = get(),

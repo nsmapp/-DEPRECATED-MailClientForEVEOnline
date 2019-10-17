@@ -5,27 +5,30 @@
         tools:showIn="navigation_view">
 
 
-    <item android:id="@+id/newMailFragment"
-            android:title="@string/new_mail"/>
+    <item
+        android:id="@+id/newMailFragment"
+        android:title="@string/new_mail"/>
+
+    <item android:id="@+id/inboxFragment"
+        app:actionLayout="@layout/item_navigation_menu"
+        android:title="@string/inbox"/>
+    <item android:id="@+id/sendFragment"
+        android:title="@string/send"/>
+    <item android:id="@+id/corpFragment"
+        app:actionLayout="@layout/item_navigation_menu"
+        android:title="@string/corporation"/>
+    <item android:id="@+id/allianceFragment"
+        app:actionLayout="@layout/item_navigation_menu"
+        android:title="@string/alliance"/>
+    <item android:id="@+id/mailingListFragment"
+        app:actionLayout="@layout/item_navigation_menu"
+        android:title="@string/mailing_list"/>
 
     <item
          android:title="@string/mails"
          android:checkableBehavior="single">
         <menu>
-            <item android:id="@+id/inboxFragment"
-                    app:actionLayout="@layout/item_navigation_menu"
-                    android:title="@string/inbox"/>
-            <item android:id="@+id/sendFragment"
-                    android:title="@string/send"/>
-            <item android:id="@+id/corpFragment"
-                    app:actionLayout="@layout/item_navigation_menu"
-                    android:title="@string/corporation"/>
-            <item android:id="@+id/allianceFragment"
-                    app:actionLayout="@layout/item_navigation_menu"
-                    android:title="@string/alliance"/>
-            <item android:id="@+id/mailingListFragment"
-                    app:actionLayout="@layout/item_navigation_menu"
-                    android:title="@string/mailing_list"/>
+
 
             </menu>
     </item>

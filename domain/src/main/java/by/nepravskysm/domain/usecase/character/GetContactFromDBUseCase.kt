@@ -5,14 +5,14 @@ import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.DBCharacterContactsRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class GetContactUseCase(private val activeCharacterRepository: ActiveCharacterRepository,
-                        private val dbCharacterContactsRepository: DBCharacterContactsRepository
+class GetContactFromDBUseCase(private val activeCharacterRepository: ActiveCharacterRepository,
+                              private val dbCharacterContactsRepository: DBCharacterContactsRepository
 ) : AsyncUseCase<List<Contact>>(){
 
 
     override suspend fun onBackground(): List<Contact> {
         val activeCharacter = activeCharacterRepository.getActiveCharacterName()
 
-        return dbCharacterContactsRepository.getAllContacts(activeCharacter, 5.0)
+        return dbCharacterContactsRepository.getAllContacts(activeCharacter, 0.0)
     }
 }

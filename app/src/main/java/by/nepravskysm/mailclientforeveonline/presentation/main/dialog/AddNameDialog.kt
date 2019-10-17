@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.nepravskysm.domain.entity.Contact
-import by.nepravskysm.domain.usecase.character.GetContactUseCase
+import by.nepravskysm.domain.usecase.character.GetContactFromDBUseCase
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.utils.pastImage
 import kotlinx.android.synthetic.main.activity_main.view.characterName
@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 class AddNameDialog  : DialogFragment(){
 
     private var confirmNameListener: ConfirmNameListener? = null
-    private val getContactUseCase: GetContactUseCase by inject()
+    private val getContactFromDBUseCase: GetContactFromDBUseCase by inject()
     private val recyclerAdapter: CharacterNameAdapter = CharacterNameAdapter()
 
     fun setConfirmNameListener(confirmNameListener: ConfirmNameListener){
@@ -45,7 +45,7 @@ class AddNameDialog  : DialogFragment(){
         dialog.nameRecycler.hasFixedSize()
         dialog.nameRecycler.adapter = recyclerAdapter
 
-        getContactUseCase.execute {
+        getContactFromDBUseCase.execute {
             onComplite { recyclerAdapter.setData(it)
             Log.d("logd", "contact count ${it.size}")}
 

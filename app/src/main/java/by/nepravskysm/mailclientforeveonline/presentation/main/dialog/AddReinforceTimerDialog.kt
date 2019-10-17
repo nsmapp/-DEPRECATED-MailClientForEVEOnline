@@ -29,6 +29,7 @@ class AddReinforceTimerDialog : DialogFragment(){
     ): View? {
 
         val dialog = inflater.inflate(R.layout.dialog_reinforce_timer, container)
+        getDialog()!!.setTitle("Reinforce timer")
 
         val systemsArray = resources.getStringArray(R.array.array_solar_systems)
         val systemsAdapter = ArrayAdapter(dialog.context, android.R.layout.simple_list_item_1, systemsArray)

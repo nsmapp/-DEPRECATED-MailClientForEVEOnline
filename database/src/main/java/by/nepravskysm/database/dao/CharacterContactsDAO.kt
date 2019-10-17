@@ -13,10 +13,10 @@ interface CharacterContactsDAO {
         const val TABLE_NAME = "contacts"
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertContacts(contactList: List<ContactDBE>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertContact(contact: ContactDBE)
 
     @Query("SELECT * FROM $TABLE_NAME WHERE standing > :minStanding AND owner = :characterName ORDER BY contactName")

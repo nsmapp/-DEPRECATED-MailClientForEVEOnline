@@ -21,6 +21,7 @@ class AddSolarSystemDialog : DialogFragment(){
     ): View? {
 
         val dialog = inflater.inflate(R.layout.dialog_add_solar_system, container)
+        getDialog()!!.setTitle("Add solar system")
         val systemsArray = resources.getStringArray(R.array.array_solar_systems)
         val systemsAdapter = ArrayAdapter(dialog.context, android.R.layout.simple_list_item_1, systemsArray)
         dialog.solarSystem.setAdapter(systemsAdapter)

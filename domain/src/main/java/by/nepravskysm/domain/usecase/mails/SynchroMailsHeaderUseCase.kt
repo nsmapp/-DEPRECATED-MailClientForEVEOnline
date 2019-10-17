@@ -10,11 +10,8 @@ import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
-import by.nepravskysm.domain.utils.formaMailHeaderList
-import by.nepravskysm.domain.utils.listHeadersToUniqueList
-import by.nepravskysm.domain.utils.removeUnsubscrubeMailingList
+import by.nepravskysm.domain.utils.convertDataFormatInMailHeader
 import java.lang.Exception
-import java.util.logging.Level
 
 class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                                 private val authInfoRepository: AuthInfoRepository,
@@ -105,6 +102,7 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
             for (header in headerList){
                 try {
                     header.fromName = nameMap[header.fromId]!!
+                    convertDataFormatInMailHeader(header)
                 }catch (e: Exception){
 
                 }

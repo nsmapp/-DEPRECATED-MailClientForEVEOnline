@@ -9,21 +9,20 @@ import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.character.CharacterContactsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
-import java.lang.Exception
 import java.util.logging.Level
 
-class SynchroniseCharactersContactsUseCase(private val authRepository: AuthRepository,
-                                           private val authInfoRepository: AuthInfoRepository,
-                                           private val activeCharacterRepository: ActiveCharacterRepository,
-                                           private val characterContactsRepository: CharacterContactsRepository,
-                                           private val dbCharacterContactsRepository: DBCharacterContactsRepository,
-                                           private val namesRepository: NamesRepository
+class UpdateContactsRestUseCase(private val authRepository: AuthRepository,
+                                private val authInfoRepository: AuthInfoRepository,
+                                private val activeCharacterRepository: ActiveCharacterRepository,
+                                private val characterContactsRepository: CharacterContactsRepository,
+                                private val dbCharacterContactsRepository: DBCharacterContactsRepository,
+                                private val namesRepository: NamesRepository
 ) : AsyncUseCase<Boolean>() {
 
 
     private var characterId: Long = 0
 
-    fun setData(characterId: Long): SynchroniseCharactersContactsUseCase{
+    fun setData(characterId: Long): UpdateContactsRestUseCase{
         this.characterId = characterId
         return this
     }
