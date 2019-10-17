@@ -5,7 +5,6 @@ import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,7 +14,6 @@ import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.utils.*
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_read_mail.*
 import kotlinx.android.synthetic.main.fragment_read_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -31,7 +29,11 @@ class ReadMailFragment : Fragment(){
 
     }
     private val errorIdObserver = Observer<Long>{errorId -> showErrorToast((activity as MainActivity), errorId)}
-
+    private val deleteMailObserver = Observer<Boolean> {             //TODO сделвть красиво
+        if(activity != null && it){
+            Toast.makeText(activity, "mail is deleted", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
+        }  }
     private val progresBarObserver = Observer<Boolean>{
         if(it){showProgresBar()}
         else{hideProgresBar()}
@@ -69,16 +71,8 @@ class ReadMailFragment : Fragment(){
 
         fViewModel.getMail()
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-        fViewModel.mailIsDeletedEvent.observer(this, Observer {
-            //TODO сделвть красиво
-
-            if(activity != null){
-                Toast.makeText(activity, "mail is deleted", Toast.LENGTH_SHORT).show()
-                (activity as MainActivity).onBackPressed()
-            }
-
-        })
-
+        fViewModel.mailIsDeleted.observe(this, deleteMailObserver)
+        fViewModel.errorId.observe(this, errorIdObserver)
 
 
         fView.replayMail
@@ -96,7 +90,6 @@ class ReadMailFragment : Fragment(){
                 fViewModel.deleteMail()
             }
 
-        fViewModel.errorId.observe(this, errorIdObserver)
 
         return fView
     }

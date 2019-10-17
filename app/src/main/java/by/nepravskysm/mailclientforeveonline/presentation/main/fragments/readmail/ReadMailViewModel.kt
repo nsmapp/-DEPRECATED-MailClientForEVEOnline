@@ -7,6 +7,7 @@ import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.domain.utils.*
 import by.nepravskysm.mailclientforeveonline.utils.SingleLiveEvent
+import java.util.concurrent.atomic.AtomicBoolean
 
 class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
                         private val updataMailMetadataUseCase: UpdataMailMetadataUseCase,
@@ -17,7 +18,7 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
     val inPutMail: MutableLiveData<InPutMail> by lazy { MutableLiveData<InPutMail>() }
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
     val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
-    val mailIsDeletedEvent = SingleLiveEvent<Any>()
+    val mailIsDeleted: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     var subject = ""
     var from = ""
@@ -69,14 +70,16 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
         deleteMailUseCaseFromServerUseCase.setData(mailId)
         deleteMailUseCaseFromServerUseCase.execute {
 
-            onComplite { Log.d("logd",  "deletemailcomplite")
-            mailIsDeletedEvent.call()}
-
+            onComplite {
+                Log.d("logd", "deletemailcomplite")
+                mailIsDeleted.value = true
+            }
             onError {
                 errorId.value = DELETE_MAIL_FROM_SERVER_ERROR
                 Log.d("logd",  "deletemailerror") }
 
         }
     }
+
 
 }
