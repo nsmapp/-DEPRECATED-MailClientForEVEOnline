@@ -62,24 +62,17 @@
             android:id="@+id/aboutFragment"
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.about.AboutFragment"
             android:label="About" />
-    <activity
-            android:id="@+id/settingsActivity"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.settings.SettingsActivity"
-            android:label="activity_settings"
-            tools:layout="@layout/activity_settings" />
+
     <fragment
             android:id="@+id/newMailFragment"
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailFragment"
             android:label="New mail" >
-        <action
-            android:id="@+id/action_newMailFragment_to_addSystemDialog"
-            app:destination="@id/addSystemDialog" />
     </fragment>
-    <dialog
-        android:id="@+id/addSystemDialog"
-        android:label="Add solar system"
-        android:name="by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddSolarSystemDialog"
-        tools:layout="@layout/dialog_add_solar_system"
-        >
-    </dialog>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.SettingsFragment"
+        android:label="Settings" />
+
+
 </navigation>

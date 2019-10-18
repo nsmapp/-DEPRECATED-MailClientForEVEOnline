@@ -69,9 +69,8 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
                 R.id.corpFragment,
                 R.id.allianceFragment,
                 R.id.mailingListFragment,
-                R.id.settingsActivity,
                 R.id.aboutFragment,
-                R.id.addSystemDialog),
+                R.id.settingsFragment),
             drawerLayout)
 
         navigationView.setupWithNavController(navigationController)

@@ -24,19 +24,12 @@
         app:actionLayout="@layout/item_navigation_menu"
         android:title="@string/mailing_list"/>
 
-    <item
-         android:title="@string/mails"
-         android:checkableBehavior="single">
-        <menu>
 
-
-            </menu>
-    </item>
 
     <item
             android:title="@string/other">
         <menu>
-            <item android:id="@+id/settingsActivity"
+            <item android:id="@+id/settingsFragment"
                     android:title="@string/settings"/>
             <item android:id="@+id/aboutFragment"
                     android:title="@string/about"/>
