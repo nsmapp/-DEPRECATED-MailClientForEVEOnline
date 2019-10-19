@@ -114,11 +114,11 @@ class GetNewMailHeadersUseCase(private val authRepository: AuthRepository,
                     }
                 }
                 dbMailHeadersRepository
-                    .saveMailsHeaders(headerList, characterName)
+                    .save(headerList, characterName)
             }
         }
 
-        return dbMailHeadersRepository.getMailsHeaders(characterName)
+        return dbMailHeadersRepository.get(characterName)
     }
 
 

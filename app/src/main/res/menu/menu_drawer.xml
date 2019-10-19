@@ -13,6 +13,7 @@
         app:actionLayout="@layout/item_navigation_menu"
         android:title="@string/inbox"/>
     <item android:id="@+id/sendFragment"
+        app:actionLayout="@layout/item_navigation_menu"
         android:title="@string/send"/>
     <item android:id="@+id/corpFragment"
         app:actionLayout="@layout/item_navigation_menu"

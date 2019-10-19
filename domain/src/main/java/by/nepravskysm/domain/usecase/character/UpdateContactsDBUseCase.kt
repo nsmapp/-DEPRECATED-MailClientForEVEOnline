@@ -13,7 +13,7 @@ class UpdateContactsDBUseCase(private val dbMailHeadersRepo: DBMailHeadersReposi
 
     override suspend fun onBackground(): Boolean {
         val activeCharacter = activeCharacterRepo.getActiveCharacterName()
-        val mailHeaderList: List<MailHeader> = dbMailHeadersRepo.getMailsHeaders(activeCharacter)
+        val mailHeaderList: List<MailHeader> = dbMailHeadersRepo.get(activeCharacter)
         val contactList = mutableListOf<Contact>()
         for (header in mailHeaderList){
             if(header.labels.isNotEmpty()){

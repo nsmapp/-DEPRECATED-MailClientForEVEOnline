@@ -1,6 +1,5 @@
 package by.nepravskysm.database.repoimpl
 
-import android.util.Log
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.entity.MailHeaderDBE
 import by.nepravskysm.database.entity.subentity.RecipientDBE
@@ -15,15 +14,79 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         appDatabase.mailHeadersDao().delelteMail(mailId)
     }
 
-    override suspend fun getMailsHeaders(characterName: String): List<MailHeader> {
-        val headers = mutableListOf<MailHeader>()
+    override suspend fun get(characterName: String): List<MailHeader> {
         val headersList = appDatabase.mailHeadersDao()
             .getMailsHeaders(characterName)
 
-        Log.d("logd", "getMails ${headersList.size}")
+        return mapToDomainHeaders(headersList)
+    }
+
+    override suspend fun getWithLabels(
+        characterName: String,
+        labels: String, lastHeaderId: Long
+    ): List<MailHeader> {
+        val headersList = appDatabase.mailHeadersDao()
+            .getMailsHeadersWithLabels(characterName, labels, lastHeaderId)
+
+        return mapToDomainHeaders(headersList)
+    }
+
+    override suspend fun getInbox(characterName: String, lastHeaderId: Long): List<MailHeader> {
+       return getWithLabels(characterName, "%1%")
+    }
+
+    override suspend fun getSend(characterName: String, lastHeaderId: Long): List<MailHeader> {
+        return getWithLabels(characterName, "%2%")
+    }
+
+    override suspend fun getCorporation(characterName: String, lastHeaderId: Long): List<MailHeader> {
+        return getWithLabels(characterName, "%4%")
+    }
+
+    override suspend fun getAlliance(characterName: String, lastHeaderId: Long): List<MailHeader> {
+        return getWithLabels(characterName, "%8%")
+    }
+
+    override suspend fun getMailingList(characterName: String, lastHeaderId: Long): List<MailHeader> {
+        return getWithLabels(characterName, "[]")
+    }
+
+    override suspend fun save(headersList: List<MailHeader>, characterName: String) {
+
+        val headers = mutableListOf<MailHeaderDBE>()
+        for (header in headersList) {
+            val domainRecipients = header.recipients
+            val recipients = mutableListOf<RecipientDBE>()
+            for (recipient in domainRecipients) {
+                recipients.add(RecipientDBE(recipient.id, recipient.type))
+            }
+            headers.add(
+                MailHeaderDBE(
+                    header.mailId,
+                    header.fromId,
+                    header.fromName,
+                    header.isRead,
+                    header.labels,
+                    recipients,
+                    header.subject,
+                    header.timestamp,
+                    characterName
+                )
+            )
+        }
+        appDatabase.mailHeadersDao()
+            .saveMailHeaders(headers)
+    }
+
+    override suspend fun getLastMailId(activeCharacter: String): Long =
+        appDatabase.mailHeadersDao().getLastMailId(activeCharacter)
+
+    override suspend fun setMailIsRead(mailId: Long) {appDatabase.mailHeadersDao().setMailIsRead(mailId)}
+
+    private fun mapToDomainHeaders(headersList: List<MailHeaderDBE>) : List<MailHeader>{
+        val headers = mutableListOf<MailHeader>()
 
         for (header in headersList) {
-
             val domainRecipients = header.recipients
             val recipients = mutableListOf<Recipient>()
             for (recipient in domainRecipients) {
@@ -47,40 +110,4 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         return headers
     }
 
-    override suspend fun saveMailsHeaders(headersList: List<MailHeader>, characterName: String) {
-
-        val headers = mutableListOf<MailHeaderDBE>()
-
-        Log.d("logd", "saveMails ${headersList.size}");
-
-        for (header in headersList) {
-            val domainRecipients = header.recipients
-            val recipients = mutableListOf<RecipientDBE>()
-            for (recipient in domainRecipients) {
-                recipients.add(RecipientDBE(recipient.id, recipient.type))
-            }
-
-            headers.add(
-                MailHeaderDBE(
-                    header.mailId,
-                    header.fromId,
-                    header.fromName,
-                    header.isRead,
-                    header.labels,
-                    recipients,
-                    header.subject,
-                    header.timestamp,
-                    characterName
-                )
-            )
-        }
-        appDatabase.mailHeadersDao()
-            .saveMailHeaders(headers)
-    }
-
-    override suspend fun getLastMailId(activeCharacter: String): Long = appDatabase.mailHeadersDao().getLastMailId(activeCharacter)
-
-    override suspend fun setMailIsRead(mailId: Long) {
-        appDatabase.mailHeadersDao().setMailIsRead(mailId)
-    }
 }

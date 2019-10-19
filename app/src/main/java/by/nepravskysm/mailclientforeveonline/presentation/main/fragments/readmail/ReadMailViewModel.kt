@@ -69,7 +69,6 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
         }
         deleteMailUseCaseFromServerUseCase.setData(mailId)
         deleteMailUseCaseFromServerUseCase.execute {
-
             onComplite {
                 Log.d("logd", "deletemailcomplite")
                 mailIsDeleted.value = true

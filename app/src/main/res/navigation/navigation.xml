@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/inboxFragment"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.InboxFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.inbox.InboxFragment"
             android:label="Inbox"
             tools:layout="@layout/fragment_mails">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
             android:id="@+id/sendFragment"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.SendFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.send.SendFragment"
             android:label="Send"
             tools:layout="@layout/fragment_mails">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
             android:id="@+id/corpFragment"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.CorpFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.corp.CorpFragment"
             android:label="Corporation"
             tools:layout="@layout/fragment_mails">
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
             android:id="@+id/allianceFragment"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.AllianceFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.alliance.AllianceFragment"
             android:label="Alliance"
             tools:layout="@layout/fragment_mails">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
             android:id="@+id/mailingListFragment"
-            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.MailingListFragment"
+            android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.mailinglist.MailingListFragment"
             android:label="Mailing list"
             tools:layout="@layout/fragment_mails">
         <action

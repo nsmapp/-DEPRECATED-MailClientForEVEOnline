@@ -108,7 +108,7 @@ class SynchroMailsHeaderUseCase(private val authRepository: AuthRepository,
                 }
             }
             dbMailHeadersRepository
-                .saveMailsHeaders(headerList, characterName)
+                .save(headerList, characterName)
         }
 
         return true

@@ -22,7 +22,12 @@ import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
 import by.nepravskysm.domain.usecase.character.*
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
-import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.MailListViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.alliance.AllianceViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.BaseMailListViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.corp.CorporationViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.inbox.InboxViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.mailinglist.MailingListViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.send.SendViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail.ReadMailViewModel
 import by.nepravskysm.rest.api.AuthManager
@@ -122,7 +127,7 @@ val useCaseModule: Module = module {
         activeCharacterRepository = get()
     ) }
 
-    factory { GetMailHeadersFromDB(dbMailHeadersRepository = get(),
+    factory { GetMailHeadersFromDBUseCase(dbMailHeadersRepository = get(),
         activeCharacterRepository = get()) }
 
     factory { UpdateDBMailMetadataUseCase( dbMailHeadersRepository = get())}
@@ -154,7 +159,11 @@ val useCaseModule: Module = module {
 
     factory { UpdateContactsDBUseCase(dbMailHeadersRepo = get(),
         activeCharacterRepo = get(),
-        dbCharacterContactsRepo = get()) }
+        dbCharacterContactsRepo = get())
+    }
+
+    factory { GetMailHeadersAfterIdFromDBUseCase(dbMailHeadersRepo = get(),
+        activeCharacterRepo = get()) }
 
 }
 
@@ -166,18 +175,38 @@ val viewModelModule: Module = module {
         updateContactsDBUseCase = get()
     ) }
 
-    viewModel { MailListViewModel(synchroMailsHeaderUseCase = get(),
-        getMailHeadersFromDB = get(),
-        getNewMailHeadersUseCase = get()
-    )}
 
     viewModel { ReadMailViewModel(getMailUseCase = get(),
         updataMailMetadataUseCase = get(),
         updateDBMailMetadataUseCase = get(),
         deleteMailUseCaseFromServerUseCase = get(),
-        deleteMailFromDBUseCase = get()
-    )}
+        deleteMailFromDBUseCase = get())
+    }
 
     viewModel { NewMailViewModel(sendMailUseCase = get()) }
 
+    viewModel { BaseMailListViewModel(getMailHeadersFromDB = get(),
+        getNewMailHeaders = get(),
+        getMailHeadersAfterIdFromDB = get())
+    }
+    viewModel {InboxViewModel(getMailHeadersFromDBUseCase = get(),
+        getNewMailHeadersUseCase = get(),
+        getMailHeadersAfterIdFromDB = get())
+    }
+    viewModel {SendViewModel(getMailHeadersFromDBUseCase = get(),
+        getNewMailHeadersUseCase = get(),
+        getMailHeadersAfterIdFromDB = get())
+    }
+    viewModel {CorporationViewModel(getMailHeadersFromDBUseCase = get(),
+        getNewMailHeadersUseCase = get(),
+        getMailHeadersAfterIdFromDB = get())
+    }
+    viewModel {AllianceViewModel(getMailHeadersFromDB = get(),
+        getNewMailHeaders = get(),
+        getMailHeadersAfterIdFromDB = get())
+    }
+    viewModel {MailingListViewModel(getMailHeadersFromDBUseCase = get(),
+        getNewMailHeadersUseCase = get(),
+        getMailHeadersAfterIdFromDB = get())
+    }
 }
