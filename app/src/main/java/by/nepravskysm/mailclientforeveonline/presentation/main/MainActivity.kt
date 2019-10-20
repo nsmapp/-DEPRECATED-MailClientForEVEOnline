@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -26,7 +25,7 @@ import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterC
 import by.nepravskysm.mailclientforeveonline.utils.DARK_MODE
 import by.nepravskysm.mailclientforeveonline.utils.SETTINGS
 import by.nepravskysm.mailclientforeveonline.utils.pastImage
-import by.nepravskysm.mailclientforeveonline.utils.showErrorToast
+import by.nepravskysm.mailclientforeveonline.utils.makeToastMessage
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
 import kotlinx.android.synthetic.main.item_navigation_menu.view.*
 import java.util.concurrent.TimeUnit
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     private val characterIdObserver = Observer<Long>{id ->
             pastImage(activeCharacter, id)}
     private val errorObserver = Observer<Long>{errorId ->
-        showErrorToast(this ,errorId)}
+        makeToastMessage(this ,errorId)}
     private val unreadMailObserver = Observer<UnreadMailsCount>{mail ->
         if (mail.inbox > 0){setUnreadMail(R.id.inboxFragment, mail.inbox)}
         if (mail.send > 0){setUnreadMail(R.id.sendFragment, mail.send)}

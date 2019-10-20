@@ -28,7 +28,7 @@ class ReadMailFragment : Fragment(){
         pastImage(fromPhoto, mail.from)
 
     }
-    private val errorIdObserver = Observer<Long>{errorId -> showErrorToast((activity as MainActivity), errorId)}
+    private val errorIdObserver = Observer<Long>{errorId -> makeToastMessage((activity as MainActivity), errorId)}
     private val deleteMailObserver = Observer<Boolean> {             //TODO сделвть красиво
         if(activity != null && it){
             Toast.makeText(activity, "mail is deleted", Toast.LENGTH_SHORT).show()

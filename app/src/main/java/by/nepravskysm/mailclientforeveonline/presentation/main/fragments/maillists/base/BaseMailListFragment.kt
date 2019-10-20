@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
 import kotlinx.android.synthetic.main.item_mail_info.view.*
 import kotlinx.android.synthetic.main.item_navigation_menu.view.*
-import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class BaseMailListFragment <VM : BaseMailListViewModel>: Fragment(),
 SwipeRefreshLayout.OnRefreshListener,
@@ -39,7 +37,7 @@ MainActivity.LoginListener{
     private val updateMailHeaderObserver = Observer<List<MailHeader>>{
         mailRecyclerAdapter.addData(it)
     }
-    private val errorObserver = Observer<Long>{errorId -> showErrorToast((activity as MainActivity), errorId) }
+    private val errorObserver = Observer<Long>{errorId -> makeToastMessage((activity as MainActivity), errorId) }
 
     abstract fun setUnreadMailConteiner(): Int
 

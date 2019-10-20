@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
@@ -27,7 +26,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     private val addSolarSystemDialog = AddSolarSystemDialog()
     private val reinforceDialog = AddReinforceTimerDialog()
 
-    private val errorIdObserver= Observer<Long>{ errorId -> showErrorToast((activity as MainActivity), errorId)}
+    private val errorIdObserver= Observer<Long>{ errorId -> makeToastMessage((activity as MainActivity), errorId)}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,13 +88,14 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
             fViewModel.sendMail()
         }
         view.mailBody.doOnTextChanged{text, _, _, _ ->
-            view.mailLendth.text = "${text!!.length}/8000"
+            view.mailLendth.text = "${text!!.length}/7000"
             fViewModel.mailBody = text.toString()
         }
         view.solarSystemDialog.setOnClickListener {
             addSolarSystemDialog.show(activity!!.supportFragmentManager, "addsolarsystem")
         }
 
+        fViewModel.errorId.observe(this, errorIdObserver)
         return view
     }
 
