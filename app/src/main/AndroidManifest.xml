@@ -29,9 +29,6 @@
                         android:scheme="eveauthnsmmailclient"/>
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.settings.SettingsActivity">
-
-        </activity>
 
     </application>
 

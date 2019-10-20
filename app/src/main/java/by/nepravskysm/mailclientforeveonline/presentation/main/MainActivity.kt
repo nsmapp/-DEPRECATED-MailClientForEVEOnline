@@ -2,13 +2,14 @@ package by.nepravskysm.mailclientforeveonline.presentation.main
 
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -16,14 +17,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
+import by.nepravskysm.domain.entity.UnreadMailsCount
 import by.nepravskysm.rest.api.createAuthUrl
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterChangeDialog
+import by.nepravskysm.mailclientforeveonline.utils.DARK_MODE
+import by.nepravskysm.mailclientforeveonline.utils.SETTINGS
 import by.nepravskysm.mailclientforeveonline.utils.pastImage
 import by.nepravskysm.mailclientforeveonline.utils.showErrorToast
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
+import kotlinx.android.synthetic.main.item_navigation_menu.view.*
 import java.util.concurrent.TimeUnit
 
 
@@ -36,21 +41,26 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     private var loginListener: LoginListener? = null
     private val characterListDialog = CharacterChangeDialog()
 
+    lateinit var pref: SharedPreferences
+
     private val progresBarObserver = Observer<Boolean>{
         if(it){showProgresBar()
         }else{hideProgresBar()
             loginListener?.refreshDataAfterLogin()
         }
     }
-    val nameObserver = Observer<String>{name ->  characterName.text = name}
-    val characterIdObserver = Observer<Long>{id ->
-            pastImage(activeCharacter, id)
-        }
-
-    val errorObserver = Observer<Long>{errorId ->
-
-        Log.d("logd", "ERROR ERROR ERROER $errorId")
+    private val nameObserver = Observer<String>{name ->  characterName.text = name}
+    private val characterIdObserver = Observer<Long>{id ->
+            pastImage(activeCharacter, id)}
+    private val errorObserver = Observer<Long>{errorId ->
         showErrorToast(this ,errorId)}
+    private val unreadMailObserver = Observer<UnreadMailsCount>{mail ->
+        if (mail.inbox > 0){setUnreadMail(R.id.inboxFragment, mail.inbox)}
+        if (mail.send > 0){setUnreadMail(R.id.sendFragment, mail.send)}
+        if (mail.corporation > 0){setUnreadMail(R.id.corpFragment, mail.corporation)}
+        if (mail.alliance > 0){setUnreadMail(R.id.allianceFragment, mail.alliance)}
+        if (mail.mailingList > 0){setUnreadMail(R.id.mailingListFragment, mail.mailingList)}
+    }
 
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -58,6 +68,13 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        pref = getSharedPreferences(SETTINGS, MODE_PRIVATE)
+        if(pref.getBoolean(DARK_MODE, false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
 
         navHeader = navigationView.getHeaderView(0)
         navigationController = findNavController(R.id.hostFragment)
@@ -86,6 +103,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         vModel.characterId.observe(this, characterIdObserver)
         vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         vModel.errorId.observe(this, errorObserver)
+        vModel.unreadMailsCount.observe(this, unreadMailObserver)
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -137,19 +155,28 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
 
     }
 
+    fun setUnreadMailsCount(){
+        vModel.getUnreadMails()
+    }
+
     private fun initOnClickListner(){
 //        navHeader.addCharacter.setOnClickListener {
 //            startBrowser()
 //        }
-
         navMenu.setOnClickListener {
             drawerLayout.openDrawer(Gravity.LEFT)
         }
-
         activeCharacter.setOnClickListener {
             characterListDialog.show(supportFragmentManager, "characterList")
         }
 
+    }
+
+    private fun setUnreadMail(itemMenuId: Int, count: Int){
+        if(count != 0){
+            navigationView.menu.findItem(itemMenuId)
+                .actionView.unreadMails.text = "$count"
+        }
     }
 
     private fun showProgresBar(){
@@ -168,6 +195,8 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     interface LoginListener{
         fun refreshDataAfterLogin()
     }
+
+
 
 }
 

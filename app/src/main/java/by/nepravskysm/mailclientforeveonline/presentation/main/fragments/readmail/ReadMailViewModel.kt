@@ -64,7 +64,9 @@ class ReadMailViewModel(private val getMailUseCase: GetMailUseCase,
     }
 
     fun deleteMail(){
+        mailIsDeleted.value = false
         deleteMailFromDBUseCase.setData(mailId).execute {
+            onComplite {  }
             onError { errorId.value = DB_DELETE_MAIL_ERROR }
         }
         deleteMailUseCaseFromServerUseCase.setData(mailId)

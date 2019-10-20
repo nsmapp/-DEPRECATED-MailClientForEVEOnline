@@ -153,9 +153,7 @@ val useCaseModule: Module = module {
         namesRepository = get()
     ) }
 
-    factory { GetContactFromDBUseCase(activeCharacterRepository = get(),
-        dbCharacterContactsRepository = get()
-    ) }
+    factory { GetContactFromDBUseCase(dbCharacterContactsRepository = get()) }
 
     factory { UpdateContactsDBUseCase(dbMailHeadersRepo = get(),
         activeCharacterRepo = get(),
@@ -165,6 +163,9 @@ val useCaseModule: Module = module {
     factory { GetMailHeadersAfterIdFromDBUseCase(dbMailHeadersRepo = get(),
         activeCharacterRepo = get()) }
 
+    factory { GetUnreadMailUseCase(activeCharacterRepo = get(),
+        dbMailHeadersRepo = get()) }
+
 }
 
 val viewModelModule: Module = module {
@@ -172,7 +173,8 @@ val viewModelModule: Module = module {
         getActivCharInfoUseCase = get(),
         synchroMailsHeaderUseCase = get(),
         updateContactsRestUseCase = get(),
-        updateContactsDBUseCase = get()
+        updateContactsDBUseCase = get(),
+        getUnreadMailCount = get()
     ) }
 
 

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,7 @@ class AddNameDialog  : DialogFragment(){
 
     private var confirmNameListener: ConfirmNameListener? = null
     private val getContactFromDBUseCase: GetContactFromDBUseCase by inject()
-    private val recyclerAdapter: CharacterNameAdapter = CharacterNameAdapter()
+//    private val recyclerAdapter: CharacterNameAdapter = CharacterNameAdapter()
 
     fun setConfirmNameListener(confirmNameListener: ConfirmNameListener){
         this.confirmNameListener = confirmNameListener
@@ -41,12 +42,17 @@ class AddNameDialog  : DialogFragment(){
         val dialog = inflater.inflate(R.layout.dialog_add_name, container, false)
         getDialog()!!.setTitle("Add the recipient's name")
 
-        dialog.nameRecycler.layoutManager = LinearLayoutManager(dialog.context)
-        dialog.nameRecycler.hasFixedSize()
-        dialog.nameRecycler.adapter = recyclerAdapter
+
+
+//        dialog.nameRecycler.layoutManager = LinearLayoutManager(dialog.context)
+//        dialog.nameRecycler.hasFixedSize()
+//        dialog.nameRecycler.adapter = recyclerAdapter
 
         getContactFromDBUseCase.execute {
-            onComplite { recyclerAdapter.setData(it)
+            onComplite {
+                val nameArray = it.map { it.contactName }.toTypedArray()
+                val nameAdapter = ArrayAdapter(dialog.context, android.R.layout.simple_list_item_1, nameArray)
+                dialog.name.setAdapter(nameAdapter)
             Log.d("logd", "contact count ${it.size}")}
 
         }
@@ -69,32 +75,32 @@ class AddNameDialog  : DialogFragment(){
 
 
 
-    inner class CharacterNameAdapter: RecyclerView.Adapter<CharacterNameAdapter.NameViewHolder>(){
-
-        private var contactList = listOf<Contact>()
-        fun setData(contactList: List<Contact>){
-            this.contactList = contactList
-            notifyDataSetChanged()
-        }
-
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NameViewHolder{
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
-
-            return NameViewHolder(view)
-        }
-
-        override fun getItemCount(): Int = contactList.size
-
-        override fun onBindViewHolder(holder: NameViewHolder, position: Int) {
-            holder.itemView.characterName.text = contactList[position].contactName
-            holder.itemView.setOnClickListener{name.setText(contactList[position].contactName)}
-            pastImage(holder.itemView.characterPhoto, contactList[position].contactId)
-        }
-
-
-        inner class NameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-    }
+//    inner class CharacterNameAdapter: RecyclerView.Adapter<CharacterNameAdapter.NameViewHolder>(){
+//
+//        private var contactList = listOf<Contact>()
+//        fun setData(contactList: List<Contact>){
+//            this.contactList = contactList
+//            notifyDataSetChanged()
+//        }
+//
+//
+//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NameViewHolder{
+//            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
+//
+//            return NameViewHolder(view)
+//        }
+//
+//        override fun getItemCount(): Int = contactList.size
+//
+//        override fun onBindViewHolder(holder: NameViewHolder, position: Int) {
+//            holder.itemView.characterName.text = contactList[position].contactName
+//            holder.itemView.setOnClickListener{name.setText(contactList[position].contactName)}
+//            pastImage(holder.itemView.characterPhoto, contactList[position].contactId)
+//        }
+//
+//
+//        inner class NameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+//
+//    }
 
 }

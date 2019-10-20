@@ -22,4 +22,5 @@ interface DBMailHeadersRepository{
     suspend fun getLastMailId(activeCharacter: String): Long
     suspend fun setMailIsRead(mailId: Long)
     suspend fun deleteMail(mailId: Long)
+    suspend fun getUnreadMails(activeCharacter: String):List<MailHeader>
 }

@@ -19,6 +19,9 @@ interface MailHeaderDao {
     @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName AND id < :lastMailId AND labels LIKE :labels  ORDER BY id DESC LIMIT 50"  )
     fun getMailsHeadersWithLabels(ownerName: String, labels :String, lastMailId: Long): List<MailHeaderDBE>
 
+    @Query("SELECT * FROM $TABLE_NAME WHERE isRead = :readStatus AND ownerName = :ownerName")
+    fun getUnreadMails(ownerName: String, readStatus: Boolean = false): List<MailHeaderDBE>
+
     @Query("SELECT MAX(id) FROM $TABLE_NAME WHERE ownerName = :characterName")
     fun getLastMailId(characterName:String):Long
 

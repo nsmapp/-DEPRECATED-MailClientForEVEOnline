@@ -7,8 +7,12 @@
 
     <color name="baseTextColor">#000316</color>
     <color name="mailIsReadBackground">#CCCCCC</color>
-    <color name="mailIsNOTReadBackground">#8D8D8D</color>
-    <color name="mailIsReadBorder">#B1A965</color>
+    <color name="mailIsNOTReadBackground">#81816A</color>
+    <color name="mailIsReadBorder">#5A5A4A</color>
+
 
     <color name="textViewReadable">#DDDDDD</color>
+
+    <color name="shadowDark">#6C6D6C</color>
+    <color name="shadowLight">#999899</color>
 </resources>

@@ -16,6 +16,10 @@ const val CHARACTER = "character"
 const val ALLIANCE = "alliance"
 const val MAIL_LIST = "maillist"
 
+const val SETTINGS = "settings"
+
+const val DARK_MODE = "darkmode"
+
 val CHANNEL_NAME: CharSequence = "check new mail work chanel"
 val CHANNEL_DESCRIPTION ="show new mail on active character"
 val NOTIFICATION_TITLE: CharSequence = "Mail Client for EVE Online"

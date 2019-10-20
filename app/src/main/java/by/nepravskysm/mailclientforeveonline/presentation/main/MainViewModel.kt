@@ -3,10 +3,12 @@ package by.nepravskysm.mailclientforeveonline.presentation.main
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import by.nepravskysm.domain.entity.UnreadMailsCount
 import by.nepravskysm.domain.usecase.auth.AuthUseCase
 import by.nepravskysm.domain.usecase.character.GetActivCharInfoUseCase
 import by.nepravskysm.domain.usecase.character.UpdateContactsDBUseCase
 import by.nepravskysm.domain.usecase.character.UpdateContactsRestUseCase
+import by.nepravskysm.domain.usecase.mails.GetUnreadMailUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
 import by.nepravskysm.domain.utils.DB_ACTIVE_CHARACTER_INFO_ERROR
 import by.nepravskysm.domain.utils.AUTH_ERROR
@@ -18,7 +20,8 @@ class MainViewModel(private val authUseCase: AuthUseCase,
                     private val getActivCharInfoUseCase: GetActivCharInfoUseCase,
                     private val synchroMailsHeaderUseCase: SynchroMailsHeaderUseCase,
                     private val updateContactsRestUseCase: UpdateContactsRestUseCase,
-                    private val updateContactsDBUseCase: UpdateContactsDBUseCase
+                    private val updateContactsDBUseCase: UpdateContactsDBUseCase,
+                    private val getUnreadMailCount: GetUnreadMailUseCase
 ): ViewModel(){
 
     var activeCharacterName: String = ""
@@ -28,6 +31,8 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     val characterId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
     val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
+    val unreadMailsCount: MutableLiveData<UnreadMailsCount>
+            by lazy { MutableLiveData<UnreadMailsCount>(UnreadMailsCount()) }
 
     fun startAuth(code: String){
         authUseCase.setData(code)
@@ -42,6 +47,13 @@ class MainViewModel(private val authUseCase: AuthUseCase,
             onError {
                 errorId.value = AUTH_ERROR
                 Log.d("logde----->", it.toString()) }
+        }
+    }
+
+    fun getUnreadMails(){
+        getUnreadMailCount.execute {
+            onComplite { unreadMailsCount.value = it }
+            onError {  }
         }
     }
 
@@ -71,12 +83,14 @@ class MainViewModel(private val authUseCase: AuthUseCase,
         isVisibilityProgressBar.value = true
         synchroMailsHeaderUseCase.execute {
             onComplite {
+                getUnreadMails()
                 isVisibilityProgressBar.value = false
                 updateContactsDBUseCase.execute {  }
                 //TODO добавить оповещениие о проведенной синхронизации
                  Log.d("logde----->", "synchronizeMailHeader() Completed")
             }
             onError {
+                getUnreadMails()
                 isVisibilityProgressBar.value = false
                 errorId.value = SYNCHRONIZE_MAIL_HEADER_ERROR
                 Log.d("logde----->", it.toString()) }

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/global_background">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/name"
         style="@style/materialEditText"
         android:layout_width="0dp"
@@ -13,7 +13,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:elevation="2dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -29,9 +28,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:elevation="2dp"
         android:text="Add"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cancel"
@@ -53,16 +54,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/nameRecycler"
-        android:layout_width="0dp"
-        android:layout_height="190dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cancel" />
 </androidx.constraintlayout.widget.ConstraintLayout>

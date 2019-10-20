@@ -61,7 +61,11 @@
     <fragment
             android:id="@+id/aboutFragment"
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.about.AboutFragment"
-            android:label="About" />
+            android:label="About" >
+        <action
+            android:id="@+id/action_aboutFragment_to_newMailFragment"
+            app:destination="@id/newMailFragment" />
+    </fragment>
 
     <fragment
             android:id="@+id/newMailFragment"
@@ -71,7 +75,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.SettingsFragment"
+        android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.settings.SettingsFragment"
         android:label="Settings" />
 
 

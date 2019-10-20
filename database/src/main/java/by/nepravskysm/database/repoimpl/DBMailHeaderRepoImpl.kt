@@ -10,6 +10,11 @@ import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     DBMailHeadersRepository {
 
+
+    override suspend fun getUnreadMails(activeCharacter: String): List<MailHeader> {
+        val unreadMails = appDatabase.mailHeadersDao().getUnreadMails(activeCharacter)
+        return mapToDomainHeaders(unreadMails)
+    }
     override suspend fun deleteMail(mailId: Long) {
         appDatabase.mailHeadersDao().delelteMail(mailId)
     }
