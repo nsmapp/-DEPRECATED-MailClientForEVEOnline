@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/global_background"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,7 +22,7 @@
             style="@style/materialEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Hours"
+            android:hint="@string/hours"
             android:inputType="number"
             android:maxLength="2"
             android:textAlignment="center" />
@@ -46,7 +45,7 @@
             style="@style/materialEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Minuts"
+            android:hint="@string/minuts"
             android:inputType="number"
             android:maxLength="2"
             android:textAlignment="center" />
@@ -69,7 +68,7 @@
             style="@style/materialEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Days"
+            android:hint="@string/days"
             android:inputType="number"
             android:maxLength="2"
             android:textAlignment="center" />
@@ -91,7 +90,7 @@
             style="@style/materialEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Solar system"
+            android:hint="@string/solar_system"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:maxLength="100"
@@ -117,7 +116,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:padding="4dp"
-            android:text="Hull" />
+            android:text="@string/hull" />
 
         <RadioButton
             android:id="@+id/armor"
@@ -125,14 +124,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:text="Armor" />
+            android:text="@string/armor" />
 
         <RadioButton
             android:id="@+id/shield"
             style="@style/radioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shield" />
+            android:text="@string/shield" />
     </RadioGroup>
 
     <TextView
@@ -157,7 +156,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add"
         app:layout_constraintHorizontal_bias="0.5"
@@ -173,7 +172,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Add"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -196,7 +195,7 @@
             style="@style/materialEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Information"
+            android:hint="@string/information"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:maxLength="100"

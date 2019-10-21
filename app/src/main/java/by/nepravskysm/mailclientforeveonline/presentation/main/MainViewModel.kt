@@ -1,6 +1,5 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.entity.UnreadMailsCount
@@ -10,8 +9,8 @@ import by.nepravskysm.domain.usecase.character.UpdateContactsDBUseCase
 import by.nepravskysm.domain.usecase.character.UpdateContactsRestUseCase
 import by.nepravskysm.domain.usecase.mails.GetUnreadMailUseCase
 import by.nepravskysm.domain.usecase.mails.SynchroMailsHeaderUseCase
-import by.nepravskysm.domain.utils.DB_ACTIVE_CHARACTER_INFO_ERROR
 import by.nepravskysm.domain.utils.AUTH_ERROR
+import by.nepravskysm.domain.utils.DB_ACTIVE_CHARACTER_INFO_ERROR
 import by.nepravskysm.domain.utils.SYNCHRONIZE_CONTACT_ERROR
 import by.nepravskysm.domain.utils.SYNCHRONIZE_MAIL_HEADER_ERROR
 
@@ -46,7 +45,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
             }
             onError {
                 errorId.value = AUTH_ERROR
-                Log.d("logde----->", it.toString()) }
+            }
         }
     }
 
@@ -59,10 +58,10 @@ class MainViewModel(private val authUseCase: AuthUseCase,
 
     fun synchoniseContacts(characterId: Long){
         updateContactsRestUseCase.setData(characterId).execute {
-            onComplite { Log.d("logde----->", "contact sinchro COMPLITE") }
+            onComplite { }
             onError {
                 errorId.value = SYNCHRONIZE_CONTACT_ERROR
-                Log.d("logde----->", " contract sinchro ERROR ${it.message}") }
+            }
         }
     }
 
@@ -75,7 +74,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
             }
             onError {
                 errorId.value = DB_ACTIVE_CHARACTER_INFO_ERROR
-                Log.d("logde-->",  "getActiveCharacterInfo()" + it.toString()) }
+            }
         }
     }
 
@@ -86,14 +85,12 @@ class MainViewModel(private val authUseCase: AuthUseCase,
                 getUnreadMails()
                 isVisibilityProgressBar.value = false
                 updateContactsDBUseCase.execute {  }
-                //TODO добавить оповещениие о проведенной синхронизации
-                 Log.d("logde----->", "synchronizeMailHeader() Completed")
             }
             onError {
                 getUnreadMails()
                 isVisibilityProgressBar.value = false
                 errorId.value = SYNCHRONIZE_MAIL_HEADER_ERROR
-                Log.d("logde----->", it.toString()) }
+            }
         }
     }
 }

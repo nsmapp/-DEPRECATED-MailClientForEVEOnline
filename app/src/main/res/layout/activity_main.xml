@@ -65,6 +65,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/character_avatar"
                 app:srcCompat="@drawable/no_login_avatar" />
 
             <ImageView
@@ -76,6 +77,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/menu"
                 app:srcCompat="@drawable/icon_menu" />
 
             <TextView

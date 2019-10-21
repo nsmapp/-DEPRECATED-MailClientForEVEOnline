@@ -17,7 +17,6 @@ class GetUnreadMailUseCase(private val activeCharacterRepo: ActiveCharacterRepos
         if(unreadMailList.isNotEmpty()){
             for (header in unreadMailList) {
                 if(header.labels.contains(1)){unreadMailsCount.inbox++}
-                if(header.labels.contains(2)){unreadMailsCount.send++}
                 if(header.labels.contains(4)){unreadMailsCount.corporation++}
                 if(header.labels.contains(8)){unreadMailsCount.alliance++}
                 if(header.labels.isEmpty()){unreadMailsCount.mailingList++}

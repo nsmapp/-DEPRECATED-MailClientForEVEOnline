@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+
     <string name="app_name">Mail Client for EVE Online</string>
     <string name="mailing_mails">Mailing list</string>
     <string name="inbox">Inbox</string>
@@ -13,7 +14,44 @@
     <string name="other">Other</string>
     <string name="save_mails">Save mails</string>
     <string name="new_mail">New mail</string>
-
+    <string name="menu">Menu</string>
+    <string name="character_avatar">Character avatar</string>
+    <string name="name">Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="solar_system">Solar system</string>
+    <string name="hours">Hours</string>
+    <string name="minuts">Minuts</string>
+    <string name="days">Days</string>
+    <string name="hull">Hull</string>
+    <string name="armor">Armor</string>
+    <string name="shield">Shield</string>
+    <string name="information">Information</string>
+    <string name="mail_client_for_eve_online">Mail client for EVE Online</string>
+    <string name="applications_to_view_and_send_mail_in_the_game_eve_online">Applications to view and send mail in the game EVE Online</string>
+    <string name="if_you_want_to_leave_feedback_or_report_a_bug">If you want to leave feedback or report a bug</string>
+    <string name="in_game_alisa_red_alert">In-game: Alisa Red alert</string>
+    <string name="github">GitHub:</string>
+    <string name="email_nsmappinfo_gmail_com">Email: nsmappinfo@gmail.com</string>
+    <string name="when_creating_this_application_images_icons_and_esi_api_were_used_copyright_and_courtesy_of_ccp_game">When creating this application, images, icons and ESI API were used, copyright and courtesy of CCP GAME</string>
+    <string name="version_0_8a">Version 0.8a</string>
+    <string name="to">To</string>
+    <string name="subject">Subject</string>
+    <string name="mail_body">Mail body</string>
+    <string name="_0_7000">0/7000</string>
+    <string name="reinforce_timer">Reinforce timer</string>
+    <string name="clear_recipient_list">Clear recipient list</string>
+    <string name="send_mail">Send mail</string>
+    <string name="from">From:</string>
+    <string name="replay">Replay</string>
+    <string name="forward">Forward</string>
+    <string name="trash">Trash</string>
+    <string name="subject_2t">Subject:</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="author">Author</string>
+    <string name="mailsubject">mailsubject</string>
+    <string name="mailtime">mailTime</string>
+    <string name="sender_avatar">sender avatar</string>
 
 
     <string-array name="array_solar_systems">

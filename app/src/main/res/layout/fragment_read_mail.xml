@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/global_background"
@@ -12,7 +11,7 @@
         style="@style/microTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From:"
+        android:text="@string/from"
         app:layout_constraintBottom_toTopOf="@+id/from"
         app:layout_constraintStart_toStartOf="@+id/from" />
 
@@ -40,7 +39,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/global_background"
         android:elevation="3dp"
-        android:text="Replay"
+        android:text="@string/replay"
         app:layout_constraintEnd_toStartOf="@+id/forwardMail"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +55,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/global_background"
         android:elevation="3dp"
-        android:text="Forward"
+        android:text="@string/forward"
         app:layout_constraintEnd_toStartOf="@+id/deleteMail"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/replayMail"
@@ -72,7 +71,7 @@
         android:layout_marginEnd="8dp"
         android:background="@drawable/global_background"
         android:elevation="3dp"
-        android:text="Trash"
+        android:text="@string/trash"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -85,7 +84,7 @@
         style="@style/microTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Subject:"
+        android:text="@string/subject_2t"
         app:layout_constraintBottom_toTopOf="@+id/subject"
         app:layout_constraintStart_toStartOf="@+id/subject" />
 
@@ -111,6 +110,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/subject"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lfrom"
+        android:contentDescription="@string/character_avatar"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
