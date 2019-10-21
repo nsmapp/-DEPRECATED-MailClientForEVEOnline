@@ -4,10 +4,10 @@ package by.nepravskysm.mailclientforeveonline.presentation.main
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -17,17 +17,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import by.nepravskysm.domain.entity.UnreadMailsCount
-import by.nepravskysm.rest.api.createAuthUrl
-import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.viewmodel.ext.android.viewModel
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterChangeDialog
-import by.nepravskysm.mailclientforeveonline.utils.DARK_MODE
-import by.nepravskysm.mailclientforeveonline.utils.SETTINGS
-import by.nepravskysm.mailclientforeveonline.utils.pastImage
-import by.nepravskysm.mailclientforeveonline.utils.makeToastMessage
+import by.nepravskysm.mailclientforeveonline.utils.*
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
+import by.nepravskysm.rest.api.createAuthUrl
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_navigation_menu.view.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 
@@ -48,17 +45,20 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
             loginListener?.refreshDataAfterLogin()
         }
     }
-    private val nameObserver = Observer<String>{name ->  characterName.text = name}
+    private val activeCharacterObserver = Observer<String> { name ->
+        characterName.text = name
+        pref.edit().putBoolean(CHARACTER_IS_AUTH, true).apply()
+    }
     private val characterIdObserver = Observer<Long>{id ->
             pastImage(activeCharacter, id)}
     private val errorObserver = Observer<Long>{errorId ->
         makeToastMessage(this ,errorId)}
     private val unreadMailObserver = Observer<UnreadMailsCount>{mail ->
-        if (mail.inbox > 0){setUnreadMail(R.id.inboxFragment, mail.inbox)}
-        if (mail.send > 0){setUnreadMail(R.id.sendFragment, mail.send)}
-        if (mail.corporation > 0){setUnreadMail(R.id.corpFragment, mail.corporation)}
-        if (mail.alliance > 0){setUnreadMail(R.id.allianceFragment, mail.alliance)}
-        if (mail.mailingList > 0){setUnreadMail(R.id.mailingListFragment, mail.mailingList)}
+        setUnreadMail(R.id.inboxFragment, mail.inbox)
+        setUnreadMail(R.id.sendFragment, mail.send)
+        setUnreadMail(R.id.corpFragment, mail.corporation)
+        setUnreadMail(R.id.allianceFragment, mail.alliance)
+        setUnreadMail(R.id.mailingListFragment, mail.mailingList)
     }
 
 
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
 
         vModel.getActiveCharacterInfo()
 
-        vModel.characterName.observe(this, nameObserver)
+        vModel.characterName.observe(this, activeCharacterObserver)
         vModel.characterId.observe(this, characterIdObserver)
         vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         vModel.errorId.observe(this, errorObserver)
@@ -132,6 +132,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
             loginListener?.refreshDataAfterLogin()
         }
         vModel.getActiveCharacterInfo()
+
     }
 
     private fun startBrowser(){
@@ -173,8 +174,9 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
 
     private fun setUnreadMail(itemMenuId: Int, count: Int){
         if(count != 0){
-            navigationView.menu.findItem(itemMenuId)
-                .actionView.unreadMails.text = "$count"
+            navigationView.menu.findItem(itemMenuId).actionView.unreadMails.text = "$count"
+        } else {
+            navigationView.menu.findItem(itemMenuId).actionView.unreadMails.text = ""
         }
     }
 
