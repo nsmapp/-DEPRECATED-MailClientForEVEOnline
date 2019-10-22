@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddNameDialog
-import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddSolarSystemDialog
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddReinforceTimerDialog
+import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddSolarSystemDialog
 import by.nepravskysm.mailclientforeveonline.utils.*
 import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
@@ -85,6 +85,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
             fViewModel.nameList.clear()
         }
         view.sendMailBtn.setOnClickListener {
+            fViewModel.subject = view.subject.text.toString()
             fViewModel.sendMail()
         }
         view.mailBody.doOnTextChanged{text, _, _, _ ->
