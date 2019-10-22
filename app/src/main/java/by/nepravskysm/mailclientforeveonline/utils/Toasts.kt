@@ -28,6 +28,10 @@ fun makeToastMessage(context: Context, messageId: Long){
                 showToast(context, "Failed to update mail metadata")
             DB_DELETE_MAIL_ERROR ->
                 showToast(context, "Failed to delete email.")
+            MAIL_IS_SENT ->
+                showToast(context, "Mail is sent")
+            MAIL_IS_DELETED ->
+                showToast(context, "Mail is deleted")
             else ->
                 showToast(context, "Oops, something went wrong")
         }

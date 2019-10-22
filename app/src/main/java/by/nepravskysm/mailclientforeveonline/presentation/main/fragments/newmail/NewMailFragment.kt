@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import by.nepravskysm.domain.utils.MAIL_IS_SENT
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddNameDialog
@@ -26,7 +28,12 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     private val addSolarSystemDialog = AddSolarSystemDialog()
     private val reinforceDialog = AddReinforceTimerDialog()
 
-    private val errorIdObserver= Observer<Long>{ errorId -> makeToastMessage((activity as MainActivity), errorId)}
+    private val eventIdObserver = Observer<Long> { eventId ->
+        makeToastMessage((activity as MainActivity), eventId)
+        if (eventId == MAIL_IS_SENT) {
+            findNavController().popBackStack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +73,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
 
             }
 
-            fViewModel.errorId.observe(this, errorIdObserver)
+            fViewModel.eventId.observe(this, eventIdObserver)
         }
 
 
@@ -96,7 +103,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
             addSolarSystemDialog.show(activity!!.supportFragmentManager, "addsolarsystem")
         }
 
-        fViewModel.errorId.observe(this, errorIdObserver)
+        fViewModel.eventId.observe(this, eventIdObserver)
         return view
     }
 

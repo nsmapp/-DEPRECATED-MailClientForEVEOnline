@@ -1,5 +1,7 @@
 package by.nepravskysm.domain.utils
 
+
+/////////ERRORS
 //AUTH
 const val AUTH_ERROR: Long = 47000100
 
@@ -20,3 +22,9 @@ const val DB_ACTIVE_CHARACTER_INFO_ERROR: Long = 45000000
 const val DB_LOAD_MAIL_HEADER_FROM_DATABASE: Long = 45000301
 const val DB_UPDATE_MAIL_METADATA_ERROR: Long = 45000302
 const val DB_DELETE_MAIL_ERROR: Long = 45000303
+
+
+//MESSAGE
+
+const val MAIL_IS_SENT: Long = 21000101
+const val MAIL_IS_DELETED: Long = 22000101

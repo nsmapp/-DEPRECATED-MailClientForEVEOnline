@@ -1,10 +1,10 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.entity.OutPutMail
 import by.nepravskysm.domain.usecase.mails.SendMailUseCase
+import by.nepravskysm.domain.utils.MAIL_IS_SENT
 import by.nepravskysm.domain.utils.SEND_MAIL_ERROR
 
 
@@ -16,7 +16,7 @@ class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel
     var mailEnd = ""
     var subject = ""
     val nameList = mutableSetOf<String>()
-    val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
+    val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
 
 
     fun sendMail(){
@@ -25,10 +25,8 @@ class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel
 
         sendMailUseCase.setData(mail, nameList)
         sendMailUseCase.execute {
-            onComplite {  }
-            onError {
-                errorId.value = SEND_MAIL_ERROR
-                Log.d("logd", "${this.javaClass.name}  ${it.localizedMessage}") }
+            onComplite { eventId.value = MAIL_IS_SENT }
+            onError { eventId.value = SEND_MAIL_ERROR }
         }
     }
 
@@ -45,7 +43,7 @@ class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel
 
     fun initForwardMail(subject: String, from: String, mailBody: String){
 
-        this.subject ="\nRe: $subject"
+        this.subject = "\nFw: $subject"
         this.mailEnd = "\n\n" +
                 "-------------------\n" +
                 "from: $from \n" +

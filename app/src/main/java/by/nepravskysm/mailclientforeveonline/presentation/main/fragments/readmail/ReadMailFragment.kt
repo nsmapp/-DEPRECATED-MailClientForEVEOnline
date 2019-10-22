@@ -5,12 +5,12 @@ import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.nepravskysm.domain.entity.InPutMail
+import by.nepravskysm.domain.utils.MAIL_IS_DELETED
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.utils.*
@@ -29,9 +29,9 @@ class ReadMailFragment : Fragment(){
 
     }
     private val errorIdObserver = Observer<Long>{errorId -> makeToastMessage((activity as MainActivity), errorId)}
-    private val deleteMailObserver = Observer<Boolean> {             //TODO сделвть красиво
+    private val deleteMailObserver = Observer<Boolean> {
         if(activity != null && it){
-            Toast.makeText(activity, "mail is deleted", Toast.LENGTH_SHORT).show()
+            makeToastMessage((activity as MainActivity), MAIL_IS_DELETED)
             findNavController().popBackStack()
         }  }
     private val progresBarObserver = Observer<Boolean>{
