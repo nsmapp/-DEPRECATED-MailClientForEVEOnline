@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "934814587513",
+    "firebase_url": "https://mail-client-for-eve-online.firebaseio.com",
+    "project_id": "mail-client-for-eve-online",
+    "storage_bucket": "mail-client-for-eve-online.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934814587513:android:deabc2de6fb83311c292a8",
+        "android_client_info": {
+          "package_name": "by.nepravskysm.mailclientforeveonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934814587513-02h9hr2loqqo951h2999nnghlg19i7ce.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "by.nepravskysm.mailclientforeveonline",
+            "certificate_hash": "bcb769bc24845c4e5412c0b2c6762c48b1d25455"
+          }
+        },
+        {
+          "client_id": "934814587513-fvnnf8ao10l856pkels772rjs7pihnk5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrEMuXZxJGuSn7uxf_SSIAHF4C6WqhKFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934814587513-fvnnf8ao10l856pkels772rjs7pihnk5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
