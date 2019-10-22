@@ -29,7 +29,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     val characterName: MutableLiveData<String> by lazy { MutableLiveData<String>("")}
     val characterId: MutableLiveData<Long> by lazy { MutableLiveData<Long>()}
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
-    val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
+    val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
     val unreadMailsCount: MutableLiveData<UnreadMailsCount>
             by lazy { MutableLiveData<UnreadMailsCount>(UnreadMailsCount()) }
 
@@ -44,7 +44,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
                 synchronizeMailHeader()
             }
             onError {
-                errorId.value = AUTH_ERROR
+                eventId.value = AUTH_ERROR
             }
         }
     }
@@ -60,7 +60,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
         updateContactsRestUseCase.setData(characterId).execute {
             onComplite { }
             onError {
-                errorId.value = SYNCHRONIZE_CONTACT_ERROR
+                eventId.value = SYNCHRONIZE_CONTACT_ERROR
             }
         }
     }
@@ -73,7 +73,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
                 characterId.value = it.characterId
             }
             onError {
-                errorId.value = DB_ACTIVE_CHARACTER_INFO_ERROR
+                eventId.value = DB_ACTIVE_CHARACTER_INFO_ERROR
             }
         }
     }
@@ -89,7 +89,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
             onError {
                 getUnreadMails()
                 isVisibilityProgressBar.value = false
-                errorId.value = SYNCHRONIZE_MAIL_HEADER_ERROR
+                eventId.value = SYNCHRONIZE_MAIL_HEADER_ERROR
             }
         }
     }

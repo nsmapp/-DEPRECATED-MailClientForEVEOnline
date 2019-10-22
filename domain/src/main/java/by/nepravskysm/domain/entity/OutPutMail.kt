@@ -4,6 +4,12 @@ import by.nepravskysm.domain.entity.subentity.Recipient
 
 class OutPutMail(
     val approvedCost: Int = 0,
-    val body: String,
+    var body: String,
     val recipients: MutableList<Recipient>,
-    val subject: String)
+    val subject: String
+) {
+
+    init {
+        body = body.substring(0, 7950)
+    }
+}

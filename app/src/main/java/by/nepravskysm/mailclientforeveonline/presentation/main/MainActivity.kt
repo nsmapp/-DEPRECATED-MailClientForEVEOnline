@@ -51,8 +51,9 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     }
     private val characterIdObserver = Observer<Long>{id ->
             pastImage(activeCharacter, id)}
-    private val errorObserver = Observer<Long>{errorId ->
-        makeToastMessage(this ,errorId)}
+    private val errorObserver = Observer<Long> { eventId ->
+        makeToastMessage(this, eventId)
+    }
     private val unreadMailObserver = Observer<UnreadMailsCount>{mail ->
         setUnreadMail(R.id.inboxFragment, mail.inbox)
         setUnreadMail(R.id.sendFragment, mail.send)
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         vModel.characterName.observe(this, activeCharacterObserver)
         vModel.characterId.observe(this, characterIdObserver)
         vModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-        vModel.errorId.observe(this, errorObserver)
+        vModel.eventId.observe(this, errorObserver)
         vModel.unreadMailsCount.observe(this, unreadMailObserver)
 
         val constraints = Constraints.Builder()

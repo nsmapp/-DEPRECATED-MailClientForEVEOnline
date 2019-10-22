@@ -21,7 +21,7 @@ class AuthManager {
     fun getAuthToken(code :String): Deferred<AuthTokenResponse> {
 
 
-//        val authKey: String = Base64.encode("$clientId:$secretKey".toByteArray()).toString()
+//        val header: String = Base64.encode("$clientId:$secretKey".toByteArray()).toString()
 
         val header = "Basic NzQzZWE3NzczZTQ5NDBhZWJhNDliMmFkYTVjYmQ5MTE6MGpvVDB4UDVkMWF4NEVYY3VkYnpSYWowR0dFRm1jM0lkTXdSTGY2ag=="
         return authApi.getAuthInfo(

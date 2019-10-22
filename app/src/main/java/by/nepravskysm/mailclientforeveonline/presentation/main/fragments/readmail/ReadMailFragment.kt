@@ -28,7 +28,8 @@ class ReadMailFragment : Fragment(){
         pastImage(fromPhoto, mail.from)
 
     }
-    private val errorIdObserver = Observer<Long>{errorId -> makeToastMessage((activity as MainActivity), errorId)}
+    private val eventIdObserver =
+        Observer<Long> { eventId -> makeToastMessage((activity as MainActivity), eventId) }
     private val deleteMailObserver = Observer<Boolean> {
         if(activity != null && it){
             makeToastMessage((activity as MainActivity), MAIL_IS_DELETED)
@@ -72,7 +73,7 @@ class ReadMailFragment : Fragment(){
         fViewModel.getMail()
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         fViewModel.mailIsDeleted.observe(this, deleteMailObserver)
-        fViewModel.errorId.observe(this, errorIdObserver)
+        fViewModel.eventId.observe(this, eventIdObserver)
 
 
         fView.replayMail

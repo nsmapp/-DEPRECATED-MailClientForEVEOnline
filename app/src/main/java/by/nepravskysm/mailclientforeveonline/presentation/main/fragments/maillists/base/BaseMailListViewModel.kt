@@ -21,7 +21,7 @@ open class BaseMailListViewModel (
 
 
     val unreadMailCount: MutableLiveData<Int> by lazy {MutableLiveData<Int>(0)}
-    val errorId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
+    val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{
         MutableLiveData<Boolean>(false)
     }
@@ -48,7 +48,7 @@ open class BaseMailListViewModel (
             }
             onError {
                 isVisibilityProgressBar.value = false
-                errorId.value = LOAD_NEW_MAIL_HEADER_ERROR
+                eventId.value = LOAD_NEW_MAIL_HEADER_ERROR
                 java.util.logging.Logger.getLogger("logdOnError")
                     .log(Level.INFO,"oadNewMailHeaders()  " + it.localizedMessage)
             }
@@ -66,7 +66,7 @@ open class BaseMailListViewModel (
 
             onError {
                 isVisibilityProgressBar.value = false
-                errorId.value = DB_LOAD_MAIL_HEADER_FROM_DATABASE
+                eventId.value = DB_LOAD_MAIL_HEADER_FROM_DATABASE
                 java.util.logging.Logger.getLogger("logdOnError")
                     .log(Level.INFO, it.localizedMessage)
 

@@ -37,7 +37,8 @@ MainActivity.LoginListener{
     private val updateMailHeaderObserver = Observer<List<MailHeader>>{
         mailRecyclerAdapter.addData(it)
     }
-    private val errorObserver = Observer<Long>{errorId -> makeToastMessage((activity as MainActivity), errorId) }
+    private val errorObserver =
+        Observer<Long> { eventId -> makeToastMessage((activity as MainActivity), eventId) }
 
     abstract fun setUnreadMailConteiner(): Int
 
@@ -65,7 +66,7 @@ MainActivity.LoginListener{
 //        fViewModel.unreadMailCount.observe(this, unreadMailObserver)
         fViewModel.headerList.observe(this, mailHeaderObserver)
         fViewModel.addHeaderList.observe(this, updateMailHeaderObserver)
-        fViewModel.errorId.observe(this, errorObserver)
+        fViewModel.eventId.observe(this, errorObserver)
 
         return fView
     }

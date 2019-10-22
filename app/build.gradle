@@ -15,11 +15,11 @@ android {
 
     }
     buildTypes {
-//        debug{
+        debug{
 //            minifyEnabled true //обфускация
 //            shrinkResources true //удаление мусора
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
+        }
         debug
         release {
             minifyEnabled false
