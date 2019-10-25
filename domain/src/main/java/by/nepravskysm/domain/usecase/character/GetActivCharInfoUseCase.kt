@@ -5,12 +5,14 @@ import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class GetActivCharInfoUseCase(private val authInfoRepository: AuthInfoRepository,
-                              private val activeCharacterRepository: ActiveCharacterRepository) : AsyncUseCase<AuthInfo>(){
+class GetActivCharInfoUseCase(
+    private val authInfoRepo: AuthInfoRepository,
+    private val activeCharacterRepo: ActiveCharacterRepository
+) : AsyncUseCase<AuthInfo>() {
 
 
     override suspend fun onBackground(): AuthInfo {
-        val characnerName = activeCharacterRepository.getActiveCharacterName()
-       return authInfoRepository.getAuthInfo(characnerName)
+        val characterName = activeCharacterRepo.getActiveCharacterName()
+        return authInfoRepo.getAuthInfo(characterName)
     }
 }

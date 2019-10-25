@@ -8,12 +8,12 @@ import by.nepravskysm.database.repoimpl.DBMailHeaderRepoImpl
 import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.database.DBCharacterContactsRepository
+import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.auth.CharacterInfoRepository
-import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 import by.nepravskysm.domain.repository.rest.character.CharacterContactsRepository
-import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
+import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.IdsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
@@ -67,93 +67,119 @@ val databaseModule: Module = module {
 
     single<AppDatabase> { AppDatabase.getInstance(androidContext())}
 
-    factory<AuthInfoRepository> {AuthInfoRepoImpl(appDatabase = get())}
-    factory<DBMailHeadersRepository>{DBMailHeaderRepoImpl(appDatabase = get())}
-    factory<ActiveCharacterRepository>{ActiveCharacterRepoImpl(appDatabase = get())}
-    factory<DBCharacterContactsRepository> {DBCharacterContactsRepoImpl(appDatabase = get())}
+    single<AuthInfoRepository> { AuthInfoRepoImpl(appDatabase = get()) }
+    single<DBMailHeadersRepository> { DBMailHeaderRepoImpl(appDatabase = get()) }
+    single<ActiveCharacterRepository> { ActiveCharacterRepoImpl(appDatabase = get()) }
+    single<DBCharacterContactsRepository> { DBCharacterContactsRepoImpl(appDatabase = get()) }
 
 }
 
 val useCaseModule: Module = module {
 
-    factory{ AuthUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        characterInfoRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        AuthUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            characterInfoRepo = get(),
+            activeCharacterRepo = get()
     )  }
 
-    factory { SynchroMailsHeaderUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        mailsHeadersRepository = get(),
-        namesRepository = get(),
-        dbMailHeadersRepository = get(),
-        mailingListRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        SynchroMailsHeaderUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            mailsHeadersRepo = get(),
+            namesRepo = get(),
+            dbMailHeadersRepo = get(),
+            mailingListRepo = get(),
+            activeCharacterRepo = get()
     ) }
 
-    factory { GetNewMailHeadersUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        mailsHeadersRepository = get(),
-        namesRepository = get(),
-        dbMailHeadersRepository = get(),
-        mailingListRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        GetNewMailHeadersUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            mailsHeadersRepo = get(),
+            namesRepo = get(),
+            dbMailHeadersRepo = get(),
+            mailingListRepo = get(),
+            activeCharacterRepo = get()
     ) }
 
-    factory { GetActivCharInfoUseCase(authInfoRepository = get(),
-        activeCharacterRepository = get()) }
-    factory { GetMailUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        mailRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        GetActivCharInfoUseCase(
+            authInfoRepo = get(),
+            activeCharacterRepo = get()
+        )
+    }
+    factory {
+        GetMailUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            mailRepo = get(),
+            activeCharacterRepo = get()
     ) }
 
-    factory { SendMailUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        mailRepository = get(),
-        idsRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        SendMailUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            mailRepo = get(),
+            idsRepo = get(),
+            activeCharacterRepo = get()
     ) }
 
-    factory { UpdataMailMetadataUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        mailRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        UpdataMailMetadataUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            mailRepo = get(),
+            activeCharacterRepo = get()
     ) }
 
-    factory { DeleteMailUseCaseFromServerUseCase(authRepository = get(),
-        authInfoRepository = get(),
-        mailRepository = get(),
-        activeCharacterRepository = get()
+    factory {
+        DeleteMailFromServerUseCase(
+            authRepo = get(),
+            authInfoRepo = get(),
+            mailRepo = get(),
+            activeCharacterRepo = get()
     ) }
 
-    factory { GetMailHeadersFromDBUseCase(dbMailHeadersRepository = get(),
-        activeCharacterRepository = get()) }
+    factory {
+        GetMailHeadersFromDBUseCase(
+            dbMailHeadersRepo = get(),
+            activeCharacterRepo = get()
+        )
+    }
 
-    factory { UpdateDBMailMetadataUseCase( dbMailHeadersRepository = get())}
+    factory { UpdateDBMailMetadataUseCase(dbMailHeadersRepo = get()) }
 
-    factory { GetAllCharactersAuthInfoUseCase(authInfoRepository = get()) }
+    factory { GetAllCharactersAuthInfoUseCase(authInfoRepo = get()) }
 
-    factory { ChangeActiveCharacter( activeCharacterRepository = get()) }
+    factory { ChangeActiveCharacter(activeCharacterRepo = get()) }
 
-    factory { GetNewMailCountUseCase(authInfoRepository = get(),
-        activeCharacterRepository = get(),
-        dbMailHeadersRepository = get(),
-        authRepository = get(),
-        mailsHeadersRepository = get()
+    factory {
+        GetNewMailCountUseCase(
+            authInfoRepo = get(),
+            activeCharacterRepo = get(),
+            dbMailHeadersRepo = get(),
+            authRepo = get(),
+            mailsHeadersRepo = get()
     ) }
 
-    factory { DeleteMailFromDBUseCase(dbMailHeadersRepository = get()) }
+    factory { DeleteMailFromDBUseCase(dbMailHeadersRepo = get()) }
 
-    factory { UpdateContactsRestUseCase(authInfoRepository = get(),
-        activeCharacterRepository = get(),
-        authRepository = get(),
-        characterContactsRepository = get(),
-        dbCharacterContactsRepository = get(),
-        namesRepository = get()
-    ) }
+    factory {
+        UpdateContactsRestUseCase(
+            authInfoRepo = get(),
+            activeCharacterRepo = get(),
+            dbCharacterContactsRepo = get(),
+            characterContactsRepo = get(),
+            namesRepo = get()
+        )
+    }
 
-    factory { GetContactFromDBUseCase(dbCharacterContactsRepository = get()) }
+    factory { GetContactFromDBUseCase(dbCharacterContactsRepo = get()) }
 
     factory { UpdateContactsDBUseCase(dbMailHeadersRepo = get(),
         activeCharacterRepo = get(),
@@ -170,22 +196,25 @@ val useCaseModule: Module = module {
 
 val viewModelModule: Module = module {
     viewModel { MainViewModel(authUseCase = get(),
-        getActivCharInfoUseCase = get(),
-        synchroMailsHeaderUseCase = get(),
-        updateContactsRestUseCase = get(),
-        updateContactsDBUseCase = get(),
+        getActiveCharInfo = get(),
+        synchrMailsHeader = get(),
+        updateContactsRest = get(),
+        updateContactsDB = get(),
         getUnreadMailCount = get()
     ) }
 
 
-    viewModel { ReadMailViewModel(getMailUseCase = get(),
-        updataMailMetadataUseCase = get(),
-        updateDBMailMetadataUseCase = get(),
-        deleteMailUseCaseFromServerUseCase = get(),
-        deleteMailFromDBUseCase = get())
+    viewModel {
+        ReadMailViewModel(
+            getMails = get(),
+            updateMailMetadata = get(),
+            updateDBMailMetadata = get(),
+            deleteMailFromServer = get(),
+            deleteMailFromDB = get()
+        )
     }
 
-    viewModel { NewMailViewModel(sendMailUseCase = get()) }
+    viewModel { NewMailViewModel(sendMail = get()) }
 
     viewModel { BaseMailListViewModel(getMailHeadersFromDB = get(),
         getNewMailHeaders = get(),

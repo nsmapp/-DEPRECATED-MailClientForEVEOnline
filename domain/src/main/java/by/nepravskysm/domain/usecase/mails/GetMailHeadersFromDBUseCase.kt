@@ -5,8 +5,10 @@ import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class GetMailHeadersFromDBUseCase(private val dbMailHeadersRepository: DBMailHeadersRepository,
-                                  private val activeCharacterRepository: ActiveCharacterRepository)
+class GetMailHeadersFromDBUseCase(
+    private val dbMailHeadersRepo: DBMailHeadersRepository,
+    private val activeCharacterRepo: ActiveCharacterRepository
+)
     : AsyncUseCase<List<MailHeader>>(){
 
     private var label = 0
@@ -37,16 +39,16 @@ class GetMailHeadersFromDBUseCase(private val dbMailHeadersRepository: DBMailHea
 
 
     override suspend fun onBackground(): List<MailHeader> {
-        val characterName = activeCharacterRepository.getActiveCharacterName()
+        val characterName = activeCharacterRepo.getActiveCharacterName()
 
         return when(label){
-            0 -> dbMailHeadersRepository.get(characterName)
-            101 -> dbMailHeadersRepository.getInbox(characterName)
-            102 -> dbMailHeadersRepository.getSend(characterName)
-            104 -> dbMailHeadersRepository.getCorporation(characterName)
-            108 -> dbMailHeadersRepository.getAlliance(characterName)
-            100 -> dbMailHeadersRepository.getMailingList(characterName)
-            else -> dbMailHeadersRepository.get(characterName)
+            0 -> dbMailHeadersRepo.get(characterName)
+            101 -> dbMailHeadersRepo.getInbox(characterName)
+            102 -> dbMailHeadersRepo.getSend(characterName)
+            104 -> dbMailHeadersRepo.getCorporation(characterName)
+            108 -> dbMailHeadersRepo.getAlliance(characterName)
+            100 -> dbMailHeadersRepo.getMailingList(characterName)
+            else -> dbMailHeadersRepo.get(characterName)
         }
     }
 }

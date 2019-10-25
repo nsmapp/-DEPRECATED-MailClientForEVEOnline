@@ -3,7 +3,7 @@ package by.nepravskysm.domain.usecase.mails
 import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class UpdateDBMailMetadataUseCase(private val dbMailHeadersRepository: DBMailHeadersRepository)
+class UpdateDBMailMetadataUseCase(private val dbMailHeadersRepo: DBMailHeadersRepository)
     :AsyncUseCase<Boolean>(){
 
 
@@ -13,7 +13,7 @@ class UpdateDBMailMetadataUseCase(private val dbMailHeadersRepository: DBMailHea
         return this
     }
     override suspend fun onBackground():Boolean {
-        dbMailHeadersRepository.setMailIsRead(mailId)
+        dbMailHeadersRepo.setMailIsRead(mailId)
         return true
     }
 }

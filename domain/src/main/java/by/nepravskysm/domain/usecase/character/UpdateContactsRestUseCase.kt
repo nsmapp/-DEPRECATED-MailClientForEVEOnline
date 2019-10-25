@@ -5,18 +5,17 @@ import by.nepravskysm.domain.entity.Contact
 import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.database.DBCharacterContactsRepository
-import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.character.CharacterContactsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 import java.util.logging.Level
 
-class UpdateContactsRestUseCase(private val authRepository: AuthRepository,
-                                private val authInfoRepository: AuthInfoRepository,
-                                private val activeCharacterRepository: ActiveCharacterRepository,
-                                private val characterContactsRepository: CharacterContactsRepository,
-                                private val dbCharacterContactsRepository: DBCharacterContactsRepository,
-                                private val namesRepository: NamesRepository
+class UpdateContactsRestUseCase(
+    private val authInfoRepo: AuthInfoRepository,
+    private val activeCharacterRepo: ActiveCharacterRepository,
+    private val characterContactsRepo: CharacterContactsRepository,
+    private val dbCharacterContactsRepo: DBCharacterContactsRepository,
+    private val namesRepo: NamesRepository
 ) : AsyncUseCase<Boolean>() {
 
 
@@ -27,8 +26,8 @@ class UpdateContactsRestUseCase(private val authRepository: AuthRepository,
         return this
     }
     override suspend fun onBackground(): Boolean {
-        val characterName = activeCharacterRepository.getActiveCharacterName()
-        val characterInfo: AuthInfo = authInfoRepository.getAuthInfo(characterName)
+        val characterName = activeCharacterRepo.getActiveCharacterName()
+        val characterInfo: AuthInfo = authInfoRepo.getAuthInfo(characterName)
 
         var contactsList = listOf<Contact>()
 
@@ -42,12 +41,12 @@ class UpdateContactsRestUseCase(private val authRepository: AuthRepository,
     private suspend fun getContacts(accessToken: String,
                                     characterId: Long
     ): List<Contact>{
-        return characterContactsRepository.getContacts(characterId, accessToken)
+        return characterContactsRepo.getContacts(characterId, accessToken)
     }
 
     private suspend fun saveContacts(contactList: List<Contact>, activaCharacter: String): Boolean{
 
-        return  dbCharacterContactsRepository.insertContactList(contactList, activaCharacter)
+        return dbCharacterContactsRepo.insertContactList(contactList, activaCharacter)
     }
 
     private suspend fun setNameToContacts (contactList: List<Contact>): List<Contact>{
@@ -59,7 +58,7 @@ class UpdateContactsRestUseCase(private val authRepository: AuthRepository,
             idSet.add(contact.contactId)
         }
         java.util.logging.Logger.getLogger("logd 00").log(Level.INFO, "${idSet.size}")
-        val nameMap: HashMap<Long, String> = namesRepository.getNameMap(idSet.toList())
+        val nameMap: HashMap<Long, String> = namesRepo.getNameMap(idSet.toList())
 
 
         java.util.logging.Logger.getLogger("logd 00").log(Level.INFO, "${nameMap}")
@@ -72,7 +71,7 @@ class UpdateContactsRestUseCase(private val authRepository: AuthRepository,
 
         java.util.logging.Logger.getLogger("logd 00").log(Level.INFO, "${contactList.size}")
 
-        return contacts;
+        return contacts
     }
 
 }

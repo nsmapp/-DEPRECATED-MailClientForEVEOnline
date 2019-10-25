@@ -7,16 +7,14 @@ import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
-                                private val authInfoRepository: AuthInfoRepository,
-                                private val mailRepository: MailRepository,
-                                private val activeCharacterRepository: ActiveCharacterRepository
+class UpdataMailMetadataUseCase(
+    private val authRepo: AuthRepository,
+    private val authInfoRepo: AuthInfoRepository,
+    private val mailRepo: MailRepository,
+    private val activeCharacterRepo: ActiveCharacterRepository
 ): AsyncUseCase<Boolean>() {
 
-
-
     private var mailId: Long = 0
-
     private var labelsList = mutableListOf<Int>()
 
     fun setData(mailId: Long, labelsList: List<Int>): UpdataMailMetadataUseCase{
@@ -29,36 +27,27 @@ class UpdataMailMetadataUseCase(private val authRepository: AuthRepository,
 
     override suspend fun onBackground():Boolean {
 
-        val characterName = activeCharacterRepository.getActiveCharacterName()
-        val authInfo = authInfoRepository.getAuthInfo(characterName)
+        val characterName = activeCharacterRepo.getActiveCharacterName()
+        val authInfo = authInfoRepo.getAuthInfo(characterName)
 
         try {
-
-
-            mailRepository
+            mailRepo
                 .updateMailMetadata(
                     MailMetadata(labelsList, true),
                     authInfo.accessToken,
                     authInfo.characterId,
                     mailId)
 
-
-
         }catch (e: Exception){
-            val token = authRepository.refreshAuthToken(authInfo.refreshToken)
+            val token = authRepo.refreshAuthToken(authInfo.refreshToken)
 
-
-            mailRepository
+            mailRepo
                 .updateMailMetadata(
                     MailMetadata(labelsList, true),
                     token.accessToken,
                     authInfo.characterId,
                     mailId)
-
         }
-
         return true
     }
-
-
 }

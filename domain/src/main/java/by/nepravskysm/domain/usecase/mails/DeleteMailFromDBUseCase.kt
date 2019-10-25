@@ -3,7 +3,8 @@ package by.nepravskysm.domain.usecase.mails
 import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class DeleteMailFromDBUseCase(private val dbMailHeadersRepository: DBMailHeadersRepository) : AsyncUseCase<Unit>(){
+class DeleteMailFromDBUseCase(private val dbMailHeadersRepo: DBMailHeadersRepository) :
+    AsyncUseCase<Unit>() {
 
 
     private var mailId: Long = 0
@@ -14,6 +15,6 @@ class DeleteMailFromDBUseCase(private val dbMailHeadersRepository: DBMailHeaders
     }
 
     override suspend fun onBackground() {
-        dbMailHeadersRepository.deleteMail(mailId)
+        dbMailHeadersRepo.deleteMail(mailId)
     }
 }

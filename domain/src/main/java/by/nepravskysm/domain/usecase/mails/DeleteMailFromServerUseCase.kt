@@ -6,39 +6,37 @@ import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class DeleteMailUseCaseFromServerUseCase (private val authRepository: AuthRepository,
-                                          private val authInfoRepository: AuthInfoRepository,
-                                          private val mailRepository: MailRepository,
-                                          private val activeCharacterRepository: ActiveCharacterRepository
+class DeleteMailFromServerUseCase(
+    private val authRepo: AuthRepository,
+    private val authInfoRepo: AuthInfoRepository,
+    private val mailRepo: MailRepository,
+    private val activeCharacterRepo: ActiveCharacterRepository
 ): AsyncUseCase<Boolean>() {
-
-
 
     private var mailId: Long = 0
 
-
-    fun setData(mailId: Long){
+    fun setData(mailId: Long): DeleteMailFromServerUseCase {
         this.mailId = mailId
-
+        return this
     }
 
     override suspend fun onBackground(): Boolean{
 
-        val characterName = activeCharacterRepository.getActiveCharacterName()
-        val authInfo = authInfoRepository.getAuthInfo(characterName)
+        val characterName = activeCharacterRepo.getActiveCharacterName()
+        val authInfo = authInfoRepo.getAuthInfo(characterName)
 
         return try{
 
-            mailRepository
+            mailRepo
                 .deleteMail(
                     authInfo.accessToken,
                     authInfo.characterId,
                     mailId)
 
         }catch (e: Exception){
-            val token = authRepository.refreshAuthToken(authInfo.refreshToken)
+            val token = authRepo.refreshAuthToken(authInfo.refreshToken)
 
-            mailRepository
+            mailRepo
                 .deleteMail(
                     token.accessToken,
                     authInfo.characterId,

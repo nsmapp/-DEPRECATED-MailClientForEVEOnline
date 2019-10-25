@@ -9,22 +9,24 @@ import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class GetNewMailCountUseCase(private val authRepository: AuthRepository,
-                             private val authInfoRepository: AuthInfoRepository,
-                             private val mailsHeadersRepository: MailsHeadersRepository,
-                             private val dbMailHeadersRepository: DBMailHeadersRepository,
-                             private val activeCharacterRepository: ActiveCharacterRepository)
+class GetNewMailCountUseCase(
+    private val authRepo: AuthRepository,
+    private val authInfoRepo: AuthInfoRepository,
+    private val mailsHeadersRepo: MailsHeadersRepository,
+    private val dbMailHeadersRepo: DBMailHeadersRepository,
+    private val activeCharacterRepo: ActiveCharacterRepository
+)
     : AsyncUseCase<Int>(){
 
     override suspend fun onBackground(): Int {
 
-        val characterName = activeCharacterRepository.getActiveCharacterName()
-        val characterInfo: AuthInfo = authInfoRepository.getAuthInfo(characterName)
+        val characterName = activeCharacterRepo.getActiveCharacterName()
+        val characterInfo: AuthInfo = authInfoRepo.getAuthInfo(characterName)
         var newMailCount: Int
         try {
             newMailCount = getNewMailCount(characterInfo.accessToken, characterInfo.characterId, characterName)
             }catch (e: Exception){
-                val token = authRepository.refreshAuthToken(characterInfo.refreshToken).accessToken
+            val token = authRepo.refreshAuthToken(characterInfo.refreshToken).accessToken
                 newMailCount = getNewMailCount(token, characterInfo.characterId, characterName)
         }
         return newMailCount
@@ -32,9 +34,9 @@ class GetNewMailCountUseCase(private val authRepository: AuthRepository,
 
     private suspend fun getNewMailCount(accessToken: String, characterId: Long, characterName: String): Int{
 
-        val lastHeaderId = dbMailHeadersRepository.getLastMailId(characterName)
+        val lastHeaderId = dbMailHeadersRepo.getLastMailId(characterName)
         val newHeaderList = mutableListOf<MailHeader>()
-        val mailHeadersList = mailsHeadersRepository
+        val mailHeadersList = mailsHeadersRepo
             .getLast50(accessToken, characterId).filter { header -> header.mailId > lastHeaderId }
         if(mailHeadersList.isNotEmpty()){
             newHeaderList.addAll(mailHeadersList)
@@ -42,7 +44,7 @@ class GetNewMailCountUseCase(private val authRepository: AuthRepository,
             if (mailHeadersList.size == 50){
                 var minHeaderId: Long = mailHeadersList.minBy { it.mailId }!!.mailId
                 do {
-                    val beforeHeaders = mailsHeadersRepository
+                    val beforeHeaders = mailsHeadersRepo
                         .get50BeforeId(accessToken, characterId, minHeaderId)
                         .filter { header ->
                             header.mailId > lastHeaderId && !header.labels.contains(

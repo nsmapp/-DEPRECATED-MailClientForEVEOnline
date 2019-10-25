@@ -16,10 +16,10 @@ import by.nepravskysm.domain.utils.SYNCHRONIZE_MAIL_HEADER_ERROR
 
 
 class MainViewModel(private val authUseCase: AuthUseCase,
-                    private val getActivCharInfoUseCase: GetActivCharInfoUseCase,
-                    private val synchroMailsHeaderUseCase: SynchroMailsHeaderUseCase,
-                    private val updateContactsRestUseCase: UpdateContactsRestUseCase,
-                    private val updateContactsDBUseCase: UpdateContactsDBUseCase,
+                    private val getActiveCharInfo: GetActivCharInfoUseCase,
+                    private val synchrMailsHeader: SynchroMailsHeaderUseCase,
+                    private val updateContactsRest: UpdateContactsRestUseCase,
+                    private val updateContactsDB: UpdateContactsDBUseCase,
                     private val getUnreadMailCount: GetUnreadMailUseCase
 ): ViewModel(){
 
@@ -35,18 +35,18 @@ class MainViewModel(private val authUseCase: AuthUseCase,
 
     fun startAuth(code: String){
         authUseCase.setData(code)
-        authUseCase.execute {
-            onComplite {
-                characterName.value = it.characterName
-                activeCharacterName = it.characterName
-                getActiveCharacterInfo()
-                synchoniseContacts(it.characterID)
-                synchronizeMailHeader()
+            .execute {
+                onComplite {
+                    characterName.value = it.characterName
+                    activeCharacterName = it.characterName
+                    getActiveCharacterInfo()
+                    synchoniseContacts(it.characterID)
+                    synchronizeMailHeader()
+                }
+                onError {
+                    eventId.value = AUTH_ERROR
+                }
             }
-            onError {
-                eventId.value = AUTH_ERROR
-            }
-        }
     }
 
     fun getUnreadMails(){
@@ -57,7 +57,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     }
 
     fun synchoniseContacts(characterId: Long){
-        updateContactsRestUseCase.setData(characterId).execute {
+        updateContactsRest.setData(characterId).execute {
             onComplite { }
             onError {
                 eventId.value = SYNCHRONIZE_CONTACT_ERROR
@@ -66,7 +66,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     }
 
     fun getActiveCharacterInfo(){
-        getActivCharInfoUseCase.execute {
+        getActiveCharInfo.execute {
             onComplite {
                 activeCharacterName = it.characterName
                 characterName.value = it.characterName
@@ -80,11 +80,11 @@ class MainViewModel(private val authUseCase: AuthUseCase,
 
     fun synchronizeMailHeader(){
         isVisibilityProgressBar.value = true
-        synchroMailsHeaderUseCase.execute {
+        synchrMailsHeader.execute {
             onComplite {
                 getUnreadMails()
                 isVisibilityProgressBar.value = false
-                updateContactsDBUseCase.execute {  }
+                updateContactsDB.execute { }
             }
             onError {
                 getUnreadMails()

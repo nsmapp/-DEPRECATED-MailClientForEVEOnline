@@ -3,7 +3,7 @@ package by.nepravskysm.domain.usecase.character
 import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
-class ChangeActiveCharacter(private val activeCharacterRepository: ActiveCharacterRepository) :
+class ChangeActiveCharacter(private val activeCharacterRepo: ActiveCharacterRepository) :
     AsyncUseCase<Boolean>() {
 
     private var characterName = ""
@@ -13,6 +13,6 @@ class ChangeActiveCharacter(private val activeCharacterRepository: ActiveCharact
     }
 
     override suspend fun onBackground(): Boolean =
-        activeCharacterRepository.updateActiveCharacterName(characterName)
+        activeCharacterRepo.updateActiveCharacterName(characterName)
 
 }

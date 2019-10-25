@@ -8,7 +8,7 @@ import by.nepravskysm.domain.utils.MAIL_IS_SENT
 import by.nepravskysm.domain.utils.SEND_MAIL_ERROR
 
 
-class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel()  {
+class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
 
 
@@ -20,18 +20,15 @@ class NewMailViewModel(private val sendMailUseCase: SendMailUseCase) : ViewModel
 
 
     fun sendMail(){
-
         val mail = createOutPutMail()
-
-        sendMailUseCase.setData(mail, nameList)
-        sendMailUseCase.execute {
-            onComplite { eventId.value = MAIL_IS_SENT }
-            onError { eventId.value = SEND_MAIL_ERROR }
+        sendMail.setData(mail, nameList)
+            .execute {
+                onComplite { eventId.value = MAIL_IS_SENT }
+                onError { eventId.value = SEND_MAIL_ERROR }
         }
     }
 
     private fun createOutPutMail(): OutPutMail {
-
         mailBody += mailEnd
         return OutPutMail(
             0,
