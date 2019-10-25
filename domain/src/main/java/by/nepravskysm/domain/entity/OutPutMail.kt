@@ -7,9 +7,4 @@ class OutPutMail(
     var body: String,
     val recipients: MutableList<Recipient>,
     val subject: String
-) {
-
-    init {
-        body = body.substring(0, 7950)
-    }
-}
+)

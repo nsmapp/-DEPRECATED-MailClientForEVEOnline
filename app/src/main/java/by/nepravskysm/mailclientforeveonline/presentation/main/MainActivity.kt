@@ -3,6 +3,7 @@ package by.nepravskysm.mailclientforeveonline.presentation.main
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
@@ -50,7 +51,9 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     }
     private val activeCharacterObserver = Observer<String> { name ->
         characterName.text = name
-        pref.edit().putBoolean(CHARACTER_IS_AUTH, true).apply()
+        if (!name.equals("")) {
+            pref.edit().putBoolean(CHARACTER_IS_AUTH, true).apply()
+        }
     }
     private val characterIdObserver = Observer<Long>{id ->
             pastImage(activeCharacter, id)}
@@ -72,7 +75,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         pref = getSharedPreferences(SETTINGS, MODE_PRIVATE)
         if(pref.getBoolean(DARK_MODE, false)){

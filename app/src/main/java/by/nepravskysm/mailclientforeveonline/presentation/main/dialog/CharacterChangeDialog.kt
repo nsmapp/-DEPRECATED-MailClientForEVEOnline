@@ -3,7 +3,9 @@ package by.nepravskysm.mailclientforeveonline.presentation.main.dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +13,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import by.nepravskysm.mailclientforeveonline.R
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_empty.view.*
-import android.os.Build
-import android.view.Gravity
+import androidx.navigation.fragment.findNavController
 import by.nepravskysm.domain.usecase.auth.GetAllCharactersAuthInfoUseCase
 import by.nepravskysm.domain.usecase.character.ChangeActiveCharacter
+import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.utils.RoundCornerTransform
 import by.nepravskysm.rest.api.createAuthUrl
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_empty.view.*
 import org.koin.android.ext.android.inject
 
 
@@ -105,6 +106,7 @@ class CharacterChangeDialog : DialogFragment(){
                         onComplite {
                             if(changeCharacterListener != null){
                                 changeCharacterListener?.characterChanged()
+                                findNavController().navigate(R.id.inboxFragment)
                             }
                         }
                     }
