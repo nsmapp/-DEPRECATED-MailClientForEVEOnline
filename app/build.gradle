@@ -42,10 +42,25 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+buildscript{
+    ext.appcompat_version ='1.1.0'
+    ext.core_version = '1.2.0-beta01'
+    ext.constraint_layout_version = '1.1.3'
+    ext.fragmentx_version = '1.2.0-beta01'
+    ext.navigation_version = '2.1.0'
+    ext.lifecycle = '2.2.0-beta01'
+    ext.androidx_lagacy = '1.0.0'
+    ext.gsm_playservice_version = '17.0.0'
+    ext.koin_version = '2.0.1'
+    ext.picasso_version = '2.71828'
+    ext.worker_version = '2.2.0'
+    ext.firebase_version = '17.2.0'
+    ext.crashlitytics_version = '2.10.1'
 
 
 }
-
 dependencies {
 
     implementation project(path: ':rest')
@@ -53,43 +68,39 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.fragment:fragment-ktx:1.2.0-beta01'
-
-
-    implementation "androidx.navigation:navigation-fragment-ktx:2.1.0"
-    implementation "androidx.navigation:navigation-ui-ktx:2.1.0"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.core:core-ktx:$core_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.fragment:fragment-ktx:$fragmentx_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-beta01"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.gms:play-services-plus:17.0.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
 
-    //noinspection LifecycleAnnotationProcessorWithJava8
-    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0-beta01"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
+    implementation "androidx.legacy:legacy-support-v4:$androidx_lagacy"
 
-    // ViewModel Kotlin support
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0-beta01"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-beta01"
-
+    //playservice
+    implementation "com.google.android.gms:play-services-plus:$gsm_playservice_version"
 
     // Koin
-    implementation 'org.koin:koin-android:2.0.1'
-    implementation 'org.koin:koin-android-scope:2.0.1'
-    implementation 'org.koin:koin-android-viewmodel:2.0.1'
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-scope:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     //picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.squareup.picasso:picasso:$picasso_version"
 
     //worker
-    implementation "androidx.work:work-runtime-ktx:2.2.0"
+    implementation "androidx.work:work-runtime-ktx:$worker_version"
 
     //firebase
-    implementation "com.google.firebase:firebase-core:17.2.0"
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+    implementation "com.google.firebase:firebase-analytics:$firebase_version"
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlitytics_version"
 
 }

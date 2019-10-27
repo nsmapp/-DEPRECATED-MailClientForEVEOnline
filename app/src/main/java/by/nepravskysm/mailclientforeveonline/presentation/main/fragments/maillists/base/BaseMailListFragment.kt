@@ -15,11 +15,9 @@ import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.utils.*
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
 import kotlinx.android.synthetic.main.item_mail_info.view.*
-import kotlinx.android.synthetic.main.item_navigation_menu.view.*
 
 abstract class BaseMailListFragment <VM : BaseMailListViewModel>: Fragment(),
 SwipeRefreshLayout.OnRefreshListener,
@@ -29,7 +27,6 @@ MainActivity.LoginListener{
     val mailRecyclerAdapter = RecyclerAdapter()
 
     private val progresBarObserver = Observer<Boolean>{swipeRefresh.isRefreshing = it}
-//    private val unreadMailObserver = Observer<Int>{ setUnreadMail(setUnreadMailConteiner(), it)}
     private val mailHeaderObserver = Observer<List<MailHeader>> {
         mailRecyclerAdapter.setData(it)
         (activity as MainActivity).setUnreadMailsCount()
@@ -63,7 +60,6 @@ MainActivity.LoginListener{
 
 
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-//        fViewModel.unreadMailCount.observe(this, unreadMailObserver)
         fViewModel.headerList.observe(this, mailHeaderObserver)
         fViewModel.addHeaderList.observe(this, updateMailHeaderObserver)
         fViewModel.eventId.observe(this, errorObserver)
@@ -84,19 +80,19 @@ MainActivity.LoginListener{
     override fun refreshDataAfterLogin() {
         refreshData()
     }
-
-    private fun setUnreadMail(itemMenuId: Int, count: Int){
-        if(activity != null){
-            if(count != 0){
-                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
-                    .actionView.unreadMails.text = "$count"
-            }else{
-                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
-                    .actionView.unreadMails.text = ""
-            }
-        }
-
-    }
+//
+//    private fun setUnreadMail(itemMenuId: Int, count: Int){
+//        if(activity != null){
+//            if(count != 0){
+//                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
+//                    .actionView.unreadMails.text = "$count"
+//            }else{
+//                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
+//                    .actionView.unreadMails.text = ""
+//            }
+//        }
+//
+//    }
 
     fun refreshData(){
         fViewModel.loadNewMailHeaders()
@@ -152,7 +148,7 @@ MainActivity.LoginListener{
         override fun onViewAttachedToWindow(holder: MailHolderInfo) {
             super.onViewAttachedToWindow(holder)
             val position = holder.layoutPosition
-            if(position + 2 > entityList.size){
+            if (position + 1 == entityList.size) {
                 fViewModel.loadHeadersAfterId(entityList[position].mailId)
             }
         }

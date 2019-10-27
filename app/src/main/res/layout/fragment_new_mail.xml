@@ -58,6 +58,8 @@
         android:background="@color/textViewReadable"
         android:gravity="start"
         android:hint="@string/mail_body"
+        android:imeOptions="actionDone"
+        android:inputType="textMultiLine|textPersonName"
         android:lines="100"
         android:maxLength="7000"
         android:maxLines="100"
@@ -66,8 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
         app:layout_constraintTop_toBottomOf="@+id/mailLendth" />
 
     <ImageView

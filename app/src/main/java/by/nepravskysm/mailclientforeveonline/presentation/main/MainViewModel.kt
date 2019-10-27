@@ -31,7 +31,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{MutableLiveData<Boolean>(false)}
     val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
     val unreadMailsCount: MutableLiveData<UnreadMailsCount>
-            by lazy { MutableLiveData<UnreadMailsCount>(UnreadMailsCount()) }
+            by lazy { MutableLiveData<UnreadMailsCount>() }
 
     fun startAuth(code: String){
         authUseCase.setData(code)

@@ -17,16 +17,12 @@ open class BaseMailListViewModel (
 ) : ViewModel(){
 
 
-    var mailHeaderList = mutableListOf<MailHeader>()
-
-
-    val unreadMailCount: MutableLiveData<Int> by lazy {MutableLiveData<Int>(0)}
     val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{
         MutableLiveData<Boolean>(false)
     }
     val headerList: MutableLiveData<List<MailHeader>> by lazy {
-        MutableLiveData<List<MailHeader>>(mutableListOf())
+        MutableLiveData<List<MailHeader>>()
     }
 
     val addHeaderList: MutableLiveData<List<MailHeader>> by lazy{
@@ -35,7 +31,7 @@ open class BaseMailListViewModel (
 
     init {
         setMailHeaderLabel()
-        loadHeadersFromDB()
+//        loadHeadersFromDB()
     }
 
     open fun setMailHeaderLabel(){}
@@ -47,6 +43,7 @@ open class BaseMailListViewModel (
                 loadHeadersFromDB()
             }
             onError {
+                loadHeadersFromDB()
                 isVisibilityProgressBar.value = false
                 eventId.value = LOAD_NEW_MAIL_HEADER_ERROR
             }
@@ -59,7 +56,7 @@ open class BaseMailListViewModel (
             onComplite {
                 isVisibilityProgressBar.value = false
                 headerList.value = it
-                calcUnreadMail(it)
+//                calcUnreadMail(it)
             }
 
             onError {
@@ -87,8 +84,8 @@ open class BaseMailListViewModel (
         }
     }
 
-    private fun calcUnreadMail(headersList: List<MailHeader>) {
-        unreadMailCount.value = headersList.filter { header -> !header.isRead }.size
-    }
+//    private fun calcUnreadMail(headersList: List<MailHeader>) {
+//        unreadMailCount.value = headersList.filter { header -> !header.isRead }.size
+//    }
 
 }

@@ -30,8 +30,10 @@ class CheckNewMailWorker(context: Context, workerParams: WorkerParameters)
                             )
                         }
                     }
+                    onError { result = Result.retry() }
                 }
             }
+            onError { result = Result.retry() }
         }
         return result
     }

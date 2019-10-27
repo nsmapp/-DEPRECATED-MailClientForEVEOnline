@@ -23,6 +23,7 @@ import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterC
 import by.nepravskysm.mailclientforeveonline.utils.*
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
 import by.nepravskysm.rest.api.createAuthUrl
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_navigation_menu.view.*
@@ -59,13 +60,14 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         makeToastMessage(this, eventId)
     }
     private val unreadMailObserver = Observer<UnreadMailsCount>{mail ->
-        setUnreadMail(R.id.inboxFragment, mail.inbox)
-        setUnreadMail(R.id.sendFragment, mail.send)
-        setUnreadMail(R.id.corpFragment, mail.corporation)
-        setUnreadMail(R.id.allianceFragment, mail.alliance)
-        setUnreadMail(R.id.mailingListFragment, mail.mailingList)
+        showUnreadMailInMenu(R.id.inboxFragment, mail.inbox)
+        showUnreadMailInMenu(R.id.sendFragment, mail.send)
+        showUnreadMailInMenu(R.id.corpFragment, mail.corporation)
+        showUnreadMailInMenu(R.id.allianceFragment, mail.alliance)
+        showUnreadMailInMenu(R.id.mailingListFragment, mail.mailingList)
+
         if (mail.getAllUnreadMailsCount() != 0) {
-            drawerLayout.openDrawer(Gravity.LEFT)
+            showSnackeMessage("You have ${mail.getAllUnreadMailsCount()} unread mails")
         }
     }
 
@@ -126,7 +128,8 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
             .build()
 
         WorkManager.getInstance(applicationContext)
-            .enqueueUniquePeriodicWork("myw4",
+            .enqueueUniquePeriodicWork(
+                "newMailWorker",
                 ExistingPeriodicWorkPolicy.REPLACE,
                 syncPeriodically)
 
@@ -180,7 +183,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
 
     }
 
-    private fun setUnreadMail(itemMenuId: Int, count: Int){
+    private fun showUnreadMailInMenu(itemMenuId: Int, count: Int) {
         if(count != 0){
             navigationView.menu.findItem(itemMenuId).actionView.unreadMails.text = "$count"
         } else {
@@ -199,6 +202,12 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     fun setLoginListnerInterface(loginListener: LoginListener) {
         this.loginListener = loginListener
 
+    }
+
+    fun showSnackeMessage(message: String) {
+        val snacke = Snackbar.make(drawerLayout, message, Snackbar.LENGTH_LONG)
+
+        snacke.show()
     }
 
     interface LoginListener{

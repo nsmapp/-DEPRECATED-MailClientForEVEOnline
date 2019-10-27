@@ -37,23 +37,23 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     }
 
     override suspend fun getInbox(characterName: String, lastHeaderId: Long): List<MailHeader> {
-       return getWithLabels(characterName, "%1%")
+        return getWithLabels(characterName, "%1%", lastHeaderId)
     }
 
     override suspend fun getSend(characterName: String, lastHeaderId: Long): List<MailHeader> {
-        return getWithLabels(characterName, "%2%")
+        return getWithLabels(characterName, "%2%", lastHeaderId)
     }
 
     override suspend fun getCorporation(characterName: String, lastHeaderId: Long): List<MailHeader> {
-        return getWithLabels(characterName, "%4%")
+        return getWithLabels(characterName, "%4%", lastHeaderId)
     }
 
     override suspend fun getAlliance(characterName: String, lastHeaderId: Long): List<MailHeader> {
-        return getWithLabels(characterName, "%8%")
+        return getWithLabels(characterName, "%8%", lastHeaderId)
     }
 
     override suspend fun getMailingList(characterName: String, lastHeaderId: Long): List<MailHeader> {
-        return getWithLabels(characterName, "[]")
+        return getWithLabels(characterName, "[]", lastHeaderId)
     }
 
     override suspend fun save(headersList: List<MailHeader>, characterName: String) {
