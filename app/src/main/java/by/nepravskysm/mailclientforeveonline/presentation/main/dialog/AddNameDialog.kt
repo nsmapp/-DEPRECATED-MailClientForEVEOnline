@@ -6,17 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import by.nepravskysm.domain.entity.Contact
 import by.nepravskysm.domain.usecase.character.GetContactFromDBUseCase
 import by.nepravskysm.mailclientforeveonline.R
-import by.nepravskysm.mailclientforeveonline.utils.pastImage
-import kotlinx.android.synthetic.main.activity_main.view.characterName
 import kotlinx.android.synthetic.main.dialog_add_name.*
 import kotlinx.android.synthetic.main.dialog_add_name.view.*
-import kotlinx.android.synthetic.main.item_character.view.*
 import org.koin.android.ext.android.inject
 
 class AddNameDialog  : DialogFragment(){
@@ -29,6 +24,14 @@ class AddNameDialog  : DialogFragment(){
         this.confirmNameListener = confirmNameListener
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+    }
     override fun onResume() {
         super.onResume()
         name.setText("")

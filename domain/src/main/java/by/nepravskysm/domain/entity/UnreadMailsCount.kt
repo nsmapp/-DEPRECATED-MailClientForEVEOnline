@@ -7,4 +7,7 @@ data class UnreadMailsCount(
     var alliance: Int  = 0,
     var mailingList: Int = 0
 ) {
+    fun getAllUnreadMailsCount(): Int {
+        return inbox + send + corporation + alliance + mailingList
+    }
 }

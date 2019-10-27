@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     private var loginListener: LoginListener? = null
     private val characterListDialog = CharacterChangeDialog()
 
-
-
     private val progresBarObserver = Observer<Boolean>{
         if(it){showProgresBar()
         }else{hideProgresBar()
@@ -66,6 +64,9 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         setUnreadMail(R.id.corpFragment, mail.corporation)
         setUnreadMail(R.id.allianceFragment, mail.alliance)
         setUnreadMail(R.id.mailingListFragment, mail.mailingList)
+        if (mail.getAllUnreadMailsCount() != 0) {
+            drawerLayout.openDrawer(Gravity.LEFT)
+        }
     }
 
 
@@ -169,9 +170,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     }
 
     private fun initOnClickListner(){
-//        navHeader.addCharacter.setOnClickListener {
-//            startBrowser()
-//        }
+
         navMenu.setOnClickListener {
             drawerLayout.openDrawer(Gravity.LEFT)
         }

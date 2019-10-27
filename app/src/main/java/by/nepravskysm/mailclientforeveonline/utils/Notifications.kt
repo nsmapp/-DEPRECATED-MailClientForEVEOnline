@@ -39,7 +39,7 @@ fun makeNotification(message: String, context: Context) {
         .setVibrate(LongArray(0))
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
-//        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
         .build()
 
     NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder)

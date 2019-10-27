@@ -5,7 +5,7 @@
     <color name="colorAccent">#859783</color>
 
 
-    <color name="baseTextColor">#A1B39D</color>
+    <color name="baseTextColor">#ADB8AA</color>
     <color name="mailIsReadBackground">#2C2A2A</color>
     <color name="mailIsNOTReadBackground">#4F5549</color>
     <color name="mailIsReadBorder">#4C593F</color>

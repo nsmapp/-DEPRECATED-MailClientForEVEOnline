@@ -49,8 +49,6 @@ open class BaseMailListViewModel (
             onError {
                 isVisibilityProgressBar.value = false
                 eventId.value = LOAD_NEW_MAIL_HEADER_ERROR
-                java.util.logging.Logger.getLogger("logdOnError")
-                    .log(Level.INFO,"oadNewMailHeaders()  " + it.localizedMessage)
             }
         }
     }

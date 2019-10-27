@@ -41,10 +41,10 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
         savedInstanceState: Bundle?
     ): View? {
 
+
         val view = inflater.inflate(R.layout.fragment_new_mail, container, false)
         view.toName.keyListener = null
         if(arguments?.get(BUNDLE_TYPE) != null){
-
             try {
                 when(arguments?.getString((BUNDLE_TYPE))){
 

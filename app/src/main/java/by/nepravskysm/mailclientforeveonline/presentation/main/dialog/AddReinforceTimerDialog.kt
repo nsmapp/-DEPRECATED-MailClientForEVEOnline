@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import by.nepravskysm.domain.utils.getEVETime
@@ -22,14 +23,26 @@ class AddReinforceTimerDialog : DialogFragment(){
     private var reinforceText = ""
     private var reinforceTimerListenear: ReinforceTimerListenear? = null
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val dialog = inflater.inflate(R.layout.dialog_reinforce_timer, container)
+        val dialog = inflater.inflate(R.layout.dialog_reinforce_timer, container, false)
         getDialog()!!.setTitle("Reinforce timer")
+        dialog.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
 
         val systemsArray = resources.getStringArray(R.array.array_solar_systems)
         val systemsAdapter = ArrayAdapter(dialog.context, android.R.layout.simple_list_item_1, systemsArray)

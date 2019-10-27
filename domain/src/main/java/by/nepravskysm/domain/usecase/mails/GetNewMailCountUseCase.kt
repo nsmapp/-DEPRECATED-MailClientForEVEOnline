@@ -47,9 +47,7 @@ class GetNewMailCountUseCase(
                     val beforeHeaders = mailsHeadersRepo
                         .get50BeforeId(accessToken, characterId, minHeaderId)
                         .filter { header ->
-                            header.mailId > lastHeaderId && !header.labels.contains(
-                                2
-                            )
+                            header.mailId > lastHeaderId && !header.labels.contains(2)
                         }
 
                     if (beforeHeaders.isEmpty()){break}
