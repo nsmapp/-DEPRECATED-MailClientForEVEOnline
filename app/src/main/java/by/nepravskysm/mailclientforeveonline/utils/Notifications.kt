@@ -32,7 +32,7 @@ fun makeNotification(message: String, context: Context) {
     }
 
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-        .setSmallIcon(R.drawable.no_login_avatar)
+        .setSmallIcon(R.drawable.ic_mail)
         .setContentTitle(NOTIFICATION_TITLE)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
