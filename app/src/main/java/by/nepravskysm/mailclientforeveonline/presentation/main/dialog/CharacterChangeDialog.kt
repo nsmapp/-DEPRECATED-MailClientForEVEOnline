@@ -42,6 +42,8 @@ class CharacterChangeDialog : DialogFragment(){
 
         getAllCharactersAuthInfo.execute {
             onComplite {
+                if (it.isEmpty()) {
+                }
                 for( character in it){
                     dialog.root.addView(
                         createItem(dialog.context,
@@ -113,9 +115,6 @@ class CharacterChangeDialog : DialogFragment(){
                 this.dismiss()
             }
         }
-
-
-
 
         linearLayout.addView(imageView)
         linearLayout.addView(textView)
