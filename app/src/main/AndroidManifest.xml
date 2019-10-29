@@ -25,8 +25,12 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                        android:host="gesgrailclient"
-                        android:scheme="eveauthnsmmailclient"/>
+                <!--                 Example -->
+                <!--                 Example callbeck eveauthmyschemename://myhostname/ -->
+                <!--                 android:host="myhostname"-->
+                <!--                 android:scheme="eveauthmyschemename"/>-->
+                android:host="PAST_YOUR_HOST"
+                android:scheme="PASR_YOUR_SCHEME"/>
             </intent-filter>
         </activity>
 

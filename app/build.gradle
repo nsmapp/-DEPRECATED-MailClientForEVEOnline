@@ -3,8 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
 
 
 android {
@@ -97,10 +95,5 @@ dependencies {
 
     //worker
     implementation "androidx.work:work-runtime-ktx:$worker_version"
-
-    //firebase
-    implementation "com.google.firebase:firebase-core:$firebase_version"
-    implementation "com.google.firebase:firebase-analytics:$firebase_version"
-    implementation "com.crashlytics.sdk.android:crashlytics:$crashlitytics_version"
 
 }

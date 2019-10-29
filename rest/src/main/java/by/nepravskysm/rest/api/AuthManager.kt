@@ -3,8 +3,6 @@ import by.nepravskysm.rest.entity.response.AuthTokenResponse
 import by.nepravskysm.rest.entity.response.RefreshTokenResponse
 import kotlinx.coroutines.Deferred
 
-
-
 class AuthManager {
 
     val authApi: AuthApi = createRetrofit(
@@ -13,17 +11,16 @@ class AuthManager {
     )
         .create(AuthApi::class.java)
 
-
-    private val clientId = "743ea7773e4940aeba49b2ada5cbd911"
-    private val secretKey = "0joT0xP5d1ax4EXcudbzRaj0GGEFmc3IdMwRLf6j"
-
+    //    Example
+//    private val clientId = "oi3fh984fshf4wp39hf3jj3h"
+    private val clientId = "PAST_YOUR_CLIENT_ID"
 
     fun getAuthToken(code :String): Deferred<AuthTokenResponse> {
 
-
-//        val header: String = Base64.encode("$clientId:$secretKey".toByteArray()).toString()
-
-        val header = "Basic NzQzZWE3NzczZTQ5NDBhZWJhNDliMmFkYTVjYmQ5MTE6MGpvVDB4UDVkMWF4NEVYY3VkYnpSYWowR0dFRm1jM0lkTXdSTGY2ag=="
+//      Example
+//      create string "clientId:secretKey" and encode in base64 Y2xpZW50SWQ6c2VjcmV0S2V5IGpucm5uZTtvZm1uczttc25yZw==
+//      val header = "Basic Y2xpZW50SWQ6c2VjcmV0S2V5IGpucm5uZTtvZm1uczttc25yZw=="
+        val header = "Basic PAST_YOUR_ENCODED_BASE64_CLIENT_ID_AND_SECRET_KEY"
         return authApi.getAuthInfo(
             header,
             "authorization_code",
@@ -38,7 +35,4 @@ class AuthManager {
             clientId
         )
     }
-
-
-
 }

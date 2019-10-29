@@ -24,7 +24,6 @@ import by.nepravskysm.mailclientforeveonline.utils.*
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
 import by.nepravskysm.rest.api.createAuthUrl
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_navigation_menu.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,7 +36,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
     private val vModel: MainViewModel by viewModel()
     private lateinit var navHeader: View
     private lateinit var navigationController: NavController
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var pref: SharedPreferences
     private var loginListener: LoginListener? = null
     private val characterListDialog = CharacterChangeDialog()
@@ -79,7 +77,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         setContentView(R.layout.activity_main)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         pref = getSharedPreferences(SETTINGS, MODE_PRIVATE)
 
         if(pref.getBoolean(DARK_MODE, false)){
