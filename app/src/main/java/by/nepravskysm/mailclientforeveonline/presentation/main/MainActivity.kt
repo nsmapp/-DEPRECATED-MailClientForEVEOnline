@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         pref = getSharedPreferences(SETTINGS, MODE_PRIVATE)
+
         if(pref.getBoolean(DARK_MODE, false)){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }else{

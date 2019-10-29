@@ -5,7 +5,6 @@ import by.nepravskysm.domain.entity.subentity.Recipient
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.rest.api.EsiManager
 import by.nepravskysm.rest.entity.response.MailHeaderResponse
-import java.util.logging.Level
 
 class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
     MailsHeadersRepository {
@@ -66,7 +65,6 @@ class MailsHeadersRepoImpl(private val esiManager: EsiManager) :
             domainHeadersList.add(domainMailHeader)
         }
 
-        java.util.logging.Logger.getLogger("logdHeader").log(Level.INFO, " o/ ${domainHeadersList.size}")
         return domainHeadersList
     }
 

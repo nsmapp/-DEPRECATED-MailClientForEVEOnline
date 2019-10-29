@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -36,11 +35,14 @@ fun makeNotification(message: String, context: Context) {
         .setContentTitle(NOTIFICATION_TITLE)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .setVibrate(LongArray(0))
+//        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+//        .setSound(RingtoneManager
+//            .getDefaultUri(RingtoneManager.TYPE_ALARM))
+        .setDefaults(NotificationCompat.DEFAULT_SOUND)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
-        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
         .build()
+
 
     NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder)
 }

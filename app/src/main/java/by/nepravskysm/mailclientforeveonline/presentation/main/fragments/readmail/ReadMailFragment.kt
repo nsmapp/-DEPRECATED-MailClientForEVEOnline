@@ -60,7 +60,6 @@ class ReadMailFragment : Fragment(){
             fViewModel.mailId = arguments!!.getLong(MAIL_ID)
             fViewModel.inPutMail.observe(this, mailObserver)
         }catch (E: Exception){
-            //TODO obrabotat'
         }finally {
             fView.subject.text = fViewModel.subject
             fView.from.text = fViewModel.from

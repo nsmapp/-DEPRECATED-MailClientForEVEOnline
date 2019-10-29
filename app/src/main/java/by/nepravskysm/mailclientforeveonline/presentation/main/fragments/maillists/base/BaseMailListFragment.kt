@@ -27,7 +27,6 @@ MainActivity.LoginListener{
     val mailRecyclerAdapter = RecyclerAdapter()
 
     private val progresBarObserver = Observer<Boolean>{swipeRefresh.isRefreshing = it}
-    //    private val unreadMailObserver = Observer<Int>{ setUnreadMail(setUnreadMailConteiner(), it)}
     private val mailHeaderObserver = Observer<List<MailHeader>> {
         mailRecyclerAdapter.setData(it)
         (activity as MainActivity).setUnreadMailsCount()
@@ -61,7 +60,6 @@ MainActivity.LoginListener{
 
 
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-//        fViewModel.unreadMailCount.observe(this, unreadMailObserver)
         fViewModel.headerList.observe(this, mailHeaderObserver)
         fViewModel.addHeaderList.observe(this, updateMailHeaderObserver)
         fViewModel.eventId.observe(this, errorObserver)
@@ -82,19 +80,6 @@ MainActivity.LoginListener{
     override fun refreshDataAfterLogin() {
         refreshData()
     }
-
-//    private fun setUnreadMail(itemMenuId: Int, count: Int){
-//        if(activity != null){
-//            if(count != 0){
-//                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
-//                    .actionView.unreadMails.text = "$count"
-//            }else{
-//                (activity as MainActivity).navigationView.menu.findItem(itemMenuId)
-//                    .actionView.unreadMails.text = ""
-//            }
-//        }
-//
-//    }
 
     fun refreshData(){
         fViewModel.loadNewMailHeaders()

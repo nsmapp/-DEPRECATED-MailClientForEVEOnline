@@ -8,7 +8,6 @@ import by.nepravskysm.domain.repository.database.DBCharacterContactsRepository
 import by.nepravskysm.domain.repository.rest.character.CharacterContactsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
-import java.util.logging.Level
 
 class UpdateContactsRestUseCase(
     private val authInfoRepo: AuthInfoRepository,
@@ -30,8 +29,6 @@ class UpdateContactsRestUseCase(
         val characterInfo: AuthInfo = authInfoRepo.getAuthInfo(characterName)
 
         var contactsList = listOf<Contact>()
-
-
             contactsList = getContacts(characterInfo.accessToken, characterInfo.characterId)
             setNameToContacts(contactsList)
         return saveContacts(contactsList, characterName)
@@ -45,7 +42,6 @@ class UpdateContactsRestUseCase(
     }
 
     private suspend fun saveContacts(contactList: List<Contact>, activaCharacter: String): Boolean{
-
         return dbCharacterContactsRepo.insertContactList(contactList, activaCharacter)
     }
 
@@ -53,23 +49,13 @@ class UpdateContactsRestUseCase(
 
         val contacts = contactList.toMutableList()
         val idSet = mutableSetOf<Long>()
-
         for(contact in contactList){
             idSet.add(contact.contactId)
         }
-        java.util.logging.Logger.getLogger("logd 00").log(Level.INFO, "${idSet.size}")
         val nameMap: HashMap<Long, String> = namesRepo.getNameMap(idSet.toList())
-
-
-        java.util.logging.Logger.getLogger("logd 00").log(Level.INFO, "${nameMap}")
-
-
         for( contact in contacts){
             contact.contactName = nameMap[contact.contactId].toString()
         }
-
-
-        java.util.logging.Logger.getLogger("logd 00").log(Level.INFO, "${contactList.size}")
 
         return contacts
     }

@@ -8,7 +8,6 @@ import by.nepravskysm.domain.usecase.mails.GetMailHeadersFromDBUseCase
 import by.nepravskysm.domain.usecase.mails.GetNewMailHeadersUseCase
 import by.nepravskysm.domain.utils.DB_LOAD_MAIL_HEADER_FROM_DATABASE
 import by.nepravskysm.domain.utils.LOAD_NEW_MAIL_HEADER_ERROR
-import java.util.logging.Level
 
 open class BaseMailListViewModel (
     val getMailHeadersFromDB: GetMailHeadersFromDBUseCase,
@@ -31,7 +30,6 @@ open class BaseMailListViewModel (
 
     init {
         setMailHeaderLabel()
-//        loadHeadersFromDB()
     }
 
     open fun setMailHeaderLabel(){}
@@ -56,15 +54,11 @@ open class BaseMailListViewModel (
             onComplite {
                 isVisibilityProgressBar.value = false
                 headerList.value = it
-//                calcUnreadMail(it)
             }
 
             onError {
                 isVisibilityProgressBar.value = false
                 eventId.value = DB_LOAD_MAIL_HEADER_FROM_DATABASE
-                java.util.logging.Logger.getLogger("logdOnError")
-                    .log(Level.INFO, it.localizedMessage)
-
             }
 
         }
@@ -83,9 +77,5 @@ open class BaseMailListViewModel (
             }
         }
     }
-
-//    private fun calcUnreadMail(headersList: List<MailHeader>) {
-//        unreadMailCount.value = headersList.filter { header -> !header.isRead }.size
-//    }
 
 }
