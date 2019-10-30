@@ -36,8 +36,6 @@ class GetMailHeadersFromDBUseCase(
         return this
     }
 
-
-
     override suspend fun onBackground(): List<MailHeader> {
         val characterName = activeCharacterRepo.getActiveCharacterName()
 
@@ -51,4 +49,5 @@ class GetMailHeadersFromDBUseCase(
             else -> dbMailHeadersRepo.get(characterName)
         }
     }
+
 }

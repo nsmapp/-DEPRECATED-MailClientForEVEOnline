@@ -75,7 +75,8 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
                     recipients,
                     header.subject,
                     header.timestamp,
-                    characterName
+                    characterName,
+                    header.mailType
                 )
             )
         }
@@ -107,7 +108,8 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
                     header.labels,
                     recipients,
                     header.subject,
-                    header.timestamp
+                    header.timestamp,
+                    header.mailType
                 )
             )
         }

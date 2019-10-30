@@ -17,7 +17,7 @@ import by.nepravskysm.mailclientforeveonline.utils.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
-import kotlinx.android.synthetic.main.item_mail_info.view.*
+import kotlinx.android.synthetic.main.item_mail_header.view.*
 
 abstract class BaseMailListFragment <VM : BaseMailListViewModel>: Fragment(),
 SwipeRefreshLayout.OnRefreshListener,
@@ -100,7 +100,8 @@ MainActivity.LoginListener{
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MailHolderInfo {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_mail_info, parent, false)
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_mail_header, parent, false)
             return MailHolderInfo(view)
         }
 
@@ -110,6 +111,7 @@ MainActivity.LoginListener{
             holder.itemView.mailAuthor.text = entityList[position].fromName
             holder.itemView.mailSubject.text = entityList[position].subject
             holder.itemView.mailTime.text = entityList[position].timestamp
+            holder.itemView.mailType.text = entityList[position].mailType
 
             when(entityList[position].isRead){
                 true -> holder.itemView.setBackgroundResource(R.drawable.item_is_read_background)

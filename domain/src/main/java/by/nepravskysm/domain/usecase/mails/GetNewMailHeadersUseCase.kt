@@ -10,7 +10,7 @@ import by.nepravskysm.domain.repository.rest.mail.MailingListRepository
 import by.nepravskysm.domain.repository.rest.mail.MailsHeadersRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
-import by.nepravskysm.domain.utils.convertDataFormatInMailHeader
+import by.nepravskysm.domain.utils.setMailTypeSenderNameAndDateFormat
 
 class GetNewMailHeadersUseCase(
     private val authRepo: AuthRepository,
@@ -62,44 +62,23 @@ class GetNewMailHeadersUseCase(
                 }while(lastHeaderId < minHeaderId || beforeHeaders.size == 50)
             }
 
-            if (headerList.isNotEmpty()){
+            if (headerList.isNotEmpty()) {
 
                 val nameMap = HashMap<Long, String>()
                 val mailingList: List<MailingList> = mailingListRepo
                     .getMailingList(accessToken, characterId)
                 val mailingListIds = mailingList.map { it.id }
-                for (list in mailingList){
+                for (list in mailingList) {
                     nameMap[list.id] = list.name
                 }
 
-                val mailingListHeaders = mutableListOf<MailHeader>()
-                val noMailingListHeaders = mutableListOf<MailHeader>()
-
-                for(header in headerList){
-                    if(header.labels.isNotEmpty()){
-                        noMailingListHeaders.add(header)
-                    }else{
-                        for (recipient in header.recipients.map { it.id }){
-                            if (mailingListIds.contains(recipient)){
-                                mailingListHeaders.add(header)
-                            }
-                        }
-                    }
-                }
-                headerList.addAll(noMailingListHeaders)
-                headerList.addAll(mailingListHeaders)
-
+                val noMailingListHeaders = headerList.filter { it.labels.isNotEmpty() }
                 val nameIdList = noMailingListHeaders.map { it.fromId }.distinct()
                 nameMap.putAll(namesRepo.getNameMap(nameIdList))
 
-                for (header in headerList){
-                    try {
-                        header.fromName = nameMap[header.fromId]!!
-                        convertDataFormatInMailHeader(header)
-                    }catch (e: Exception){
+                headerList = setMailTypeSenderNameAndDateFormat(headerList, nameMap)
 
-                    }
-                }
+
                 dbMailHeadersRepo
                     .save(headerList, characterName)
             }

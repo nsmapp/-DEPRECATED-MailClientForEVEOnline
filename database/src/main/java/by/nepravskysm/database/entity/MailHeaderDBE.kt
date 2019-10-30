@@ -1,6 +1,9 @@
 package by.nepravskysm.database.entity
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import by.nepravskysm.database.dao.MailHeaderDao
 import by.nepravskysm.database.entity.converter.LabelConverter
 import by.nepravskysm.database.entity.converter.RecipientConverter
@@ -37,6 +40,8 @@ data class MailHeaderDBE (
     val timestamp: String,
 
     @SerializedName("owner")
-    val ownerName: String
+    val ownerName: String,
 
+    @SerializedName("mail_type")
+    val mailType: String
 )
