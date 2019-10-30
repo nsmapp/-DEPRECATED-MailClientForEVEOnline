@@ -11,7 +11,8 @@ data class MailHeader (
     val labels: List<Int>,
     val recipients: List<Recipient>,
     val subject: String,
-    var timestamp: String = "NO NAME, FIX ME"
+    var timestamp: String = "NO NAME, FIX ME",
+    var mailType: String = ""
 )
 
 
