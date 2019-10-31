@@ -35,9 +35,6 @@ fun makeNotification(message: String, context: Context) {
         .setContentTitle(NOTIFICATION_TITLE)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
-//        .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-//        .setSound(RingtoneManager
-//            .getDefaultUri(RingtoneManager.TYPE_ALARM))
         .setDefaults(NotificationCompat.DEFAULT_SOUND)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)

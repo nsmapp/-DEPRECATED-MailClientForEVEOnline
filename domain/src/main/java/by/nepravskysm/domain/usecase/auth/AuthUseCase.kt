@@ -22,7 +22,6 @@ class AuthUseCase(
         return this
     }
 
-
     override suspend fun onBackground(): CharacterInfo {
 
         val authToken = authRepo.getAuthToken(firstAuthToken)

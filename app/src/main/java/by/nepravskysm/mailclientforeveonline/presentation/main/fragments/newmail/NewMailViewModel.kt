@@ -40,22 +40,22 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
     fun initForwardMail(subject: String, from: String, mailBody: String){
 
-        this.subject = "\nFw: $subject"
+        this.subject = "Fw: $subject"
         this.mailEnd = "\n\n" +
                 "-------------------\n" +
                 "from: $from \n" +
                 "subject: $subject \n \n" +
-                "$mailBody"
+                mailBody
 
     }
 
     fun initReplayMail(subject: String, from: String, mailBody: String){
-        this.subject ="\nRe: $subject"
+        this.subject = "Re: $subject"
         this.mailEnd = "\n \n" +
                 "--------------------\n" +
                 "from: $from \n" +
                 "subject: $subject \n \n" +
-                "$mailBody"
+                mailBody
 
     }
 

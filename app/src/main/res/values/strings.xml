@@ -31,7 +31,7 @@
     <string name="applications_to_view_and_send_mail_in_the_game_eve_online">Applications to view and send mail in the game EVE Online</string>
     <string name="if_you_want_to_leave_feedback_or_report_a_bug">If you want to leave feedback or report a bug</string>
     <string name="in_game_alisa_red_alert">In-game: Alisa Red alert</string>
-    <string name="github">GitHub:</string>
+    <string name="github">GitHub: ./MailClientforEVEOnline</string>
     <string name="email_nsmappinfo_gmail_com">Email: nsmappinfo@gmail.com</string>
     <string name="when_creating_this_application_images_icons_and_esi_api_were_used_copyright_and_courtesy_of_ccp_game">When creating this application, images, icons and ESI API were used, copyright and courtesy of CCP GAME</string>
     <string name="version_0_8a">Version 0.9a</string>

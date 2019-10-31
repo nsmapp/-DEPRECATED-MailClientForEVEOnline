@@ -158,15 +158,6 @@ val useCaseModule: Module = module {
 
     factory { ChangeActiveCharacter(activeCharacterRepo = get()) }
 
-    factory {
-        GetNewMailCountUseCase(
-            authInfoRepo = get(),
-            activeCharacterRepo = get(),
-            dbMailHeadersRepo = get(),
-            authRepo = get(),
-            mailsHeadersRepo = get()
-    ) }
-
     factory { DeleteMailFromDBUseCase(dbMailHeadersRepo = get()) }
 
     factory {

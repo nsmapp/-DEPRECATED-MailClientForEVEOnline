@@ -1,10 +1,8 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main
 
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -22,7 +20,6 @@ import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.CharacterChangeDialog
 import by.nepravskysm.mailclientforeveonline.utils.*
 import by.nepravskysm.mailclientforeveonline.workers.CheckNewMailWorker
-import by.nepravskysm.rest.api.createAuthUrl
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_navigation_menu.view.*
@@ -69,7 +66,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         }
     }
 
-
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +97,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
 
         navigationView.setupWithNavController(navigationController)
 
-        initOnClickListner()
+        initOnClickListener()
         checkAuthCode()
 
         characterListDialog.setChangeCharacterListener(this)
@@ -146,12 +142,6 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
 
     }
 
-    private fun startBrowser(){
-        val url: String = createAuthUrl()
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
-    }
-
     private fun checkAuthCode(){
         if(intent.data != null){
             if(intent.data?.getQueryParameter("code") != null){
@@ -170,7 +160,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         vModel.getUnreadMails()
     }
 
-    private fun initOnClickListner(){
+    private fun initOnClickListener() {
 
         navMenu.setOnClickListener {
             drawerLayout.openDrawer(Gravity.LEFT)
@@ -197,23 +187,19 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         progressBar.visibility = View.GONE
     }
 
-    fun setLoginListnerInterface(loginListener: LoginListener) {
+    fun setLoginListenerInterface(loginListener: LoginListener) {
         this.loginListener = loginListener
 
     }
 
     fun showSnackeMessage(message: String) {
         val snacke = Snackbar.make(drawerLayout, message, Snackbar.LENGTH_LONG)
-
         snacke.show()
     }
 
     interface LoginListener{
         fun refreshDataAfterLogin()
     }
-
-
-
 }
 
 

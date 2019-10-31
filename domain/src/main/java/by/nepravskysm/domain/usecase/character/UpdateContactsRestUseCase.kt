@@ -28,9 +28,9 @@ class UpdateContactsRestUseCase(
         val characterName = activeCharacterRepo.getActiveCharacterName()
         val characterInfo: AuthInfo = authInfoRepo.getAuthInfo(characterName)
 
-        var contactsList = listOf<Contact>()
-            contactsList = getContacts(characterInfo.accessToken, characterInfo.characterId)
-            setNameToContacts(contactsList)
+        var contactsList = getContacts(characterInfo.accessToken, characterInfo.characterId)
+        setNameToContacts(contactsList)
+
         return saveContacts(contactsList, characterName)
     }
 
@@ -47,17 +47,16 @@ class UpdateContactsRestUseCase(
 
     private suspend fun setNameToContacts (contactList: List<Contact>): List<Contact>{
 
-        val contacts = contactList.toMutableList()
-        val idSet = mutableSetOf<Long>()
-        for(contact in contactList){
-            idSet.add(contact.contactId)
-        }
-        val nameMap: HashMap<Long, String> = namesRepo.getNameMap(idSet.toList())
-        for( contact in contacts){
-            contact.contactName = nameMap[contact.contactId].toString()
+        val idSet = contactList
+            .map { it.contactId }
+            .distinct()
+
+        val nameMap: HashMap<Long, String> = namesRepo.getNameMap(idSet)
+        for (contact in contactList) {
+            contact.contactName = nameMap[contact.contactId] ?: "Name not found"
         }
 
-        return contacts
+        return contactList
     }
 
 }
