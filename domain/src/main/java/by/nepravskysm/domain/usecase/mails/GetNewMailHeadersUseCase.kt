@@ -65,13 +65,22 @@ class GetNewMailHeadersUseCase(
             if (headerList.isNotEmpty()) {
 
                 val nameMap = HashMap<Long, String>()
-                val mailingList: List<MailingList> = mailingListRepo
-                    .getMailingList(accessToken, characterId)
-                for (list in mailingList) {
-                    nameMap[list.id] = list.name
+                val noMailingListHeaders = mutableListOf<MailHeader>()
+                val mailingListHeaders = mutableListOf<MailHeader>()
+
+                headerList.forEach {
+                    if (it.labels.isNotEmpty()) noMailingListHeaders.add(it)
+                    else mailingListHeaders.add(it)
                 }
 
-                val noMailingListHeaders = headerList.filter { it.labels.isNotEmpty() }
+                if (mailingListHeaders.isEmpty()) {
+                    val mailingList: List<MailingList> = mailingListRepo
+                        .getMailingList(accessToken, characterId)
+                    for (list in mailingList) {
+                        nameMap[list.id] = list.name
+                    }
+                }
+
                 val nameIdList = noMailingListHeaders.map { it.fromId }.distinct()
                 nameMap.putAll(namesRepo.getNameMap(nameIdList))
                 headerList = setMailTypeSenderNameAndDateFormat(headerList, nameMap)
