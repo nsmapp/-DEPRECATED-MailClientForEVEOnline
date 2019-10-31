@@ -1,14 +1,9 @@
 package by.nepravskysm.mailclientforeveonline.utils
 
-import com.squareup.picasso.Transformation
 import android.graphics.*
-import android.graphics.Bitmap
-import android.graphics.Shader
-import android.graphics.BitmapShader
+import com.squareup.picasso.Transformation
 
 class RoundCornerTransform (private var radius: Float = 15f): Transformation{
-
-
 
     override fun key(): String {
         return "round_circle"

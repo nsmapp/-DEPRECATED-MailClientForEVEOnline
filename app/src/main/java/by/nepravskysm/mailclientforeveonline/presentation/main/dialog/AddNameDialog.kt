@@ -18,7 +18,6 @@ class AddNameDialog  : DialogFragment(){
 
     private var confirmNameListener: ConfirmNameListener? = null
     private val getContactFromDBUseCase: GetContactFromDBUseCase by inject()
-//    private val recyclerAdapter: CharacterNameAdapter = CharacterNameAdapter()
 
     fun setConfirmNameListener(confirmNameListener: ConfirmNameListener){
         this.confirmNameListener = confirmNameListener
@@ -45,12 +44,6 @@ class AddNameDialog  : DialogFragment(){
         val dialog = inflater.inflate(R.layout.dialog_add_name, container, false)
         getDialog()!!.setTitle("Add the recipient's name")
 
-
-
-//        dialog.nameRecycler.layoutManager = LinearLayoutManager(dialog.context)
-//        dialog.nameRecycler.hasFixedSize()
-//        dialog.nameRecycler.adapter = recyclerAdapter
-
         getContactFromDBUseCase.execute {
             onComplite {
                 val nameArray = it.map { it.contactName }.toTypedArray()
@@ -75,35 +68,4 @@ class AddNameDialog  : DialogFragment(){
     interface ConfirmNameListener{
         fun confirmName(name: String)
     }
-
-
-
-//    inner class CharacterNameAdapter: RecyclerView.Adapter<CharacterNameAdapter.NameViewHolder>(){
-//
-//        private var contactList = listOf<Contact>()
-//        fun setData(contactList: List<Contact>){
-//            this.contactList = contactList
-//            notifyDataSetChanged()
-//        }
-//
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NameViewHolder{
-//            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
-//
-//            return NameViewHolder(view)
-//        }
-//
-//        override fun getItemCount(): Int = contactList.size
-//
-//        override fun onBindViewHolder(holder: NameViewHolder, position: Int) {
-//            holder.itemView.characterName.text = contactList[position].contactName
-//            holder.itemView.setOnClickListener{name.setText(contactList[position].contactName)}
-//            pastImage(holder.itemView.characterPhoto, contactList[position].contactId)
-//        }
-//
-//
-//        inner class NameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-//
-//    }
-
 }

@@ -38,7 +38,6 @@ class SendMailUseCase(
         val characterName = activeCharacterRepo.getActiveCharacterName()
         val authInfo = authInfoRepo.getAuthInfo(characterName)
 
-
         return try {
             mailRepo.sendMail(
                 authInfo.accessToken,

@@ -1,6 +1,5 @@
 package by.nepravskysm.database.repoimpl
 
-import android.util.Log
 import by.nepravskysm.database.AppDatabase
 import by.nepravskysm.database.entity.AuthInfoDBE
 import by.nepravskysm.domain.entity.AuthInfo
@@ -15,7 +14,6 @@ class AuthInfoRepoImpl(private val appDatabase: AppDatabase) :
         val authInfoList = appDatabase.authInfoDao().getAllCharactersAuthInfo()
         val domainAuthList = mutableListOf<AuthInfo>()
         for (info in authInfoList){
-            Log.d("logd", "${info.id } ${info.characterId} ${info.characterName}")
             val authInfo = AuthInfo(info.accessToken,
                 info.refreshToken,
                 info.characterId,

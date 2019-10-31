@@ -67,7 +67,6 @@ class GetNewMailHeadersUseCase(
                 val nameMap = HashMap<Long, String>()
                 val mailingList: List<MailingList> = mailingListRepo
                     .getMailingList(accessToken, characterId)
-                val mailingListIds = mailingList.map { it.id }
                 for (list in mailingList) {
                     nameMap[list.id] = list.name
                 }
@@ -75,9 +74,7 @@ class GetNewMailHeadersUseCase(
                 val noMailingListHeaders = headerList.filter { it.labels.isNotEmpty() }
                 val nameIdList = noMailingListHeaders.map { it.fromId }.distinct()
                 nameMap.putAll(namesRepo.getNameMap(nameIdList))
-
                 headerList = setMailTypeSenderNameAndDateFormat(headerList, nameMap)
-
 
                 dbMailHeadersRepo
                     .save(headerList, characterName)
@@ -86,6 +83,4 @@ class GetNewMailHeadersUseCase(
 
         return dbMailHeadersRepo.get(characterName)
     }
-
-
 }

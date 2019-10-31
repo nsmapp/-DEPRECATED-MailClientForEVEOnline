@@ -26,7 +26,6 @@ class DeleteMailFromServerUseCase(
         val authInfo = authInfoRepo.getAuthInfo(characterName)
 
         return try{
-
             mailRepo
                 .deleteMail(
                     authInfo.accessToken,
@@ -35,7 +34,6 @@ class DeleteMailFromServerUseCase(
 
         }catch (e: Exception){
             val token = authRepo.refreshAuthToken(authInfo.refreshToken)
-
             mailRepo
                 .deleteMail(
                     token.accessToken,

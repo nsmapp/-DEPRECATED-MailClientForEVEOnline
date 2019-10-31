@@ -55,7 +55,7 @@ MainActivity.LoginListener{
         fView.swipeRefresh.setOnRefreshListener(this)
 
         if (activity != null){
-            (activity as MainActivity).setLoginListnerInterface(this)
+            (activity as MainActivity).setLoginListenerInterface(this)
         }
 
 
@@ -75,7 +75,6 @@ MainActivity.LoginListener{
     override fun onRefresh() {
         fViewModel.loadNewMailHeaders()
     }
-
 
     override fun refreshDataAfterLogin() {
         refreshData()

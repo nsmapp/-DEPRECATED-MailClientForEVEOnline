@@ -11,16 +11,10 @@ const val BUNDLE_TYPE = "bundlrtype"
 const val REPLAY = "replay"
 const val FORWARD = "forward"
 
-const val CORPORATION = "corporation"
-const val CHARACTER = "character"
-const val ALLIANCE = "alliance"
-const val MAIL_LIST = "maillist"
-
 const val SETTINGS = "settings"
 
 const val DARK_MODE = "darkmode"
 const val CHARACTER_IS_AUTH = "character_is_auth"
-
 
 val CHANNEL_NAME: CharSequence = "check new mail work chanel"
 const val CHANNEL_DESCRIPTION = "show new mail on active character"
