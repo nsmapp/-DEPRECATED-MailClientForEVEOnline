@@ -3,7 +3,7 @@
     <string name="app_name">Mail Client for EVE Online</string>
     <string name="mailing_mails">Mailing list</string>
     <string name="inbox">Inbox</string>
-    <string name="send">Send</string>
+    <string name="send">Sent</string>
     <string name="corporation">Corporation</string>
     <string name="alliance">Alliance</string>
     <string name="all_mails">All mails</string>
@@ -33,8 +33,9 @@
     <string name="in_game_alisa_red_alert">In-game: Alisa Red alert</string>
     <string name="github">GitHub: ./MailClientforEVEOnline</string>
     <string name="email_nsmappinfo_gmail_com">Email: nsmappinfo@gmail.com</string>
-    <string name="when_creating_this_application_images_icons_and_esi_api_were_used_copyright_and_courtesy_of_ccp_game">When creating this application, images, icons and ESI API were used, copyright and courtesy of CCP GAME</string>
-    <string name="version_0_8a">Version 0.9a</string>
+    <string name="when_creating_this_application_images_icons_and_esi_api_were_used_copyright_and_courtesy_of_ccp_game">"EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. CCP is in no way responsible for the content on or functioning of this app, nor can it be liable for any damage arising from the use of this app.
+</string>
+    <string name="version_0_8a">Version 0.94b</string>
     <string name="to">To</string>
     <string name="subject">Subject</string>
     <string name="mail_body">Mail body</string>
@@ -43,7 +44,7 @@
     <string name="clear_recipient_list">Clear recipient list</string>
     <string name="send_mail">Send mail</string>
     <string name="from">From:</string>
-    <string name="replay">Replay</string>
+    <string name="replay">Reply</string>
     <string name="forward">Forward</string>
     <string name="trash">Trash</string>
     <string name="subject_2t">Subject:</string>
@@ -52,6 +53,7 @@
     <string name="mailsubject">mailsubject</string>
     <string name="mailtime">mailTime</string>
     <string name="sender_avatar">sender avatar</string>
+    <string name="copyright_notice">Copyright Notice:</string>
 
 
     <string-array name="array_solar_systems">
