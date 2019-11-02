@@ -63,4 +63,13 @@
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/timeLocale"
+        style="@style/microTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eve_time_locale"
+        app:layout_constraintBottom_toTopOf="@+id/mailTime"
+        app:layout_constraintStart_toStartOf="@+id/mailTime" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/navigation"
-        app:startDestination="@id/inboxFragment">
+    app:startDestination="@id/allMailsFragment">
+
+    <fragment
+        android:id="@+id/allMailsFragment"
+        android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.allmails.AllMailsFragment"
+        android:label="AllMailsFragment">
+        <action
+            android:id="@+id/action_allMailsFragment_to_readMailFragment"
+            app:destination="@id/readMailFragment" />
+    </fragment>
+
 
     <fragment
             android:id="@+id/inboxFragment"

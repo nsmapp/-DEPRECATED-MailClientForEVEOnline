@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_mails.*
 import kotlinx.android.synthetic.main.fragment_mails.view.*
 import kotlinx.android.synthetic.main.item_mail_header.view.*
+import kotlinx.android.synthetic.main.stub_mail_subsettings.*
 
 abstract class BaseMailListFragment <VM : BaseMailListViewModel>: Fragment(),
 SwipeRefreshLayout.OnRefreshListener,
@@ -25,6 +26,8 @@ MainActivity.LoginListener{
 
     abstract val fViewModel:VM
     val mailRecyclerAdapter = RecyclerAdapter()
+    private var isNotVisibleSubMenu = false
+    private lateinit var subMenu: View
 
     private val progresBarObserver = Observer<Boolean>{swipeRefresh.isRefreshing = it}
     private val mailHeaderObserver = Observer<List<MailHeader>> {
@@ -46,9 +49,10 @@ MainActivity.LoginListener{
         savedInstanceState: Bundle?
     ): View? {
 
-
         val fView = inflater.inflate(R.layout.fragment_mails, container, false)
         mailRecyclerAdapter.setData(listOf())
+        subMenu = fView.stubSubMenu.inflate()
+        subMenu.visibility = View.GONE
 
         fView.mailList.layoutManager = LinearLayoutManager(context)
         fView.mailList.adapter = mailRecyclerAdapter
@@ -63,6 +67,25 @@ MainActivity.LoginListener{
         fViewModel.headerList.observe(this, mailHeaderObserver)
         fViewModel.addHeaderList.observe(this, updateMailHeaderObserver)
         fViewModel.eventId.observe(this, errorObserver)
+
+
+        fView.submenuButton.setOnClickListener {
+            isNotVisibleSubMenu = if (isNotVisibleSubMenu) {
+                fView.submenuButton.setImageResource(R.drawable.ic_arrow_down)
+                subMenu.visibility = View.GONE
+                markAllAsReadbtn.setOnClickListener(null)
+                false
+
+            } else {
+                fView.submenuButton.setImageResource(R.drawable.ic_arrow_up)
+                subMenu.visibility = View.VISIBLE
+                markAllAsReadbtn.setOnClickListener {
+                    fViewModel.updateAllMailMetadata()
+                }
+                true
+            }
+
+        }
 
         return fView
     }

@@ -59,6 +59,8 @@ class SynchroMailsHeaderUseCase(
                     if (beforeHeaders.isEmpty()) {
                         break
                     } else {
+                        //TODO esi don't mark all mail as read. one request one mail metadata canged...
+                        headerList.forEach { it.isRead = true }
                         headerList.addAll(beforeHeaders)
                         minHeaderId = beforeHeaders.minBy { it.mailId }!!.mailId
                     }

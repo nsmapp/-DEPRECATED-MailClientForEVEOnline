@@ -18,6 +18,12 @@ class GetMailHeadersAfterIdFromDBUseCase(private val dbMailHeadersRepo: DBMailHe
 
     private var label = 0
 
+
+    fun setAllMails(): GetMailHeadersAfterIdFromDBUseCase {
+        label = 0
+        return this
+    }
+
     fun setOnlyInbox(): GetMailHeadersAfterIdFromDBUseCase{
         label = 101
         return this

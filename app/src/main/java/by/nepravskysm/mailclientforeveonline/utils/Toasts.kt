@@ -32,8 +32,8 @@ fun makeToastMessage(context: Context, messageId: Long){
                 showToast(context, "Mail is sent")
             MAIL_IS_DELETED ->
                 showToast(context, "Mail is deleted")
-            else ->
-                showToast(context, "Oops, something went wrong")
+//            else ->
+//                showToast(context, "Oops, something went wrong")
         }
     }
 }

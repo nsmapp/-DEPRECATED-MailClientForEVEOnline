@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.newMailFragment,
+                R.id.allMailsFragment,
                 R.id.inboxFragment,
                 R.id.sendFragment,
                 R.id.corpFragment,
@@ -146,6 +147,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         if(intent.data != null){
             if(intent.data?.getQueryParameter("code") != null){
                 val code: String = intent.data!!.getQueryParameter("code")!!
+                intent.data = null
                 vModel.startAuth(code)
             }else{
                 if(loginListener != null){

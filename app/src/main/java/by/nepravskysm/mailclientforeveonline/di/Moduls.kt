@@ -23,6 +23,7 @@ import by.nepravskysm.domain.usecase.character.*
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.alliance.AllianceViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.allmails.AllMailsViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.BaseMailListViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.corp.CorporationViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.inbox.InboxViewModel
@@ -183,6 +184,13 @@ val useCaseModule: Module = module {
     factory { GetUnreadMailUseCase(activeCharacterRepo = get(),
         dbMailHeadersRepo = get()) }
 
+    factory {
+        UpdateAllMailMetadataDBUseCase(
+            dbMailHeadersRepo = get(),
+            activeCharacterRepo = get()
+        )
+    }
+
 }
 
 val viewModelModule: Module = module {
@@ -209,26 +217,46 @@ val viewModelModule: Module = module {
 
     viewModel { BaseMailListViewModel(getMailHeadersFromDB = get(),
         getNewMailHeaders = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
+    }
+    viewModel {
+        AllMailsViewModel(
+            getMailHeadersFromDB = get(),
+            getNewMailHeaders = get(),
+            getMailHeadersAfterIdFromDB = get(),
+            updateAllMailMetadataDB = get()
+        )
     }
     viewModel {InboxViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {SendViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {CorporationViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {AllianceViewModel(getMailHeadersFromDB = get(),
         getNewMailHeaders = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {MailingListViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
 }

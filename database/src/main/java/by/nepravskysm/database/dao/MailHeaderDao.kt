@@ -1,6 +1,9 @@
 package by.nepravskysm.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import by.nepravskysm.database.entity.MailHeaderDBE
 
 @Dao
@@ -27,6 +30,9 @@ interface MailHeaderDao {
 
     @Query("UPDATE $TABLE_NAME SET isRead = 1 WHERE id = :mailId ")
     fun setMailIsRead(mailId: Long)
+
+    @Query("UPDATE $TABLE_NAME SET isRead = 1 WHERE isRead = 0 AND ownerName = :characterName")
+    fun setAllMailAsRead(characterName: String)
 
     @Query("DELETE FROM $TABLE_NAME WHERE id = :mailId ")
     fun delelteMail(mailId: Long)
