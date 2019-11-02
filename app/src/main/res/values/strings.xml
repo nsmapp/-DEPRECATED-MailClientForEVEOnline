@@ -54,6 +54,8 @@
     <string name="mailtime">mailTime</string>
     <string name="sender_avatar">sender avatar</string>
     <string name="copyright_notice">Copyright Notice:</string>
+    <string name="eve_time_locale">EVE Time</string>
+    <string name="mark_all_as_read">Mark all as read</string>
 
 
     <string-array name="array_solar_systems">

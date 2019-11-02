@@ -7,7 +7,7 @@ data class MailHeader (
     val mailId: Long,
     val fromId: Long,
     var fromName:String = "NO NAME, FIX ME",
-    val isRead: Boolean,
+    var isRead: Boolean,
     val labels: List<Int>,
     val recipients: List<Recipient>,
     val subject: String,

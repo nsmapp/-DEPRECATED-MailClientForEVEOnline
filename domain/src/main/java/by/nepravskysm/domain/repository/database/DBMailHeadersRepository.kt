@@ -23,4 +23,5 @@ interface DBMailHeadersRepository{
     suspend fun setMailIsRead(mailId: Long)
     suspend fun deleteMail(mailId: Long)
     suspend fun getUnreadMails(activeCharacter: String):List<MailHeader>
+    suspend fun setAllMailsAsRead(characterName: String): Boolean
 }

@@ -3,14 +3,16 @@ package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.mailli
 import by.nepravskysm.domain.usecase.mails.GetMailHeadersAfterIdFromDBUseCase
 import by.nepravskysm.domain.usecase.mails.GetMailHeadersFromDBUseCase
 import by.nepravskysm.domain.usecase.mails.GetNewMailHeadersUseCase
+import by.nepravskysm.domain.usecase.mails.UpdateAllMailMetadataDBUseCase
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.BaseMailListViewModel
 
 class AllMailsViewModel(
     getMailHeadersFromDB: GetMailHeadersFromDBUseCase,
     getNewMailHeaders: GetNewMailHeadersUseCase,
-    getMailHeadersAfterIdFromDB: GetMailHeadersAfterIdFromDBUseCase
+    getMailHeadersAfterIdFromDB: GetMailHeadersAfterIdFromDBUseCase,
+    updateAllMailMetadataDB: UpdateAllMailMetadataDBUseCase
 ) : BaseMailListViewModel(
-    getMailHeadersFromDB, getNewMailHeaders, getMailHeadersAfterIdFromDB
+    getMailHeadersFromDB, getNewMailHeaders, getMailHeadersAfterIdFromDB, updateAllMailMetadataDB
 ) {
 
     override fun setMailHeaderLabel() {

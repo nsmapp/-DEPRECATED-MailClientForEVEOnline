@@ -6,13 +6,15 @@ import by.nepravskysm.domain.entity.MailHeader
 import by.nepravskysm.domain.usecase.mails.GetMailHeadersAfterIdFromDBUseCase
 import by.nepravskysm.domain.usecase.mails.GetMailHeadersFromDBUseCase
 import by.nepravskysm.domain.usecase.mails.GetNewMailHeadersUseCase
+import by.nepravskysm.domain.usecase.mails.UpdateAllMailMetadataDBUseCase
 import by.nepravskysm.domain.utils.DB_LOAD_MAIL_HEADER_FROM_DATABASE
 import by.nepravskysm.domain.utils.LOAD_NEW_MAIL_HEADER_ERROR
 
 open class BaseMailListViewModel (
     val getMailHeadersFromDB: GetMailHeadersFromDBUseCase,
     private val getNewMailHeaders: GetNewMailHeadersUseCase,
-    val getMailHeadersAfterIdFromDB: GetMailHeadersAfterIdFromDBUseCase
+    val getMailHeadersAfterIdFromDB: GetMailHeadersAfterIdFromDBUseCase,
+    private val updateAllMailMetadataDB: UpdateAllMailMetadataDBUseCase
 ) : ViewModel(){
 
 
@@ -75,6 +77,12 @@ open class BaseMailListViewModel (
             onError {
                 isVisibilityProgressBar.value = false
             }
+        }
+    }
+
+    fun updateAllMailMetadata() {
+        updateAllMailMetadataDB.execute {
+            onComplite { loadHeadersFromDB() }
         }
     }
 

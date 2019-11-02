@@ -184,6 +184,13 @@ val useCaseModule: Module = module {
     factory { GetUnreadMailUseCase(activeCharacterRepo = get(),
         dbMailHeadersRepo = get()) }
 
+    factory {
+        UpdateAllMailMetadataDBUseCase(
+            dbMailHeadersRepo = get(),
+            activeCharacterRepo = get()
+        )
+    }
+
 }
 
 val viewModelModule: Module = module {
@@ -210,33 +217,46 @@ val viewModelModule: Module = module {
 
     viewModel { BaseMailListViewModel(getMailHeadersFromDB = get(),
         getNewMailHeaders = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {
         AllMailsViewModel(
             getMailHeadersFromDB = get(),
             getNewMailHeaders = get(),
-            getMailHeadersAfterIdFromDB = get()
+            getMailHeadersAfterIdFromDB = get(),
+            updateAllMailMetadataDB = get()
         )
     }
     viewModel {InboxViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {SendViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {CorporationViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {AllianceViewModel(getMailHeadersFromDB = get(),
         getNewMailHeaders = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
     viewModel {MailingListViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),
-        getMailHeadersAfterIdFromDB = get())
+        getMailHeadersAfterIdFromDB = get(),
+        updateAllMailMetadataDB = get()
+    )
     }
 }

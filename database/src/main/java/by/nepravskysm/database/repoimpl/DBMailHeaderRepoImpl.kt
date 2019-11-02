@@ -9,6 +9,10 @@ import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 
 class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     DBMailHeadersRepository {
+    override suspend fun setAllMailsAsRead(characterName: String): Boolean {
+        appDatabase.mailHeadersDao().setAllMailAsRead(characterName)
+        return true
+    }
 
 
     override suspend fun getUnreadMails(activeCharacter: String): List<MailHeader> {
