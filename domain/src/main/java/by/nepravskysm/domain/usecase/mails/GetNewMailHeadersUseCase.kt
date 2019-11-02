@@ -73,11 +73,16 @@ class GetNewMailHeadersUseCase(
                     else mailingListHeaders.add(it)
                 }
 
-                if (mailingListHeaders.isEmpty()) {
+                if (mailingListHeaders.isNotEmpty()) {
                     val mailingList: List<MailingList> = mailingListRepo
                         .getMailingList(accessToken, characterId)
-                    for (list in mailingList) {
-                        nameMap[list.id] = list.name
+                    mailingList.forEach { nameMap[it.id] = it.name }
+                    val nameIdList = mailingListHeaders.map { it.fromId }.distinct()
+                    nameIdList.forEach {
+                        try {
+                            nameMap.putAll(namesRepo.getNameMap(listOf(it)))
+                        } catch (e: Exception) {
+                        }
                     }
                 }
 

@@ -147,6 +147,7 @@ class MainActivity : AppCompatActivity(), CharacterChangeDialog.ChangeCharacterL
         if(intent.data != null){
             if(intent.data?.getQueryParameter("code") != null){
                 val code: String = intent.data!!.getQueryParameter("code")!!
+                intent.data = null
                 vModel.startAuth(code)
             }else{
                 if(loginListener != null){
