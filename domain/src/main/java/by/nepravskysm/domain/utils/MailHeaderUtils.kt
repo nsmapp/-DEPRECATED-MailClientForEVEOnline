@@ -16,7 +16,7 @@ fun setMailTypeSenderNameAndDateFormat(
         if (header.labels.contains(4)) header.mailType = "Corporation"
         if (header.labels.contains(8)) header.mailType = "Alliance"
         if (header.labels.contains(2)) {
-            if (header.labels.size == 1) header.mailType = "Send" else header.mailType += ", Send"
+            if (header.labels.size == 1) header.mailType = "Sent" else header.mailType += ", Sent"
         }
         if (header.labels.isEmpty()) {
             header.recipients.forEach {

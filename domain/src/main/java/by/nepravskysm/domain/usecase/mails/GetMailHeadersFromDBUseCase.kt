@@ -13,6 +13,11 @@ class GetMailHeadersFromDBUseCase(
 
     private var label = 0
 
+    fun setAllMails(): GetMailHeadersFromDBUseCase {
+        label = 0
+        return this
+    }
+
     fun setOnlyInbox(): GetMailHeadersFromDBUseCase{
         label = 101
         return this

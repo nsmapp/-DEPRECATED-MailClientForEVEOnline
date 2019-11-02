@@ -23,6 +23,7 @@ import by.nepravskysm.domain.usecase.character.*
 import by.nepravskysm.domain.usecase.mails.*
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.alliance.AllianceViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.allmails.AllMailsViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.base.BaseMailListViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.corp.CorporationViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.inbox.InboxViewModel
@@ -210,6 +211,13 @@ val viewModelModule: Module = module {
     viewModel { BaseMailListViewModel(getMailHeadersFromDB = get(),
         getNewMailHeaders = get(),
         getMailHeadersAfterIdFromDB = get())
+    }
+    viewModel {
+        AllMailsViewModel(
+            getMailHeadersFromDB = get(),
+            getNewMailHeaders = get(),
+            getMailHeadersAfterIdFromDB = get()
+        )
     }
     viewModel {InboxViewModel(getMailHeadersFromDBUseCase = get(),
         getNewMailHeadersUseCase = get(),

@@ -9,6 +9,11 @@
         android:id="@+id/newMailFragment"
         android:title="@string/new_mail"/>
 
+    <item
+        android:id="@+id/allMailsFragment"
+        android:title="@string/all_mails"
+        app:actionLayout="@layout/item_navigation_menu" />
+
     <item android:id="@+id/inboxFragment"
         app:actionLayout="@layout/item_navigation_menu"
         android:title="@string/inbox"/>
