@@ -31,7 +31,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     private val eventIdObserver = Observer<Long> { eventId ->
         makeToastMessage((activity as MainActivity), eventId)
         if (eventId == MAIL_IS_SENT) {
-            findNavController().navigate(R.id.inboxFragment)
+            findNavController().navigate(R.id.allMailsFragment)
         }
     }
 

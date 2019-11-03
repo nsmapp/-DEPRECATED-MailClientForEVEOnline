@@ -36,7 +36,7 @@ class ReadMailViewModel(
                 onComplite {
                     isVisibilityProgressBar.value = false
                     inPutMail.value = it
-                    mailBody = it.body
+                    mailBody = it.body.replace("\n", "<br />")
                     fromId = it.from
 
                     if(!it.isRead){
