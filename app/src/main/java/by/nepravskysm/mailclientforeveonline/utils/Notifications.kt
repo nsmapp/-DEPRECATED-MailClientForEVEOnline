@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
@@ -13,6 +14,10 @@ import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 
 fun makeNotification(message: String, context: Context) {
+
+    val pref = context.getSharedPreferences(SETTINGS, AppCompatActivity.MODE_PRIVATE)
+    val isSound = pref.getBoolean(NOTISICATION_SOUND, true)
+    val sound = setNotificationVolome(isSound)
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -30,16 +35,25 @@ fun makeNotification(message: String, context: Context) {
         getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
+
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_mail)
         .setContentTitle(NOTIFICATION_TITLE)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .setDefaults(NotificationCompat.DEFAULT_SOUND)
+        .setDefaults(sound)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
         .build()
 
 
     NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder)
+}
+
+private fun setNotificationVolome(isSound: Boolean): Int {
+    if (isSound) {
+        return NotificationCompat.DEFAULT_SOUND
+    }
+
+    return NotificationCompat.DEFAULT_LIGHTS
 }
