@@ -12,8 +12,8 @@ const val REPLAY = "replay"
 const val FORWARD = "forward"
 
 const val SETTINGS = "settings"
-
 const val DARK_MODE = "darkmode"
+const val NOTISICATION_SOUND = "notification sound"
 const val CHARACTER_IS_AUTH = "character_is_auth"
 
 val CHANNEL_NAME: CharSequence = "check new mail work chanel"

@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.utils.DARK_MODE
+import by.nepravskysm.mailclientforeveonline.utils.NOTISICATION_SOUND
 import by.nepravskysm.mailclientforeveonline.utils.SETTINGS
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
@@ -39,6 +39,21 @@ class SettingsFragment : Fragment(){
                 false ->{ editor.putBoolean(DARK_MODE, false)
                     editor.apply()
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)}
+            }
+        }
+
+        view.notificationSound.isChecked = pref.getBoolean(NOTISICATION_SOUND, true)
+        view.notificationSound.setOnClickListener {
+            when (view.notificationSound.isChecked) {
+                true -> {
+                    editor.putBoolean(NOTISICATION_SOUND, true)
+                    editor.apply()
+                }
+                false -> {
+                    editor.putBoolean(NOTISICATION_SOUND, false)
+                    editor.apply()
+                }
+
             }
         }
         return view
