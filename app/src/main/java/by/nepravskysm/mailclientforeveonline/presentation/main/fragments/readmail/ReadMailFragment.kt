@@ -101,7 +101,7 @@ class ReadMailFragment : Fragment(){
         bundle.putString(BUNDLE_TYPE, bundleType)
         bundle.putString(FROM, fViewModel.from)
         bundle.putString(SUBJECT, fViewModel.subject)
-        bundle.putString(MAIL_BODY, fViewModel.mailBody)
+        bundle.putString(REPLY_MAIL_BODY, fViewModel.mailBody)
 
         return bundle
     }

@@ -13,7 +13,7 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
 
     var mailBody = ""
-    var mailEnd = ""
+    var replyMail = ""
     var subject = ""
     val nameList = mutableSetOf<String>()
     val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
@@ -29,7 +29,10 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
     }
 
     private fun createOutPutMail(): OutPutMail {
-        mailBody += mailEnd
+        mailBody += "<br /><br /> " +
+                "------------------- <br />" +
+                replyMail.replace("\n", "<br />")
+
         return OutPutMail(
             0,
             mailBody,
@@ -38,24 +41,22 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
     }
 
-    fun initForwardMail(subject: String, from: String, mailBody: String){
+    fun initForwardMail(subject: String, from: String, replyMailBody: String) {
 
         this.subject = "Fw: $subject"
-        this.mailEnd = "<br /><br />" +
-                "-------------------<br />" +
+        this.replyMail =
                 "from: $from <br />" +
                 "subject: $subject <br /><br /> " +
-                mailBody
+                        replyMailBody
 
     }
 
-    fun initReplayMail(subject: String, from: String, mailBody: String){
+    fun initReplyMail(subject: String, from: String, replyMailBody: String) {
         this.subject = "Re: $subject"
-        this.mailEnd = "<br /><br />" +
-                "-------------------<br /><br />" +
+        this.replyMail =
                 "from: $from <br />" +
                 "subject: $subject<br /> <br />" +
-                mailBody
+                        replyMailBody
 
     }
 
