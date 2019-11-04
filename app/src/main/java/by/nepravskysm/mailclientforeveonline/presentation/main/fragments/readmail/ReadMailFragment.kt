@@ -26,7 +26,6 @@ class ReadMailFragment : Fragment(){
     private val mailObserver = Observer<InPutMail>{ mail ->
         pastHtmlTextToMailBody(body, mail.body)
         pastImage(fromPhoto, mail.from)
-
     }
     private val eventIdObserver =
         Observer<Long> { eventId -> makeToastMessage((activity as MainActivity), eventId) }
@@ -101,7 +100,7 @@ class ReadMailFragment : Fragment(){
         bundle.putString(BUNDLE_TYPE, bundleType)
         bundle.putString(FROM, fViewModel.from)
         bundle.putString(SUBJECT, fViewModel.subject)
-        bundle.putString(MAIL_BODY, fViewModel.mailBody)
+        bundle.putString(REPLY_MAIL_BODY, fViewModel.mailBody)
 
         return bundle
     }

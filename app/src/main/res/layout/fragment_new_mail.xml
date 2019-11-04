@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/global_background"
@@ -50,26 +51,6 @@
         android:contentDescription="@string/send_mail"
         app:srcCompat="@drawable/ic_mail" />
 
-    <EditText
-        android:id="@+id/mailBody"
-        style="@style/normalTextView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/textViewReadable"
-        android:gravity="start"
-        android:hint="@string/mail_body"
-        android:imeOptions="actionDone"
-        android:inputType="textMultiLine|textPersonName"
-        android:lines="100"
-        android:maxLength="7000"
-        android:maxLines="100"
-        android:minLines="20"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mailLendth" />
-
     <ImageView
         android:id="@+id/clear"
         android:layout_width="wrap_content"
@@ -82,15 +63,6 @@
         app:layout_constraintTop_toTopOf="@+id/toName"
         android:contentDescription="@string/clear_recipient_list"
         app:srcCompat="@drawable/ic_delete_recipients" />
-
-    <TextView
-        android:id="@+id/mailLendth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/_0_7000"
-        app:layout_constraintEnd_toEndOf="@+id/mailBody"
-        app:layout_constraintTop_toBottomOf="@+id/solarSystemDialog" />
 
     <TextView
         android:id="@+id/reinforceTimer"
@@ -124,4 +96,54 @@
         app:layout_constraintStart_toEndOf="@+id/reinforceTimer"
         app:layout_constraintTop_toTopOf="@+id/reinforceTimer"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/mailLendth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginEnd="8dp"
+        android:text="@string/_0_7000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/solarSystemDialog"
+        tools:ignore="RtlHardcoded" />
+
+    <EditText
+        android:id="@+id/mailBody"
+        style="@style/normalTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/textViewReadable"
+        android:gravity="start"
+        android:hint="@string/mail_body"
+        android:imeOptions="actionDone"
+        android:inputType="textMultiLine|textPersonName"
+        android:maxLength="7000"
+        android:maxLines="200"
+        android:minLines="30"
+        app:layout_constraintBottom_toTopOf="@+id/stubReplayForward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mailLendth" />
+
+    <ViewStub
+        android:id="@+id/stubReplayForward"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout="@layout/stub_reply_forward_mail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/stubReplayForward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mailBody"
+        app:layout_constraintVertical_bias="0.44" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

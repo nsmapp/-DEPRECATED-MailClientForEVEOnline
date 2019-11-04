@@ -1,9 +1,11 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,21 +19,37 @@ import by.nepravskysm.mailclientforeveonline.presentation.main.dialog.AddSolarSy
 import by.nepravskysm.mailclientforeveonline.utils.*
 import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
+import kotlinx.android.synthetic.main.stub_reply_forward_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     AddReinforceTimerDialog.ReinforceTimerListenear,
     AddSolarSystemDialog.AddSolarSystemListener{
 
     val fViewModel: NewMailViewModel by viewModel()
+
+    private var isNotReplyMailVisible = true
     private val addNameDialog = AddNameDialog()
     private val addSolarSystemDialog = AddSolarSystemDialog()
     private val reinforceDialog = AddReinforceTimerDialog()
 
+    private val progresBarObserver = Observer<Boolean> {
+        val imm =
+            (activity as MainActivity).getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        Objects.requireNonNull(imm).hideSoftInputFromWindow(view?.windowToken, 0)
+
+        if (it) {
+            showProgresBar()
+        } else {
+            hideProgresBar()
+        }
+    }
+
     private val eventIdObserver = Observer<Long> { eventId ->
         makeToastMessage((activity as MainActivity), eventId)
         if (eventId == MAIL_IS_SENT) {
-            findNavController().navigate(R.id.inboxFragment)
+            findNavController().navigate(R.id.allMailsFragment)
         }
     }
 
@@ -50,16 +68,22 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
 
                     REPLAY -> {
                         fViewModel.nameList.add(arguments?.getString(FROM)!!)
-                        fViewModel.initReplayMail(arguments?.getString(SUBJECT)!!,
+                        fViewModel.initReplyMail(
+                            arguments?.getString(SUBJECT)!!,
                             arguments?.getString(FROM)!!,
-                            arguments?.getString(MAIL_BODY)!!)
+                            arguments?.getString(REPLY_MAIL_BODY)!!
+                        )
                     }
                     FORWARD -> {
-                        fViewModel.initForwardMail(arguments?.getString(SUBJECT)!!,
+                        fViewModel.initForwardMail(
+                            arguments?.getString(SUBJECT)!!,
                             arguments?.getString(FROM)!!,
-                            arguments?.getString(MAIL_BODY)!!)
+                            arguments?.getString(REPLY_MAIL_BODY)!!
+                        )
                     }
                 }
+
+                initStubView(view)
 
             }catch (e: Exception){
                 fViewModel.nameList.clear()
@@ -69,41 +93,23 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
 
                 view.toName.setText(fViewModel.nameList.toString())
                 view.subject.setText(fViewModel.subject)
-                pastHtmlTextToMailBody(view.mailBody, fViewModel.mailBody)
-
             }
-
-            fViewModel.eventId.observe(this, eventIdObserver)
         }
 
+        initOnClickListener(view)
 
         addNameDialog.setConfirmNameListener(this)
         addSolarSystemDialog.setAddSolarSystemListener(this)
         reinforceDialog.setReinforceTimerListenear(this)
 
-        view.reinforceTimer.setOnClickListener {
-            reinforceDialog.show(activity!!.supportFragmentManager, "reinforce")
-        }
-        view.toName.setOnClickListener {
-            addNameDialog.show(activity!!.supportFragmentManager, "addName")
-        }
-        view.clear.setOnClickListener {
-            view.toName.setText("")
-            fViewModel.nameList.clear()
-        }
-        view.sendMailBtn.setOnClickListener {
-            fViewModel.subject = view.subject.text.toString()
-            fViewModel.sendMail()
-        }
         view.mailBody.doOnTextChanged{text, _, _, _ ->
             view.mailLendth.text = "${text!!.length}/7000"
             fViewModel.mailBody = text.toString()
         }
-        view.solarSystemDialog.setOnClickListener {
-            addSolarSystemDialog.show(activity!!.supportFragmentManager, "addsolarsystem")
-        }
 
+        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         fViewModel.eventId.observe(this, eventIdObserver)
+
         return view
     }
 
@@ -120,6 +126,56 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     override fun addSolarSystem(solarSystem: String) {
         val text = mailBody.text.toString() +" $solarSystem"
         mailBody.setText(text)
+    }
+
+    private fun initOnClickListener(rootView: View) {
+        rootView.reinforceTimer.setOnClickListener {
+            reinforceDialog.show(activity!!.supportFragmentManager, "reinforce")
+        }
+        rootView.toName.setOnClickListener {
+            addNameDialog.show(activity!!.supportFragmentManager, "addName")
+        }
+        rootView.clear.setOnClickListener {
+            rootView.toName.setText("")
+            fViewModel.nameList.clear()
+        }
+        rootView.sendMailBtn.setOnClickListener {
+            fViewModel.subject = rootView.subject.text.toString()
+            fViewModel.sendMail()
+        }
+
+        rootView.solarSystemDialog.setOnClickListener {
+            addSolarSystemDialog.show(activity!!.supportFragmentManager, "addsolarsystem")
+        }
+
+    }
+
+    private fun initStubView(rootView: View) {
+        rootView.stubReplayForward.inflate()
+        rootView.replyMail.visibility = View.GONE
+        rootView.collapseBtn.setOnClickListener {
+            if (isNotReplyMailVisible) {
+                rootView.collapseBtn.setImageResource(R.drawable.ic_arrow_down)
+                rootView.replyMail.visibility = View.VISIBLE
+                isNotReplyMailVisible = false
+            } else {
+                rootView.collapseBtn.setImageResource(R.drawable.ic_arrow_up)
+                rootView.replyMail.visibility = View.GONE
+                isNotReplyMailVisible = true
+            }
+        }
+        pastHtmlTextToMailBody(rootView.replyMail, fViewModel.replyMail)
+        rootView.replyMail.doOnTextChanged { text, _, _, _ ->
+            fViewModel.replyMail = text.toString()
+        }
+    }
+
+    private fun showProgresBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgresBar() {
+        progressBar.visibility = View.GONE
     }
 
 }

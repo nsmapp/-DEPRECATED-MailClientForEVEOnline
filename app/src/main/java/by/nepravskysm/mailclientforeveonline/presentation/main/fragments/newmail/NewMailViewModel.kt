@@ -13,23 +13,33 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
 
     var mailBody = ""
-    var mailEnd = ""
+    var replyMail = ""
     var subject = ""
     val nameList = mutableSetOf<String>()
     val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
-
+    val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     fun sendMail(){
+        isVisibilityProgressBar.value = true
         val mail = createOutPutMail()
         sendMail.setData(mail, nameList)
             .execute {
-                onComplite { eventId.value = MAIL_IS_SENT }
-                onError { eventId.value = SEND_MAIL_ERROR }
+                onComplite {
+                    isVisibilityProgressBar.value = false
+                    eventId.value = MAIL_IS_SENT
+                }
+                onError {
+                    isVisibilityProgressBar.value = false
+                    eventId.value = SEND_MAIL_ERROR
+                }
         }
     }
 
     private fun createOutPutMail(): OutPutMail {
-        mailBody += mailEnd
+        mailBody += "<br /><br /> " +
+                "------------------- <br />" +
+                replyMail.replace("\n", "<br />")
+
         return OutPutMail(
             0,
             mailBody,
@@ -38,24 +48,22 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
     }
 
-    fun initForwardMail(subject: String, from: String, mailBody: String){
+    fun initForwardMail(subject: String, from: String, replyMailBody: String) {
 
         this.subject = "Fw: $subject"
-        this.mailEnd = "\n\n" +
-                "-------------------\n" +
-                "from: $from \n" +
-                "subject: $subject \n \n" +
-                mailBody
+        this.replyMail =
+                "from: $from <br />" +
+                "subject: $subject <br /><br /> " +
+                        replyMailBody
 
     }
 
-    fun initReplayMail(subject: String, from: String, mailBody: String){
+    fun initReplyMail(subject: String, from: String, replyMailBody: String) {
         this.subject = "Re: $subject"
-        this.mailEnd = "\n \n" +
-                "--------------------\n" +
-                "from: $from \n" +
-                "subject: $subject \n \n" +
-                mailBody
+        this.replyMail =
+                "from: $from <br />" +
+                "subject: $subject<br /> <br />" +
+                        replyMailBody
 
     }
 

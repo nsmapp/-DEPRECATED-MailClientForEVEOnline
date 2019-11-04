@@ -1,7 +1,7 @@
 package by.nepravskysm.mailclientforeveonline.utils
 
 const val MAIL_ID = "mailid"
-const val MAIL_BODY = "mailbody"
+const val REPLY_MAIL_BODY = "mailbody"
 const val IS_READ_MAIL = "isreadmail"
 const val SUBJECT = "subject"
 const val FROM = "name"
