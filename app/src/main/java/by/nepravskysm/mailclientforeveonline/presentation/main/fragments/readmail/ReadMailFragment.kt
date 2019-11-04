@@ -26,7 +26,6 @@ class ReadMailFragment : Fragment(){
     private val mailObserver = Observer<InPutMail>{ mail ->
         pastHtmlTextToMailBody(body, mail.body)
         pastImage(fromPhoto, mail.from)
-
     }
     private val eventIdObserver =
         Observer<Long> { eventId -> makeToastMessage((activity as MainActivity), eventId) }

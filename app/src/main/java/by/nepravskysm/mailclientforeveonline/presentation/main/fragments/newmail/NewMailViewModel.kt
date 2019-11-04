@@ -17,14 +17,21 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
     var subject = ""
     val nameList = mutableSetOf<String>()
     val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
-
+    val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     fun sendMail(){
+        isVisibilityProgressBar.value = true
         val mail = createOutPutMail()
         sendMail.setData(mail, nameList)
             .execute {
-                onComplite { eventId.value = MAIL_IS_SENT }
-                onError { eventId.value = SEND_MAIL_ERROR }
+                onComplite {
+                    isVisibilityProgressBar.value = false
+                    eventId.value = MAIL_IS_SENT
+                }
+                onError {
+                    isVisibilityProgressBar.value = false
+                    eventId.value = SEND_MAIL_ERROR
+                }
         }
     }
 

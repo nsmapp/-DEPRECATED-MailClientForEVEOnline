@@ -1,9 +1,11 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_new_mail.*
 import kotlinx.android.synthetic.main.fragment_new_mail.view.*
 import kotlinx.android.synthetic.main.stub_reply_forward_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     AddReinforceTimerDialog.ReinforceTimerListenear,
@@ -27,10 +30,21 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     val fViewModel: NewMailViewModel by viewModel()
 
     private var isNotReplyMailVisible = true
-    private lateinit var stubMailView: View
     private val addNameDialog = AddNameDialog()
     private val addSolarSystemDialog = AddSolarSystemDialog()
     private val reinforceDialog = AddReinforceTimerDialog()
+
+    private val progresBarObserver = Observer<Boolean> {
+        val imm =
+            (activity as MainActivity).getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        Objects.requireNonNull(imm).hideSoftInputFromWindow(view?.windowToken, 0)
+
+        if (it) {
+            showProgresBar()
+        } else {
+            hideProgresBar()
+        }
+    }
 
     private val eventIdObserver = Observer<Long> { eventId ->
         makeToastMessage((activity as MainActivity), eventId)
@@ -93,6 +107,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
             fViewModel.mailBody = text.toString()
         }
 
+        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         fViewModel.eventId.observe(this, eventIdObserver)
 
         return view
@@ -153,6 +168,14 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
         rootView.replyMail.doOnTextChanged { text, _, _, _ ->
             fViewModel.replyMail = text.toString()
         }
+    }
+
+    private fun showProgresBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgresBar() {
+        progressBar.visibility = View.GONE
     }
 
 }
