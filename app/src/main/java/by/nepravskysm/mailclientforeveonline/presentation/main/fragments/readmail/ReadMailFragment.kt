@@ -30,7 +30,7 @@ class ReadMailFragment : Fragment(){
     private val eventIdObserver =
         Observer<Long> { eventId -> makeToastMessage((activity as MainActivity), eventId) }
     private val deleteMailObserver = Observer<Boolean> {
-        if(activity != null && it){
+        if (it) {
             makeToastMessage((activity as MainActivity), MAIL_IS_DELETED)
             findNavController().popBackStack()
         }  }

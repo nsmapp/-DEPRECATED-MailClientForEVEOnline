@@ -19,7 +19,8 @@ import by.nepravskysm.database.entity.converter.RecipientConverter
 @Database(entities = [ AuthInfoDBE::class,
     MailHeaderDBE::class,
     ActivaCharacterDBE::class,
-    ContactDBE::class], version = 9)
+    ContactDBE::class], version = 10
+)
 @TypeConverters(LabelConverter::class, RecipientConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 

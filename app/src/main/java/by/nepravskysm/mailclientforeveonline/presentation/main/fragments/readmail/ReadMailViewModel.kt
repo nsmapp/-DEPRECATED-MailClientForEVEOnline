@@ -1,6 +1,5 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.nepravskysm.domain.entity.InPutMail
@@ -41,11 +40,9 @@ class ReadMailViewModel(
 
                     if(!it.isRead){
                         updateMailMetadata.setData(mailId, it.labels).execute {
-                            onComplite { Log.d("logd",  "UpdateLabel net") }
                             onError { eventId.value = UPDATE_MAIL_METADATA_ERROR }
                         }
                         updateDBMailMetadata.setData(mailId).execute {
-                            onComplite { Log.d("logd",  "UpdateLabel db") }
                             onError { eventId.value = DB_UPDATE_MAIL_METADATA_ERROR }
                         }
                     }
@@ -60,18 +57,16 @@ class ReadMailViewModel(
     }
 
     fun deleteMail(){
-        deleteMailFromDB.setData(mailId).execute {
-            onComplite {  }
-            onError { eventId.value = DB_DELETE_MAIL_ERROR }
-        }
+
         deleteMailFromServer.setData(mailId)
             .execute {
                 onComplite {
-                    mailIsDeleted.value = true
+                    deleteMailFromDB.setData(mailId).execute {
+                        onComplite { mailIsDeleted.value = true }
+                        onError { eventId.value = DB_DELETE_MAIL_ERROR }
+                    }
                 }
-                onError {
-                    eventId.value = DELETE_MAIL_FROM_SERVER_ERROR
-                }
+                onError { eventId.value = DELETE_MAIL_FROM_SERVER_ERROR }
         }
     }
 

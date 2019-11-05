@@ -19,8 +19,10 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         val unreadMails = appDatabase.mailHeadersDao().getUnreadMails(activeCharacter)
         return mapToDomainHeaders(unreadMails)
     }
-    override suspend fun deleteMail(mailId: Long) {
+
+    override suspend fun deleteMail(mailId: Long): Boolean {
         appDatabase.mailHeadersDao().delelteMail(mailId)
+        return true
     }
 
     override suspend fun get(characterName: String): List<MailHeader> {
