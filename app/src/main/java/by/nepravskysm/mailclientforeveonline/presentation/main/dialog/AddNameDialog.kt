@@ -1,7 +1,6 @@
 package by.nepravskysm.mailclientforeveonline.presentation.main.dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,8 +48,7 @@ class AddNameDialog  : DialogFragment(){
                 val nameArray = it.map { it.contactName }.toTypedArray()
                 val nameAdapter = ArrayAdapter(dialog.context, android.R.layout.simple_list_item_1, nameArray)
                 dialog.name.setAdapter(nameAdapter)
-            Log.d("logd", "contact count ${it.size}")}
-
+            }
         }
         dialog.add.setOnClickListener {
             if (confirmNameListener != null){

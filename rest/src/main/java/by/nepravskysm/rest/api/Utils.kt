@@ -43,6 +43,7 @@ fun createRetrofit(url: String, timeOut :Long ) : Retrofit{
     return Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(createGson()))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
+
         .baseUrl(url)
         .client(createHttpClient(timeOut))
         .build()

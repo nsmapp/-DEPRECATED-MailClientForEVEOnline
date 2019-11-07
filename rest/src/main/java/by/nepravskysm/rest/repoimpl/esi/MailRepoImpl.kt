@@ -67,14 +67,16 @@ class MailRepoImpl(private val esiManager: EsiManager) : MailRepository{
 
     override suspend fun deleteMail(accessToken: String, characterId: Long, mailId: Long):Boolean {
 
-        return try {
-            esiManager.deleteMail(accessToken,
-                characterId,
-                mailId)
-                .await()
-            true
-        }catch (e: Exception){
-            false
+        val code = esiManager.deleteMail(
+            accessToken,
+            characterId,
+            mailId
+        )
+            .await()
+
+        if (code.code() == 204) {
+            return true
         }
+        return false
     }
 }
