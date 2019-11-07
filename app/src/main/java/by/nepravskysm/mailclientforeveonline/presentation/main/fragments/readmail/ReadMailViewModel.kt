@@ -39,7 +39,8 @@ class ReadMailViewModel(
                     fromId = it.from
 
                     if(!it.isRead){
-                        updateMailMetadata.setData(mailId, it.labels).execute {
+                        updateMailMetadata.setData(mailId, it.labels)
+                            .execute {
                             onError { eventId.value = UPDATE_MAIL_METADATA_ERROR }
                         }
                         updateDBMailMetadata.setData(mailId).execute {

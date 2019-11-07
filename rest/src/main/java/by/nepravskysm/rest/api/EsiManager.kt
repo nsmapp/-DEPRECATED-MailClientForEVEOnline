@@ -68,7 +68,8 @@ class EsiManager{
     fun putMailMetadata(mailMetadata: MailMetadataRequest,
                         accessToken :String,
                         characterId :Long,
-                        mailId :Long):Deferred<Unit>{
+                        mailId: Long
+    ): Deferred<Response<Unit>> {
 
         return esiApi.putMailMetadata(mailMetadata,
             "Bearer $accessToken",

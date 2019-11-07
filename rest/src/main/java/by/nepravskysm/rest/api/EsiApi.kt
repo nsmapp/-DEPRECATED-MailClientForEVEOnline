@@ -58,7 +58,7 @@ interface EsiApi{
                            @Header("Authorization") bearerToken :String,
                            @Path("character_id") characterId :Long,
                            @Path("mail_id") mailId :Long
-    ): Deferred<Unit>
+    ): Deferred<Response<Unit>>
 
     @DELETE("/latest/characters/{character_id}/mail/{mail_id}/")
     fun deleteMail(@Header("Authorization") bearerToken :String,

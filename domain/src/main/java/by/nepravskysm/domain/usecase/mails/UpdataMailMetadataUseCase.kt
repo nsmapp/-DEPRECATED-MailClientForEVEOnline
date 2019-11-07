@@ -30,24 +30,23 @@ class UpdataMailMetadataUseCase(
         val characterName = activeCharacterRepo.getActiveCharacterName()
         val authInfo = authInfoRepo.getAuthInfo(characterName)
 
-        try {
-            mailRepo
-                .updateMailMetadata(
-                    MailMetadata(labelsList, true),
-                    authInfo.accessToken,
-                    authInfo.characterId,
-                    mailId)
+        val isSucces = mailRepo
+            .updateMailMetadata(
+                MailMetadata(labelsList, true),
+                authInfo.accessToken,
+                authInfo.characterId,
+                mailId
+            )
 
-        }catch (e: Exception){
+        return if (isSucces) true
+        else {
             val token = authRepo.refreshAuthToken(authInfo.refreshToken)
-
-            mailRepo
-                .updateMailMetadata(
-                    MailMetadata(labelsList, true),
-                    token.accessToken,
-                    authInfo.characterId,
-                    mailId)
+            mailRepo.updateMailMetadata(
+                MailMetadata(labelsList, true),
+                token.accessToken,
+                authInfo.characterId,
+                mailId
+            )
         }
-        return true
     }
 }
