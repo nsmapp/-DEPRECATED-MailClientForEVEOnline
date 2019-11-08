@@ -45,13 +45,13 @@ class GetMailHeadersFromDBUseCase(
         val characterName = activeCharacterRepo.getActiveCharacterName()
 
         return when(label){
-            0 -> dbMailHeadersRepo.get(characterName)
+            0 -> dbMailHeadersRepo.getAllWithoutSent(characterName)
             101 -> dbMailHeadersRepo.getInbox(characterName)
             102 -> dbMailHeadersRepo.getSend(characterName)
             104 -> dbMailHeadersRepo.getCorporation(characterName)
             108 -> dbMailHeadersRepo.getAlliance(characterName)
             100 -> dbMailHeadersRepo.getMailingList(characterName)
-            else -> dbMailHeadersRepo.get(characterName)
+            else -> dbMailHeadersRepo.getAllWithoutSent(characterName)
         }
     }
 

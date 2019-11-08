@@ -16,11 +16,15 @@ interface MailHeaderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveMailHeaders(headersList :List<MailHeaderDBE>)
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName ORDER BY id DESC LIMIT 200"  )
-    fun getMailsHeaders(ownerName: String): List<MailHeaderDBE>
+    @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName AND labels != :labelMask ORDER BY id DESC LIMIT 100")
+    fun getMailsHeaders(ownerName: String, labelMask: String): List<MailHeaderDBE>
 
-    @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName AND id < :lastMailId AND labels LIKE :labels  ORDER BY id DESC LIMIT 50"  )
-    fun getMailsHeadersWithLabels(ownerName: String, labels :String, lastMailId: Long): List<MailHeaderDBE>
+    @Query("SELECT * FROM $TABLE_NAME WHERE ownerName = :ownerName AND id < :lastMailId AND labels LIKE :labelMask  ORDER BY id DESC LIMIT 50")
+    fun getMailsHeadersWithLabels(
+        ownerName: String,
+        labelMask: String,
+        lastMailId: Long
+    ): List<MailHeaderDBE>
 
     @Query("SELECT * FROM $TABLE_NAME WHERE isRead = :readStatus AND ownerName = :ownerName")
     fun getUnreadMails(ownerName: String, readStatus: Boolean = false): List<MailHeaderDBE>

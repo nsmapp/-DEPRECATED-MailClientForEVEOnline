@@ -25,10 +25,9 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         return true
     }
 
-    override suspend fun get(characterName: String): List<MailHeader> {
+    override suspend fun getAllWithoutSent(characterName: String): List<MailHeader> {
         val headersList = appDatabase.mailHeadersDao()
-            .getMailsHeaders(characterName)
-
+            .getMailsHeaders(characterName, "[2]")
         return mapToDomainHeaders(headersList)
     }
 

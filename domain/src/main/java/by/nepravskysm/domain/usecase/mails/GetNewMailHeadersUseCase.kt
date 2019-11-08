@@ -95,6 +95,6 @@ class GetNewMailHeadersUseCase(
             }
         }
 
-        return dbMailHeadersRepo.get(characterName)
+        return dbMailHeadersRepo.getAllWithoutSent(characterName)
     }
 }
