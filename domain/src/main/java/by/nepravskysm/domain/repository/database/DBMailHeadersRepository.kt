@@ -4,7 +4,7 @@ import by.nepravskysm.domain.entity.MailHeader
 
 interface DBMailHeadersRepository{
 
-    suspend fun save(headersList: List<MailHeader>, characterName: String)
+    suspend fun insert(headersList: List<MailHeader>, characterName: String)
     suspend fun getAllWithoutSent(characterName: String): List<MailHeader>
     suspend fun getWithLabels(characterName: String,
                               labels: String,

@@ -21,6 +21,8 @@
         style="@style/normalTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:background="@color/textViewReadable"
         android:ems="10"
         android:gravity="start"
@@ -28,5 +30,7 @@
         android:inputType="textMultiLine|textPersonName"
         android:maxLength="8000"
         android:maxLines="100"
-        android:minLines="10" />
+        android:minLines="10"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" />
 </LinearLayout>

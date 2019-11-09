@@ -91,7 +91,7 @@ class GetNewMailHeadersUseCase(
                 headerList = setMailTypeSenderNameAndDateFormat(headerList, nameMap)
 
                 dbMailHeadersRepo
-                    .save(headerList, characterName)
+                    .insert(headerList, characterName)
             }
         }
 

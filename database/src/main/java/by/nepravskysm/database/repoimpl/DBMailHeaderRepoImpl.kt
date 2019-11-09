@@ -9,6 +9,7 @@ import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 
 class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     DBMailHeadersRepository {
+
     override suspend fun setAllMailsAsRead(characterName: String): Boolean {
         appDatabase.mailHeadersDao().setAllMailAsRead(characterName)
         return true
@@ -61,7 +62,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         return getWithLabels(characterName, "[]", lastHeaderId)
     }
 
-    override suspend fun save(headersList: List<MailHeader>, characterName: String) {
+    override suspend fun insert(headersList: List<MailHeader>, characterName: String) {
 
         val headers = mutableListOf<MailHeaderDBE>()
         for (header in headersList) {
@@ -94,7 +95,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
 
     override suspend fun setMailIsRead(mailId: Long) {appDatabase.mailHeadersDao().setMailIsRead(mailId)}
 
-    private fun mapToDomainHeaders(headersList: List<MailHeaderDBE>) : List<MailHeader>{
+    fun mapToDomainHeaders(headersList: List<MailHeaderDBE>): List<MailHeader> {
         val headers = mutableListOf<MailHeader>()
 
         for (header in headersList) {

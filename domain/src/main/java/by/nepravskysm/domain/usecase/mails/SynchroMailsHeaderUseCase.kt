@@ -84,7 +84,7 @@ class SynchroMailsHeaderUseCase(
                 headerList = setMailTypeSenderNameAndDateFormat(headerList, nameMap)
 
                 dbMailHeadersRepo
-                    .save(headerList, characterName)
+                    .insert(headerList, characterName)
             }
         }
 
