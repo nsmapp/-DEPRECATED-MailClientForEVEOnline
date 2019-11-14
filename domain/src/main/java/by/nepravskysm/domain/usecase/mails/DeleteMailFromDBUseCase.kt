@@ -4,7 +4,7 @@ import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
 class DeleteMailFromDBUseCase(private val dbMailHeadersRepo: DBMailHeadersRepository) :
-    AsyncUseCase<Unit>() {
+    AsyncUseCase<Boolean>() {
 
 
     private var mailId: Long = 0
@@ -14,7 +14,7 @@ class DeleteMailFromDBUseCase(private val dbMailHeadersRepo: DBMailHeadersReposi
         return this
     }
 
-    override suspend fun onBackground() {
-        dbMailHeadersRepo.deleteMail(mailId)
+    override suspend fun onBackground(): Boolean {
+        return dbMailHeadersRepo.deleteMail(mailId)
     }
 }

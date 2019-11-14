@@ -4,6 +4,7 @@ import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.response.*
 import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.http.*
 
 interface EsiApi{
@@ -57,13 +58,13 @@ interface EsiApi{
                            @Header("Authorization") bearerToken :String,
                            @Path("character_id") characterId :Long,
                            @Path("mail_id") mailId :Long
-    ): Deferred<Unit>
+    ): Deferred<Response<Unit>>
 
     @DELETE("/latest/characters/{character_id}/mail/{mail_id}/")
     fun deleteMail(@Header("Authorization") bearerToken :String,
                    @Path("character_id") characterId :Long,
                    @Path("mail_id") mailId :Long
-    ): Deferred<Unit>
+    ): Deferred<Response<Unit>>
 
     @GET("/latest/characters/{character_id}/mail/lists/")
     fun getMailingList(@Header("Authorization") bearerToken :String,

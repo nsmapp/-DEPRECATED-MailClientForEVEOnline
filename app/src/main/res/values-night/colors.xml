@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9BBC94</color>
+    <color name="colorPrimary">#8CA188</color>
     <color name="colorPrimaryDark">#787878</color>
     <color name="colorAccent">#859783</color>
 
@@ -10,8 +10,10 @@
     <color name="mailIsNOTReadBackground">#4F5549</color>
     <color name="mailIsReadBorder">#4C593F</color>
 
+    <color name="buttonBackGround">#2C2A2A</color>
+
     <color name="textViewReadable">#251E1E</color>
 
-    <color name="shadowDark">#404540</color>
+    <color name="shadowDark">#86A37F</color>
     <color name="shadowLight">#2B322B</color>
 </resources>

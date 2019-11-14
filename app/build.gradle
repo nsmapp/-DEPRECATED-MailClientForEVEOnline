@@ -11,8 +11,8 @@ android {
         applicationId "by.nepravskysm.mailclientforeveonline"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 5
-        versionName "0.94.7b"
+        versionCode 10
+        versionName "0.99b"
 
     }
     buildTypes {
@@ -49,7 +49,7 @@ buildscript{
     ext.koin_version = '2.0.1'
     ext.picasso_version = '2.71828'
     ext.worker_version = '2.2.0'
-    ext.firebase_version = '17.2.0'
+    ext.firebase_version = '17.2.1'
     ext.crashlitytics_version = '2.10.1'
 
 

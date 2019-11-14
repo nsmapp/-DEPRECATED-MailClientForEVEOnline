@@ -91,10 +91,10 @@ class GetNewMailHeadersUseCase(
                 headerList = setMailTypeSenderNameAndDateFormat(headerList, nameMap)
 
                 dbMailHeadersRepo
-                    .save(headerList, characterName)
+                    .insert(headerList, characterName)
             }
         }
 
-        return dbMailHeadersRepo.get(characterName)
+        return dbMailHeadersRepo.getAllWithoutSent(characterName)
     }
 }

@@ -25,7 +25,6 @@ abstract class AsyncUseCase<T> {
                 val result = withContext(backgaund){
                     onBackground()
                 }
-
                 response(result)
             }catch (cancelExeption :CancellationException){
                 response(cancelExeption)

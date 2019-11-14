@@ -4,8 +4,8 @@ import by.nepravskysm.domain.entity.MailHeader
 
 interface DBMailHeadersRepository{
 
-    suspend fun save(headersList: List<MailHeader>, characterName: String)
-    suspend fun get(characterName: String): List<MailHeader>
+    suspend fun insert(headersList: List<MailHeader>, characterName: String)
+    suspend fun getAllWithoutSent(characterName: String): List<MailHeader>
     suspend fun getWithLabels(characterName: String,
                               labels: String,
                               lastHeaderId: Long = 999999999999): List<MailHeader>
@@ -21,7 +21,7 @@ interface DBMailHeadersRepository{
                                lastHeaderId: Long = 999999999999 ): List<MailHeader>
     suspend fun getLastMailId(activeCharacter: String): Long
     suspend fun setMailIsRead(mailId: Long)
-    suspend fun deleteMail(mailId: Long)
+    suspend fun deleteMail(mailId: Long): Boolean
     suspend fun getUnreadMails(activeCharacter: String):List<MailHeader>
     suspend fun setAllMailsAsRead(characterName: String): Boolean
 }

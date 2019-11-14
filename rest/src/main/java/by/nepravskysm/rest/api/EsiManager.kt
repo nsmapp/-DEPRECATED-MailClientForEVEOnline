@@ -4,6 +4,7 @@ import by.nepravskysm.rest.entity.request.MailMetadataRequest
 import by.nepravskysm.rest.entity.request.MailRequest
 import by.nepravskysm.rest.entity.response.*
 import kotlinx.coroutines.Deferred
+import retrofit2.Response
 
 class EsiManager{
 
@@ -67,7 +68,8 @@ class EsiManager{
     fun putMailMetadata(mailMetadata: MailMetadataRequest,
                         accessToken :String,
                         characterId :Long,
-                        mailId :Long):Deferred<Unit>{
+                        mailId: Long
+    ): Deferred<Response<Unit>> {
 
         return esiApi.putMailMetadata(mailMetadata,
             "Bearer $accessToken",
@@ -78,7 +80,8 @@ class EsiManager{
 
     fun deleteMail(accessToken :String,
                    characterId :Long,
-                   mailId :Long):Deferred<Unit>{
+                   mailId: Long
+    ): Deferred<Response<Unit>> {
 
         return esiApi.deleteMail("Bearer $accessToken",
             characterId,

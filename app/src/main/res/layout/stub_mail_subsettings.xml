@@ -12,6 +12,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:gravity="center_horizontal"
+        android:padding="2dp"
         android:text="@string/mark_all_as_read"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

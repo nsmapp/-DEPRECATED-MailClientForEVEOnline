@@ -9,6 +9,7 @@ import by.nepravskysm.domain.repository.database.DBMailHeadersRepository
 
 class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
     DBMailHeadersRepository {
+
     override suspend fun setAllMailsAsRead(characterName: String): Boolean {
         appDatabase.mailHeadersDao().setAllMailAsRead(characterName)
         return true
@@ -19,14 +20,15 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         val unreadMails = appDatabase.mailHeadersDao().getUnreadMails(activeCharacter)
         return mapToDomainHeaders(unreadMails)
     }
-    override suspend fun deleteMail(mailId: Long) {
+
+    override suspend fun deleteMail(mailId: Long): Boolean {
         appDatabase.mailHeadersDao().delelteMail(mailId)
+        return true
     }
 
-    override suspend fun get(characterName: String): List<MailHeader> {
+    override suspend fun getAllWithoutSent(characterName: String): List<MailHeader> {
         val headersList = appDatabase.mailHeadersDao()
-            .getMailsHeaders(characterName)
-
+            .getMailsHeaders(characterName, "[2]")
         return mapToDomainHeaders(headersList)
     }
 
@@ -60,7 +62,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
         return getWithLabels(characterName, "[]", lastHeaderId)
     }
 
-    override suspend fun save(headersList: List<MailHeader>, characterName: String) {
+    override suspend fun insert(headersList: List<MailHeader>, characterName: String) {
 
         val headers = mutableListOf<MailHeaderDBE>()
         for (header in headersList) {
@@ -93,7 +95,7 @@ class DBMailHeaderRepoImpl(private val appDatabase: AppDatabase):
 
     override suspend fun setMailIsRead(mailId: Long) {appDatabase.mailHeadersDao().setMailIsRead(mailId)}
 
-    private fun mapToDomainHeaders(headersList: List<MailHeaderDBE>) : List<MailHeader>{
+    fun mapToDomainHeaders(headersList: List<MailHeaderDBE>): List<MailHeader> {
         val headers = mutableListOf<MailHeader>()
 
         for (header in headersList) {
