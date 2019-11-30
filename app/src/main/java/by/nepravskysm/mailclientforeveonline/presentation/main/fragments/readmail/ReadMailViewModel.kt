@@ -24,6 +24,7 @@ class ReadMailViewModel(
     var fromId: Long = 0
     var mailBody =""
     var mailId: Long = 0
+    var mailSentTime = ""
 
 
     fun getMail(){
@@ -39,12 +40,13 @@ class ReadMailViewModel(
                     fromId = it.from
 
                     if(!it.isRead){
+                        updateDBMailMetadata.setData(mailId).execute {
+                            onComplite { }
+                            onError { eventId.value = DB_UPDATE_MAIL_METADATA_ERROR }
+                        }
                         updateMailMetadata.setData(mailId, it.labels)
                             .execute {
                             onError { eventId.value = UPDATE_MAIL_METADATA_ERROR }
-                        }
-                        updateDBMailMetadata.setData(mailId).execute {
-                            onError { eventId.value = DB_UPDATE_MAIL_METADATA_ERROR }
                         }
                     }
                 }

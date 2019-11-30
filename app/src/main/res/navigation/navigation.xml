@@ -65,8 +65,10 @@
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail.ReadMailFragment"
             android:label="ReadMailFragment" >
         <action
-                android:id="@+id/action_readMailFragment_to_newMailFragment"
-                app:destination="@id/newMailFragment" />
+            android:id="@+id/action_readMailFragment_to_newMailFragment"
+            app:destination="@id/newMailFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
             android:id="@+id/aboutFragment"
@@ -81,6 +83,11 @@
             android:id="@+id/newMailFragment"
             android:name="by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailFragment"
             android:label="New mail" >
+        <action
+            android:id="@+id/action_newMailFragment_to_allMailsFragment"
+            app:destination="@id/allMailsFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
