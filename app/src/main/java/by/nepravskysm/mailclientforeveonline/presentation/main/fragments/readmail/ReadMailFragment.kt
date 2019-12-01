@@ -57,11 +57,13 @@ class ReadMailFragment : Fragment(){
             fViewModel.subject = arguments?.getString(SUBJECT)!!
             fViewModel.from = arguments?.getString(FROM)!!
             fViewModel.mailId = arguments!!.getLong(MAIL_ID)
+            fViewModel.mailSentTime = arguments?.getString(MAIL_SENT_TIME)!!
             fViewModel.inPutMail.observe(this, mailObserver)
         }catch (E: Exception){
         }finally {
             fView.subject.text = fViewModel.subject
             fView.from.text = fViewModel.from
+            fView.time.text = fViewModel.mailSentTime
         }
 
         val navController = NavHostFragment.findNavController(this)
@@ -101,6 +103,7 @@ class ReadMailFragment : Fragment(){
         bundle.putString(FROM, fViewModel.from)
         bundle.putString(SUBJECT, fViewModel.subject)
         bundle.putString(REPLY_MAIL_BODY, fViewModel.mailBody)
+        bundle.putString(MAIL_SENT_TIME, fViewModel.mailSentTime)
 
         return bundle
     }

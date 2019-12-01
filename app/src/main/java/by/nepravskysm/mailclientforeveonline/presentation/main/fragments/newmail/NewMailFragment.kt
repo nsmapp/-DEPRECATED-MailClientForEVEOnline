@@ -49,7 +49,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
     private val eventIdObserver = Observer<Long> { eventId ->
         makeToastMessage((activity as MainActivity), eventId)
         if (eventId == MAIL_IS_SENT) {
-            findNavController().navigate(R.id.allMailsFragment)
+            findNavController().popBackStack(R.id.allMailsFragment, true)
         }
     }
 
@@ -71,14 +71,16 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
                         fViewModel.initReplyMail(
                             arguments?.getString(SUBJECT)!!,
                             arguments?.getString(FROM)!!,
-                            arguments?.getString(REPLY_MAIL_BODY)!!
+                            arguments?.getString(REPLY_MAIL_BODY)!!,
+                            arguments?.getString(MAIL_SENT_TIME)!!
                         )
                     }
                     FORWARD -> {
                         fViewModel.initForwardMail(
                             arguments?.getString(SUBJECT)!!,
                             arguments?.getString(FROM)!!,
-                            arguments?.getString(REPLY_MAIL_BODY)!!
+                            arguments?.getString(REPLY_MAIL_BODY)!!,
+                            arguments?.getString(MAIL_SENT_TIME)!!
                         )
                     }
                 }

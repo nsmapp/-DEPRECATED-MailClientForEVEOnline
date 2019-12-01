@@ -191,6 +191,16 @@ val useCaseModule: Module = module {
         )
     }
 
+    factory {
+        GetNewMailCountUseCase(
+            authRepository = get(),
+            activeCharacterRepository = get(),
+            authInfoRepository = get(),
+            dbMailHeadersRepository = get(),
+            mailsHeadersRepository = get()
+        )
+    }
+
 }
 
 val viewModelModule: Module = module {

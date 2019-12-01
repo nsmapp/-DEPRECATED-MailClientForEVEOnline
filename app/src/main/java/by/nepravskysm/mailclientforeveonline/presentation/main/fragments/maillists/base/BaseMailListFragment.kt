@@ -151,6 +151,7 @@ MainActivity.LoginListener{
                 bundle.putString(FROM, entityList[position].fromName)
                 bundle.putString(SUBJECT, entityList[position].subject)
                 bundle.putBoolean(IS_READ_MAIL, entityList[position].isRead)
+                bundle.putString(MAIL_SENT_TIME, entityList[position].timestamp)
 
                 findNavController().navigate(R.id.readMailFragment, bundle)
             }
