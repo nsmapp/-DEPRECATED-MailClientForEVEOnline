@@ -8,8 +8,7 @@ class AuthManager {
     val authApi: AuthApi = createRetrofit(
         "https://login.eveonline.com/",
         50
-    )
-        .create(AuthApi::class.java)
+    ).create(AuthApi::class.java)
 
     //    Example
 //    private val clientId = "oi3fh984fshf4wp39hf3jj3h"
