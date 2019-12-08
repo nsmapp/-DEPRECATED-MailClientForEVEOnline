@@ -48,21 +48,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:text="@string/in_game_alisa_red_alert"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <TextView
-        android:id="@+id/githubContct"
-        style="@style/normalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/github"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingameContact" />
 
     <TextView
         android:id="@+id/emailContact"
@@ -73,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/email_nsmappinfo_gmail_com"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/githubContct" />
+        app:layout_constraintTop_toBottomOf="@+id/ingameContact" />
 
     <TextView
         style="@style/normalTextView"
