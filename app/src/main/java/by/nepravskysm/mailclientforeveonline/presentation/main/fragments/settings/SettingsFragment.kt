@@ -8,16 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.utils.DARK_MODE
 import by.nepravskysm.mailclientforeveonline.utils.NOTISICATION_SOUND
 import by.nepravskysm.mailclientforeveonline.utils.SETTINGS
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment(){
 
     lateinit var pref: SharedPreferences
+    val fViewModel: SettingsViewModel by viewModel()
+
+    private val updateContactObserver = Observer<Boolean> {
+        if (it) {
+            updateContactProgress.visibility = View.VISIBLE
+        } else {
+            updateContactProgress.visibility = View.GONE
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +42,6 @@ class SettingsFragment : Fragment(){
         val editor = pref.edit()
 
         view.darkMode.isChecked = pref.getBoolean(DARK_MODE, false)
-
         view.darkMode.setOnCheckedChangeListener{ _, _ ->
             when(view.darkMode.isChecked){
                 true -> {editor.putBoolean(DARK_MODE, true)
@@ -56,6 +67,9 @@ class SettingsFragment : Fragment(){
 
             }
         }
+
+        view.updateContacts.setOnClickListener { fViewModel.updateContacts() }
+        fViewModel.updateContactIsActive.observe(viewLifecycleOwner, updateContactObserver)
         return view
     }
 }
