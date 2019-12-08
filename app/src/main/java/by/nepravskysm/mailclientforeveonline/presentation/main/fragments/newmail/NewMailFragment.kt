@@ -50,7 +50,7 @@ class NewMailFragment : Fragment(),
     private val eventIdObserver = Observer<Long> { eventId ->
         makeToastMessage((activity as MainActivity), eventId)
         if (eventId == MAIL_IS_SENT) {
-            findNavController().popBackStack(R.id.allMailsFragment, true)
+            findNavController().navigate(R.id.allMailsFragment)
         }
     }
 
@@ -115,8 +115,8 @@ class NewMailFragment : Fragment(),
             fViewModel.mailBody = text.toString()
         }
 
-        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-        fViewModel.eventId.observe(this, eventIdObserver)
+        fViewModel.isVisibilityProgressBar.observe(viewLifecycleOwner, progresBarObserver)
+        fViewModel.eventId.observe(viewLifecycleOwner, eventIdObserver)
 
         return view
     }

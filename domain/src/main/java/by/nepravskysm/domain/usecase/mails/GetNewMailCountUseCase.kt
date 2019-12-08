@@ -40,7 +40,10 @@ class GetNewMailCountUseCase(
         val lastHeaderId = dbMailHeadersRepository.getLastMailId(characterName)
         val newHeaderList = mutableListOf<MailHeader>()
         val mailHeadersList = mailsHeadersRepository
-            .getLast50(accessToken, characterId).filter { header -> header.mailId > lastHeaderId }
+            .getLast50(accessToken, characterId).filter { header ->
+                header.mailId > lastHeaderId &&
+                        !header.labels.contains(2)
+            }
         if (mailHeadersList.isNotEmpty()) {
             newHeaderList.addAll(mailHeadersList)
 
@@ -50,9 +53,7 @@ class GetNewMailCountUseCase(
                     val beforeHeaders = mailsHeadersRepository
                         .get50BeforeId(accessToken, characterId, minHeaderId)
                         .filter { header ->
-                            header.mailId > lastHeaderId && !header.labels.contains(
-                                2
-                            )
+                            header.mailId > lastHeaderId && !header.labels.contains(2)
                         }
 
                     if (beforeHeaders.isEmpty()) {

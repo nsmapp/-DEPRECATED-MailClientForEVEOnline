@@ -15,11 +15,28 @@ class GetUnreadMailUseCase(private val activeCharacterRepo: ActiveCharacterRepos
         val unreadMailsCount = UnreadMailsCount()
 
         if(unreadMailList.isNotEmpty()){
+            var labels = listOf<Int>()
             for (header in unreadMailList) {
-                if(header.labels.contains(1)){unreadMailsCount.inbox++}
-                if(header.labels.contains(4)){unreadMailsCount.corporation++}
-                if(header.labels.contains(8)){unreadMailsCount.alliance++}
-                if(header.labels.isEmpty()){unreadMailsCount.mailingList++}
+                labels = header.labels
+                if (labels.contains(2)) {
+                    continue
+                }
+                if (labels.contains(1)) {
+                    unreadMailsCount.inbox++
+                    continue
+                }
+                if (labels.contains(4)) {
+                    unreadMailsCount.corporation++
+                    continue
+                }
+                if (labels.contains(8)) {
+                    unreadMailsCount.alliance++
+                    continue
+                }
+                if (labels.isEmpty()) {
+                    unreadMailsCount.mailingList++
+                    continue
+                }
             }
         }
 
