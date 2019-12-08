@@ -61,6 +61,8 @@
     <string name="notifiction_sound_switch">Notifiction sound switch</string>
     <string name="list_of_mail">List of mail</string>
     <string name="solar_system_edit_text">Solar system edit text</string>
+    <string name="alisa_red_alert">Alisa Red alert</string>
+    <string name="app_feedback">app feedback</string>
 
 
     <string-array name="array_solar_systems">

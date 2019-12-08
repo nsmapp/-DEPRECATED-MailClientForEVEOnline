@@ -27,7 +27,7 @@ private fun createHttpClient( timeOut :Long) : OkHttpClient{
     return OkHttpClient.Builder()
         .writeTimeout(timeOut, TimeUnit.SECONDS)
         .readTimeout(timeOut, TimeUnit.SECONDS)
-        .connectTimeout(timeOut, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
         .addInterceptor(interceptor)
         .build()
 }

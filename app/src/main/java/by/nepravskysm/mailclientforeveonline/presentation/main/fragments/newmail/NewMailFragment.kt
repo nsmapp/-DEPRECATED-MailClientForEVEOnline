@@ -23,9 +23,10 @@ import kotlinx.android.synthetic.main.stub_reply_forward_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
-class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
+class NewMailFragment : Fragment(),
+    AddNameDialog.ConfirmNameListener,
     AddReinforceTimerDialog.ReinforceTimerListenear,
-    AddSolarSystemDialog.AddSolarSystemListener{
+    AddSolarSystemDialog.AddSolarSystemListener {
 
     val fViewModel: NewMailViewModel by viewModel()
 
@@ -59,7 +60,6 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
         savedInstanceState: Bundle?
     ): View? {
 
-
         val view = inflater.inflate(R.layout.fragment_new_mail, container, false)
         view.toName.keyListener = null
         if(arguments?.get(BUNDLE_TYPE) != null){
@@ -74,6 +74,7 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
                             arguments?.getString(REPLY_MAIL_BODY)!!,
                             arguments?.getString(MAIL_SENT_TIME)!!
                         )
+                        initStubView(view)
                     }
                     FORWARD -> {
                         fViewModel.initForwardMail(
@@ -82,10 +83,15 @@ class NewMailFragment :Fragment(), AddNameDialog.ConfirmNameListener,
                             arguments?.getString(REPLY_MAIL_BODY)!!,
                             arguments?.getString(MAIL_SENT_TIME)!!
                         )
+                        initStubView(view)
+                    }
+                    FEEDBACK -> {
+                        fViewModel.nameList.add(arguments?.getString(FROM)!!)
+                        fViewModel.subject = arguments?.getString(SUBJECT)!!
+
                     }
                 }
 
-                initStubView(view)
 
             }catch (e: Exception){
                 fViewModel.nameList.clear()

@@ -28,35 +28,33 @@ class ReadMailViewModel(
 
 
     fun getMail(){
-        if (mailBody.equals("")){
-            isVisibilityProgressBar.value = true
 
-            getMails.setData(mailId)
-            getMails.execute {
-                onComplite {
-                    isVisibilityProgressBar.value = false
-                    inPutMail.value = it
-                    mailBody = it.body.replace("\n", "<br />")
-                    fromId = it.from
+        isVisibilityProgressBar.value = true
 
-                    if(!it.isRead){
-                        updateDBMailMetadata.setData(mailId).execute {
-                            onComplite { }
-                            onError { eventId.value = DB_UPDATE_MAIL_METADATA_ERROR }
-                        }
-                        updateMailMetadata.setData(mailId, it.labels)
-                            .execute {
+        getMails.setData(mailId)
+        getMails.execute {
+            onComplite {
+                isVisibilityProgressBar.value = false
+                inPutMail.value = it
+                mailBody = it.body.replace("\n", "<br />")
+                fromId = it.from
+
+                if (!it.isRead) {
+                    updateDBMailMetadata.setData(mailId).execute {
+                        onComplite { }
+                        onError { eventId.value = DB_UPDATE_MAIL_METADATA_ERROR }
+                    }
+                    updateMailMetadata.setData(mailId, it.labels)
+                        .execute {
                             onError { eventId.value = UPDATE_MAIL_METADATA_ERROR }
                         }
-                    }
-                }
-                onError {
-                    eventId.value = GET_MAIL_ERROR
-                    isVisibilityProgressBar.value = false
                 }
             }
+            onError {
+                eventId.value = GET_MAIL_ERROR
+                isVisibilityProgressBar.value = false
+            }
         }
-
     }
 
     fun deleteMail(){
