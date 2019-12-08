@@ -31,6 +31,7 @@ import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillis
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.maillists.send.SendViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.newmail.NewMailViewModel
 import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readmail.ReadMailViewModel
+import by.nepravskysm.mailclientforeveonline.presentation.main.fragments.settings.SettingsViewModel
 import by.nepravskysm.rest.api.AuthManager
 import by.nepravskysm.rest.api.EsiManager
 import by.nepravskysm.rest.entity.response.MailingListRepoImpl
@@ -163,6 +164,7 @@ val useCaseModule: Module = module {
 
     factory {
         UpdateContactsRestUseCase(
+            authRepo = get(),
             authInfoRepo = get(),
             activeCharacterRepo = get(),
             dbCharacterContactsRepo = get(),
@@ -268,5 +270,11 @@ val viewModelModule: Module = module {
         getMailHeadersAfterIdFromDB = get(),
         updateAllMailMetadataDB = get()
     )
+    }
+    viewModel {
+        SettingsViewModel(
+            updateContactDB = get(),
+            updateContactRest = get()
+        )
     }
 }

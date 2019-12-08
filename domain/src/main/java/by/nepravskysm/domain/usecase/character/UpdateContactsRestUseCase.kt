@@ -5,11 +5,13 @@ import by.nepravskysm.domain.entity.Contact
 import by.nepravskysm.domain.repository.database.ActiveCharacterRepository
 import by.nepravskysm.domain.repository.database.AuthInfoRepository
 import by.nepravskysm.domain.repository.database.DBCharacterContactsRepository
+import by.nepravskysm.domain.repository.rest.auth.AuthRepository
 import by.nepravskysm.domain.repository.rest.character.CharacterContactsRepository
 import by.nepravskysm.domain.repository.utils.NamesRepository
 import by.nepravskysm.domain.usecase.base.AsyncUseCase
 
 class UpdateContactsRestUseCase(
+    private val authRepo: AuthRepository,
     private val authInfoRepo: AuthInfoRepository,
     private val activeCharacterRepo: ActiveCharacterRepository,
     private val characterContactsRepo: CharacterContactsRepository,
@@ -26,9 +28,15 @@ class UpdateContactsRestUseCase(
     }
     override suspend fun onBackground(): Boolean {
         val characterName = activeCharacterRepo.getActiveCharacterName()
-        val characterInfo: AuthInfo = authInfoRepo.getAuthInfo(characterName)
+        val authInfo: AuthInfo = authInfoRepo.getAuthInfo(characterName)
+        var contactsList = listOf<Contact>()
+        try {
+            contactsList = getContacts(authInfo.accessToken, authInfo.characterId)
+        } catch (e: Exception) {
+            val token = authRepo.refreshAuthToken(authInfo.refreshToken)
+            contactsList = getContacts(token.accessToken, authInfo.characterId)
 
-        var contactsList = getContacts(characterInfo.accessToken, characterInfo.characterId)
+        }
         setNameToContacts(contactsList)
 
         return saveContacts(contactsList, characterName)
