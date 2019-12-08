@@ -11,6 +11,7 @@ const val BUNDLE_TYPE = "bundlrtype"
 
 const val REPLAY = "replay"
 const val FORWARD = "forward"
+const val FEEDBACK = "feedback"
 
 const val SETTINGS = "settings"
 const val DARK_MODE = "darkmode"

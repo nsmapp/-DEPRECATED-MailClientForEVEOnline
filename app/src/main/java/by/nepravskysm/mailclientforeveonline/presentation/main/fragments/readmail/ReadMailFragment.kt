@@ -2,6 +2,7 @@ package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readma
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.nepravskysm.domain.entity.InPutMail
 import by.nepravskysm.domain.utils.MAIL_IS_DELETED
 import by.nepravskysm.mailclientforeveonline.R
@@ -18,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_read_mail.*
 import kotlinx.android.synthetic.main.fragment_read_mail.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ReadMailFragment : Fragment(){
+class ReadMailFragment : Fragment(),
+    SwipeRefreshLayout.OnRefreshListener {
 
     val fViewModel: ReadMailViewModel by viewModel()
 
@@ -34,10 +37,7 @@ class ReadMailFragment : Fragment(){
             makeToastMessage((activity as MainActivity), MAIL_IS_DELETED)
             findNavController().popBackStack()
         }  }
-    private val progresBarObserver = Observer<Boolean>{
-        if(it){showProgresBar()}
-        else{hideProgresBar()}
-    }
+    private val progresBarObserver = Observer<Boolean> { swipeRefresh.isRefreshing = it }
 
 
 
@@ -60,6 +60,7 @@ class ReadMailFragment : Fragment(){
             fViewModel.mailSentTime = arguments?.getString(MAIL_SENT_TIME)!!
             fViewModel.inPutMail.observe(this, mailObserver)
         }catch (E: Exception){
+            Log.d("logd", "READ MAIL EXEPTION!!!")
         }finally {
             fView.subject.text = fViewModel.subject
             fView.from.text = fViewModel.from
@@ -67,14 +68,11 @@ class ReadMailFragment : Fragment(){
         }
 
         val navController = NavHostFragment.findNavController(this)
-
-
-
         fViewModel.getMail()
         fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
         fViewModel.mailIsDeleted.observe(this, deleteMailObserver)
         fViewModel.eventId.observe(this, eventIdObserver)
-
+        fView.swipeRefresh.setOnRefreshListener(this)
 
         fView.replayMail
             .setOnClickListener {
@@ -90,7 +88,6 @@ class ReadMailFragment : Fragment(){
             .setOnClickListener {
                 fViewModel.deleteMail()
             }
-
 
         return fView
     }
@@ -108,12 +105,10 @@ class ReadMailFragment : Fragment(){
         return bundle
     }
 
-    private fun showProgresBar(){
-        progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgresBar(){
-        progressBar.visibility = View.GONE
+    override fun onRefresh() {
+        Log.d("logd", "READ MAIL ===> ${fViewModel.mailId}!!!")
+        fViewModel.getMail()
+        Log.d("logd", "READ MAIL <=== ${fViewModel.mailId}!!!")
     }
 
 
