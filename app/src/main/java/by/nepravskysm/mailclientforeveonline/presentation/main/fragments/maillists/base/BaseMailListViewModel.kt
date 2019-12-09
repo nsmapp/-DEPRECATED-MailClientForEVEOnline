@@ -8,6 +8,7 @@ import by.nepravskysm.domain.usecase.mails.GetMailHeadersFromDBUseCase
 import by.nepravskysm.domain.usecase.mails.GetNewMailHeadersUseCase
 import by.nepravskysm.domain.usecase.mails.UpdateAllMailMetadataDBUseCase
 import by.nepravskysm.domain.utils.DB_LOAD_MAIL_HEADER_FROM_DATABASE
+import by.nepravskysm.domain.utils.EMPTY_EVENT
 import by.nepravskysm.domain.utils.LOAD_NEW_MAIL_HEADER_ERROR
 
 open class BaseMailListViewModel (
@@ -18,7 +19,7 @@ open class BaseMailListViewModel (
 ) : ViewModel(){
 
 
-    val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>() }
+    val eventId: MutableLiveData<Long> by lazy { MutableLiveData<Long>(0) }
     val isVisibilityProgressBar: MutableLiveData<Boolean> by lazy{
         MutableLiveData<Boolean>(false)
     }
@@ -40,6 +41,7 @@ open class BaseMailListViewModel (
         isVisibilityProgressBar.value = true
         getNewMailHeaders.execute {
             onComplite {
+                eventId.value = EMPTY_EVENT
                 loadHeadersFromDB()
             }
             onError {

@@ -13,8 +13,8 @@ android {
         applicationId "by.nepravskysm.mailclientforeveonline"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
-        versionName "0.99.5b"
+        versionCode 12
+        versionName "0.99.7b"
 
     }
     buildTypes {

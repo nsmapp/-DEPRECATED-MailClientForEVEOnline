@@ -63,10 +63,10 @@ MainActivity.LoginListener{
         }
 
 
-        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-        fViewModel.headerList.observe(this, mailHeaderObserver)
-        fViewModel.addHeaderList.observe(this, updateMailHeaderObserver)
-        fViewModel.eventId.observe(this, errorObserver)
+        fViewModel.isVisibilityProgressBar.observe(viewLifecycleOwner, progresBarObserver)
+        fViewModel.headerList.observe(viewLifecycleOwner, mailHeaderObserver)
+        fViewModel.addHeaderList.observe(viewLifecycleOwner, updateMailHeaderObserver)
+        fViewModel.eventId.observe(viewLifecycleOwner, errorObserver)
 
 
         fView.submenuButton.setOnClickListener {
@@ -100,7 +100,7 @@ MainActivity.LoginListener{
     }
 
     override fun refreshDataAfterLogin() {
-        refreshData()
+        onRefresh()
     }
 
     fun refreshData(){

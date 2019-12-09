@@ -2,7 +2,6 @@ package by.nepravskysm.mailclientforeveonline.presentation.main.fragments.readma
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +59,6 @@ class ReadMailFragment : Fragment(),
             fViewModel.mailSentTime = arguments?.getString(MAIL_SENT_TIME)!!
             fViewModel.inPutMail.observe(this, mailObserver)
         }catch (E: Exception){
-            Log.d("logd", "READ MAIL EXEPTION!!!")
         }finally {
             fView.subject.text = fViewModel.subject
             fView.from.text = fViewModel.from
@@ -69,9 +67,9 @@ class ReadMailFragment : Fragment(),
 
         val navController = NavHostFragment.findNavController(this)
         fViewModel.getMail()
-        fViewModel.isVisibilityProgressBar.observe(this, progresBarObserver)
-        fViewModel.mailIsDeleted.observe(this, deleteMailObserver)
-        fViewModel.eventId.observe(this, eventIdObserver)
+        fViewModel.isVisibilityProgressBar.observe(viewLifecycleOwner, progresBarObserver)
+        fViewModel.mailIsDeleted.observe(viewLifecycleOwner, deleteMailObserver)
+        fViewModel.eventId.observe(viewLifecycleOwner, eventIdObserver)
         fView.swipeRefresh.setOnRefreshListener(this)
 
         fView.replayMail
@@ -106,9 +104,7 @@ class ReadMailFragment : Fragment(),
     }
 
     override fun onRefresh() {
-        Log.d("logd", "READ MAIL ===> ${fViewModel.mailId}!!!")
         fViewModel.getMail()
-        Log.d("logd", "READ MAIL <=== ${fViewModel.mailId}!!!")
     }
 
 
