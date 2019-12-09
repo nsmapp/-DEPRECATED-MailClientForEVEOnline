@@ -38,6 +38,9 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
     private fun createOutPutMail(): OutPutMail {
         mailBody += "<br><br> " +
+                "<font size=\"12\" color=\"#bfffffff\">Sent from: </font>" +
+                "<font size=\"12\" color=\"#ffffa600\"><a href=\"https://play.google.com/store/apps/details?id=by.nepravskysm.mailclientforeveonline\">Mail client for EVE Online</a></font>" +
+                "<font size=\"12\" color=\"#ffb2b2b2\">" +
                 replyMail.replace("\n", "<br/>")
 
         return OutPutMail(
@@ -57,8 +60,6 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
 
         this.subject = "Fw: $subject"
         this.replyMail =
-            "<font size=\"12\" color=\"#bfffffff\">      Sent from: </font>" +
-                    "<font size=\"12\" color=\"#ffffa600\"><a href=\"https://play.google.com/store/apps/details?id=by.nepravskysm.mailclientforeveonline\">Mail client for EVE Online</a></font>" +
                     "<font size=\"12\" color=\"#ffb2b2b2\">" +
                     "<br><br>------------------- <br>" +
                     "From: $from <br>" +
@@ -72,8 +73,6 @@ class NewMailViewModel(private val sendMail: SendMailUseCase) : ViewModel() {
     fun initReplyMail(subject: String, from: String, replyMailBody: String, mailSentTime: String) {
         this.subject = "Re: $subject"
         this.replyMail =
-            "<font size=\"12\" color=\"#bfffffff\">      Sent from: </font>" +
-                    "<font size=\"12\" color=\"#ffffa600\"><a href=\"https://play.google.com/store/apps/details?id=by.nepravskysm.mailclientforeveonline\">Mail client for EVE Online</a></font>" +
                     "<font size=\"12\" color=\"#ffb2b2b2\">" +
                     "<br><br>------------------- <br>" +
                     "From: $from <br>" +

@@ -26,7 +26,7 @@ class DBCharacterContactsRepoImpl(private val appDatabase: AppDatabase) : DBChar
     }
 
     override suspend fun getAllContacts(minStanding: Double): List<Contact>{
-        val contactList = appDatabase.characterContactsDao().getContactList(minStanding)
+        val contactList = appDatabase.characterContactsDao().getContactList(-11.0)
         val domainContactList = mutableListOf<Contact>()
 
         for(contact in contactList){

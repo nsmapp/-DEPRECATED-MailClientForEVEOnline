@@ -97,7 +97,7 @@ class CharacterChangeDialog : DialogFragment(){
             LinearLayout.LayoutParams.WRAP_CONTENT)
         linearLayout.setOnClickListener {
 
-            if(characterName.equals("Add new character")){
+            if (characterName.equals(getString(R.string.add_new_character))) {
                 val url: String = createAuthUrl()
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 startActivity(intent)

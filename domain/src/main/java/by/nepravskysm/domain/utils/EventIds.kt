@@ -1,6 +1,8 @@
 package by.nepravskysm.domain.utils
 
 
+const val EMPTY_EVENT: Long = 10000001
+
 /////////ERRORS
 //AUTH
 const val AUTH_ERROR: Long = 47000100

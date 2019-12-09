@@ -63,6 +63,17 @@
     <string name="solar_system_edit_text">Solar system edit text</string>
     <string name="alisa_red_alert">Alisa Red alert</string>
     <string name="app_feedback">app feedback</string>
+    <string name="update_contacts">Update contacts</string>
+    <string name="autg_error">Authorization error</string>
+    <string name="sync_contact_error">Unable to sync contacts</string>
+    <string name="mail_cync_error">Mail synchronization error</string>
+    <string name="send_mail_error">Failed to send email</string>
+    <string name="recive_mail_error">Failed to receive email</string>
+    <string name="update_mail_metadata_error">Failed to update mail metadata</string>
+    <string name="delete_mail_error">Failed to delete email.</string>
+    <string name="mail_is_sent">Mail is sent</string>
+    <string name="mail_is_deleted">Mail is deleted</string>
+    <string name="add_new_character">Add new character</string>
 
 
     <string-array name="array_solar_systems">

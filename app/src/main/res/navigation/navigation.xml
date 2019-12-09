@@ -67,8 +67,9 @@
         <action
             android:id="@+id/action_readMailFragment_to_newMailFragment"
             app:destination="@id/newMailFragment"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
+            app:launchSingleTop="true"
+            app:popUpTo="@id/allMailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
             android:id="@+id/aboutFragment"
@@ -86,8 +87,9 @@
         <action
             android:id="@+id/action_newMailFragment_to_allMailsFragment"
             app:destination="@id/allMailsFragment"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
+            app:launchSingleTop="true"
+            app:popUpTo="@id/newMailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
