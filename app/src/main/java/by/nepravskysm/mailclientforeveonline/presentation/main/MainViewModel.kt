@@ -41,7 +41,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
                     activeCharacterName = it.characterName
                     getActiveCharacterInfo()
                     synchoniseContacts(it.characterID)
-                    synchronizeMailHeader()
+                    syncMailHeader()
                 }
                 onError {
                     eventId.value = AUTH_ERROR
@@ -78,7 +78,7 @@ class MainViewModel(private val authUseCase: AuthUseCase,
         }
     }
 
-    fun synchronizeMailHeader(){
+    fun syncMailHeader() {
         isVisibilityProgressBar.value = true
         synchrMailsHeader.execute {
             onComplite {
