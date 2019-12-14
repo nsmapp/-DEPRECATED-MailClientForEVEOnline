@@ -58,14 +58,19 @@ class ReadMailViewModel(
     }
 
     fun deleteMail(){
-        deleteMailFromDB.setData(mailId).execute {
-            onError { eventId.value = DB_DELETE_MAIL_ERROR }
-        }
+
         deleteMailFromServer.setData(mailId)
             .execute {
                 onComplite {
-                    if (it) mailIsDeleted.value = true
-                    else eventId.value = DELETE_MAIL_FROM_SERVER_ERROR
+                    deleteMailFromDB.setData(mailId).execute {
+                        onComplite {
+                            if (it) mailIsDeleted.value = true
+                            else eventId.value = DELETE_MAIL_FROM_SERVER_ERROR
+                        }
+                        onError { eventId.value = DB_DELETE_MAIL_ERROR }
+                    }
+
+
                 }
                 onError { eventId.value = DELETE_MAIL_FROM_SERVER_ERROR }
         }

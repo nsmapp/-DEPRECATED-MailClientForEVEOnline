@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -86,13 +87,8 @@ MainActivity.LoginListener{
             }
 
         }
-
-        return fView
-    }
-
-    override fun onResume() {
-        super.onResume()
         fViewModel.loadHeadersFromDB()
+        return fView
     }
 
     override fun onRefresh() {
@@ -103,22 +99,37 @@ MainActivity.LoginListener{
         onRefresh()
     }
 
-    fun refreshData(){
-        fViewModel.loadNewMailHeaders()
+    fun scrollToTop() {
+        mailList.layoutManager?.scrollToPosition(0) ?: Unit
     }
+
     inner class RecyclerAdapter :RecyclerView.Adapter<MailHolderInfo>(){
 
-        private var entityList = mutableListOf<MailHeader>()
+
+        var entityList = mutableListOf<MailHeader>()
+        var isNeedScrolTop = false
 
         fun addData(headerList: List<MailHeader>){
-            entityList.addAll(headerList)
-            notifyDataSetChanged()
+            val newHeaderList = mutableListOf<MailHeader>()
+            newHeaderList.addAll(entityList)
+            newHeaderList.addAll(headerList)
+            setData(newHeaderList)
         }
 
         fun setData(headerList: List<MailHeader>){
+            if (entityList.isNotEmpty() && headerList.isNotEmpty()) {
+                isNeedScrolTop = entityList[0].mailId != headerList[0].mailId
+            }
+            val mailHeaderDiffUtils = MailHeaderDiffUtils(entityList, headerList)
+            val diffUtilsResult = DiffUtil.calculateDiff(mailHeaderDiffUtils)
             entityList.clear()
             entityList.addAll(headerList)
-            notifyDataSetChanged()
+            diffUtilsResult.dispatchUpdatesTo(this)
+
+            if (isNeedScrolTop) {
+                scrollToTop()
+                isNeedScrolTop = false
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MailHolderInfo {
@@ -130,28 +141,27 @@ MainActivity.LoginListener{
         override fun getItemCount(): Int = entityList.size
 
         override fun onBindViewHolder(holder: MailHolderInfo, position: Int) {
-            holder.itemView.mailAuthor.text = entityList[position].fromName
-            holder.itemView.mailSubject.text = entityList[position].subject
-            holder.itemView.mailTime.text = entityList[position].timestamp
-            holder.itemView.mailType.text = entityList[position].mailType
+            holder.itemView.mailAuthor.text = entityList[holder.adapterPosition].fromName
+            holder.itemView.mailSubject.text = entityList[holder.adapterPosition].subject
+            holder.itemView.mailTime.text = entityList[holder.adapterPosition].timestamp
+            holder.itemView.mailType.text = entityList[holder.adapterPosition].mailType
 
             when(entityList[position].isRead){
                 true -> holder.itemView.setBackgroundResource(R.drawable.item_is_read_background)
                 false -> holder.itemView.setBackgroundResource(R.drawable.item_is_not_read_background)
             }
-
             Picasso.get()
-                .load("https://imageserver.eveonline.com/Character/${entityList[position].fromId}_128.jpg")
+                .load("https://imageserver.eveonline.com/Character/${entityList[holder.adapterPosition].fromId}_128.jpg")
                 .transform(RoundCornerTransform())
                 .into(holder.itemView.senderPhoto)
             holder.itemView.setOnClickListener{
 
                 val bundle = Bundle()
-                bundle.putLong(MAIL_ID, entityList[position].mailId)
-                bundle.putString(FROM, entityList[position].fromName)
-                bundle.putString(SUBJECT, entityList[position].subject)
-                bundle.putBoolean(IS_READ_MAIL, entityList[position].isRead)
-                bundle.putString(MAIL_SENT_TIME, entityList[position].timestamp)
+                bundle.putLong(MAIL_ID, entityList[holder.adapterPosition].mailId)
+                bundle.putString(FROM, entityList[holder.adapterPosition].fromName)
+                bundle.putString(SUBJECT, entityList[holder.adapterPosition].subject)
+                bundle.putBoolean(IS_READ_MAIL, entityList[holder.adapterPosition].isRead)
+                bundle.putString(MAIL_SENT_TIME, entityList[holder.adapterPosition].timestamp)
 
                 findNavController().navigate(R.id.readMailFragment, bundle)
             }
@@ -167,4 +177,24 @@ MainActivity.LoginListener{
     }
 
     inner class MailHolderInfo(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    inner class MailHeaderDiffUtils(
+        private val oldList: List<MailHeader>,
+        private val newList: List<MailHeader>
+    ) : DiffUtil.Callback() {
+
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].mailId == newList[newItemPosition].mailId
+        }
+
+        override fun getOldListSize(): Int = oldList.size
+        override fun getNewListSize(): Int = newList.size
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].mailId == newList[newItemPosition].mailId
+        }
+
+    }
+
+
 }
