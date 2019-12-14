@@ -11,7 +11,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.nepravskysm.domain.entity.InPutMail
-import by.nepravskysm.domain.utils.MAIL_IS_DELETED
 import by.nepravskysm.mailclientforeveonline.R
 import by.nepravskysm.mailclientforeveonline.presentation.main.MainActivity
 import by.nepravskysm.mailclientforeveonline.utils.*
@@ -33,7 +32,7 @@ class ReadMailFragment : Fragment(),
         Observer<Long> { eventId -> makeToastMessage((activity as MainActivity), eventId) }
     private val deleteMailObserver = Observer<Boolean> {
         if (it) {
-            makeToastMessage((activity as MainActivity), MAIL_IS_DELETED)
+//            makeToastMessage((activity as MainActivity), MAIL_IS_DELETED)
             findNavController().popBackStack()
         }  }
     private val progresBarObserver = Observer<Boolean> { swipeRefresh.isRefreshing = it }
